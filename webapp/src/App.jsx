@@ -1,11 +1,15 @@
 import { Route, Routes } from "react-router-dom";
-import { Layout, Col, Row } from "antd";
+import { Layout } from "antd";
 import FooterApp from "./components/footer/FooterApp";
 import NavBarApp from "./components/navbar/NavBarApp";
-import LoginForm from "./views/LoginForm";
 import HomePage from "./views/HomePage";
+import LoginForm from "./views/LoginForm";
+import SigninForm from "./views/SigninForm";
+import TextProcess from "./views/TextProcess";
+
 
 function App() {
+
   function func(loginUser) {
     console.log(loginUser);
     console.log("Cambiado " + loginUser.email);
@@ -22,21 +26,24 @@ function App() {
       </Header>
 
       <Content style={{ padding: "0 50px", backgroundColor: "#2F4F4F" }}>
-        <div className="site-layout-content">
-          <Row style={{ marginTop: 34 }}>
-            <Col span={24}>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
 
-                <Route
-                  path="/login"
-                  element={<LoginForm sendLoginToConsole={func} />}
-                />
+          <Route
+            path="/login"
+            element={<LoginForm sendLoginToConsole={func} />}
+          />
 
-              </Routes>
-            </Col>
-          </Row>
-        </div>
+          <Route
+            path="/signin"
+            element={<SigninForm />}
+          />
+
+          <Route
+            path="/textProcess"
+            element={<TextProcess/>}
+          />
+        </Routes>
       </Content>
 
       <FooterApp />
