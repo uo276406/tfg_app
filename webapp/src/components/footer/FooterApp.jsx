@@ -6,7 +6,7 @@ function FooterApp (){
     const {Footer} = Layout
 
     return (
-        <Footer style={{ textAlign: "center" }}> Footer </Footer>
+        <Footer theme="dark" style={{ textAlign: "center"}}> Footer </Footer>
     )
 
 }

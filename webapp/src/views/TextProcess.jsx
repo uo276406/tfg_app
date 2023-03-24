@@ -1,18 +1,13 @@
 import React from "react";
-import { Button, Row, Col } from "antd";
+import TextProcessInput from "../components/textprocessinput/TextProcessInput";
+import Stepper from "../components/stepper/Stepper";
 
 function TextProcess() {
-  
-
   return (
-    <Row>
-      <Col style={{width:"75%" }}>
-        <h1>Text</h1>
-      </Col>
-      <Col style={{ width: "25%" }}>
-        <h1>Stepper</h1>
-      </Col>
-    </Row>
+    <div>
+      <Stepper />
+      <TextProcessInput />
+    </div>
   );
 }
 

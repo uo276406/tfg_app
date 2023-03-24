@@ -25,7 +25,7 @@ function App() {
         <NavBarApp />
       </Header>
 
-      <Content style={{ padding: "0 50px", backgroundColor: "#2F4F4F" }}>
+      <Content style={{ padding: "0 50px", backgroundColor: "lightGrey" }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
 
