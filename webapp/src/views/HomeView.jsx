@@ -1,5 +1,5 @@
 
-function HomePage (){
+function HomeView (){
 
     return (
         <h1> HomePage </h1>
@@ -7,4 +7,4 @@ function HomePage (){
 
 }
 
-export default HomePage
+export default HomeView

@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Form, Input, Card, Col, Row } from "antd";
 
-function SigninForm() {
+function SigninView() {
   return (
     <Row style={{ marginTop: 34, marginBottom: 34, height: "100%" }}>
       <Col span={24} style={{ height: "100%" }}>
@@ -82,4 +82,4 @@ function SigninForm() {
   );
 }
 
-export default SigninForm;
+export default SigninView;

@@ -2,10 +2,11 @@ import { Route, Routes } from "react-router-dom";
 import { Layout } from "antd";
 import FooterApp from "./components/footer/FooterApp";
 import NavBarApp from "./components/navbar/NavBarApp";
-import HomePage from "./views/HomePage";
-import LoginForm from "./views/LoginForm";
-import SigninForm from "./views/SigninForm";
-import TextProcess from "./views/TextProcess";
+import HomeView from "./views/HomeView";
+import LoginView from "./views/LoginView";
+import SigninView from "./views/SigninView";
+import TextProcessView from "./views/TextProcessView";
+import SelectKeywordsView from "./views/SelectKeywordsView";
 
 
 function App() {
@@ -27,22 +28,28 @@ function App() {
 
       <Content style={{ padding: "0 50px", backgroundColor: "lightGrey" }}>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomeView />} />
 
           <Route
             path="/login"
-            element={<LoginForm sendLoginToConsole={func} />}
+            element={<LoginView sendLoginToConsole={func} />}
           />
 
           <Route
             path="/signin"
-            element={<SigninForm />}
+            element={<SigninView />}
           />
 
           <Route
             path="/textProcess"
-            element={<TextProcess/>}
+            element={<TextProcessView/>}
           />
+
+          <Route
+            path="/selectKeywords"
+            element={<SelectKeywordsView />}
+          />
+
         </Routes>
       </Content>
 

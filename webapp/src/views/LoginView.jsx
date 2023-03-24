@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Form, Input, Card, Col, Row } from "antd";
 
-function LoginForm(props) {
+function LoginView(props) {
+
   async function sendLogin(values) {
     props.sendLoginToConsole({
       email: values.email,
@@ -59,4 +60,4 @@ function LoginForm(props) {
   );
 }
 
-export default LoginForm;
+export default LoginView;
