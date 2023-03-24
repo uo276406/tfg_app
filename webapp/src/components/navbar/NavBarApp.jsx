@@ -1,65 +1,39 @@
-import { Menu, Col, Row } from "antd";
+import { Menu } from "antd";
 import { Link } from "react-router-dom";
 import {
   SnippetsOutlined,
   LoginOutlined,
   QuestionOutlined,
+  PhoneOutlined,
 } from "@ant-design/icons";
-import "./NavBarApp.css";
 
 function NavBarApp() {
   return (
-    <Row>
-      <Col style={{width:"50%" }}>
-        <Menu
-          theme="dark"
-          selectable={false}
-          mode="horizontal"
-          items={[
-            {
-              key: "logo",
-              label: (
-                <Link to="/">
-                  {" "}
-                  <img src="logo.png" alt="KeywordsApp" />
-                </Link>
-              ),
-            },
-          ]}
-          style={{ height: 64 }}
-        ></Menu>
-      </Col>
-      <Col style={{ width: "50%" }}>
-        <Menu
-          theme="dark"
-          selectable={true}
-          mode="horizontal"
-          items={[
-            {
-              key: "menuDoc",
-              label: <Link to="/doc">Documentación</Link>,
-              icon: <SnippetsOutlined />,
-            },
-            {
-              key: "menuAbout",
-              label: <Link to="/about">Sobre mí</Link>,
-              icon: <QuestionOutlined />,
-            },
-            {
-                key: "menuContact",
-                label: <Link to="/contact">Contacto</Link>,
-                icon: <QuestionOutlined />,
-              },
-            {
-              key: "menuLogin",
-              label: <Link to="/login">Inicia sesión</Link>,
-              icon: <LoginOutlined />,
-            },
-            { key: "menuSignin", label: <Link to="/signin">Registro</Link> },
-          ]}
-        ></Menu>
-      </Col>
-    </Row>
+    <Menu theme="dark" selectable={true} mode="horizontal">
+        <Menu.Item key="menuHome">
+          <Link to="/">Keywords App</Link>
+        </Menu.Item>
+
+        <Menu.Item style={{ marginLeft: 'auto' }} key="menuDoc" icon={<SnippetsOutlined />}>
+          <Link to="/doc">Documentación</Link>
+        </Menu.Item>
+
+        <Menu.Item key="menuAbout" icon={<QuestionOutlined />}>
+          <Link to="/about">Sobre mí</Link>
+        </Menu.Item>
+
+        <Menu.Item key="menuContact" icon={<PhoneOutlined />}>
+          <Link to="/contact">Contacto</Link>
+        </Menu.Item>
+
+        <Menu.Item key="menuLogin" icon={<LoginOutlined />}>
+          <Link to="/login">Inicia sesión</Link>
+        </Menu.Item>
+
+        <Menu.Item key="menuSignin" icon={<LoginOutlined />}>
+          <Link to="/signin">Registro</Link>
+        </Menu.Item>
+    </Menu>
   );
 }
 

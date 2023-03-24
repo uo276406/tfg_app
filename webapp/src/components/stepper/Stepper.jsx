@@ -10,8 +10,8 @@ function Stepper() {
     <Row
       style={{
         height: "25%",
-        paddingLeft: "25%",
-        paddingRight: "25%",
+        paddingLeft: "15%",
+        paddingRight: "15%",
         paddingTop: "5%",
         paddingBottom: "5%",
       }}
