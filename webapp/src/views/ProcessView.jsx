@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { Divider } from "antd";
 import Stepper from "../components/stepper/Stepper";
 import TextProcessArea from "../components/textprocess/TextProcessArea";
 import SelectKeywordsForm from "../components/selectkeywords/SelectKeywordForm";
@@ -11,7 +12,7 @@ function ProcessView(props) {
   // Retorna la vista en base al paso correspondiente
   function getStep(currentStep){
     const steps ={
-      0: <TextProcessArea changeStep={changeStep}/>,
+      0: <SelectKeywordsForm changeStep={changeStep}/>,
       1: <SelectKeywordsForm changeStep={changeStep}/>,
     }
     return steps[currentStep]
@@ -25,6 +26,7 @@ function ProcessView(props) {
   return (
     <div>
       <Stepper step={step}/>
+      <Divider style={{border: "1px solid"}}/>
       <div>
         {getStep(step)}
       </div>

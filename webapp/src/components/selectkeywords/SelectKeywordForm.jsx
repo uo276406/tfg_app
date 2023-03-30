@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Row, Col } from "antd";
-import KeywordCard from "./KeywordCard";
+import { RightOutlined, LeftOutlined, DeleteOutlined } from "@ant-design/icons";
+import KeywordCardList from "./KeywordCardList";
 
 const justifyProps = {
-  xxl: "end",
-  xl: "end",
   lg: "end",
   md: "end",
   sm: "end",
   xs: "end",
 };
 
-function SelectKeywordsForm() {
-
+function SelectKeywordsForm(props) {
+  // Botón de siguiente
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
     setLoadings((prevLoadings) => {
@@ -31,20 +30,38 @@ function SelectKeywordsForm() {
 
   return (
     <div>
-      <Row gutter={[32, 32]} style={{ paddingBottom: "5%" }}>
-        <Col xs={24} sm={24} md={24} lg={24} xl={21} xxl={20} style={{ padding:"2%", border: "2px solid blue", borderRadius: "5px"}}>
-          <KeywordCard/>
-        </Col>
-        <Col xs={24} sm={24} md={24} lg={24} xl={3} xxl={3}>
-          <Row justify={justifyProps} >
-            <Col>
-            <Button
-              type="primary"
-              loading={loadings[0]}
-              onClick={() => enterLoading(0)}
-            >
-              Crear Preguntas
+      <Row gutter={[16, 16]} style={{ paddingBottom: "4%" }}>
+        <Col span={24}>
+          <Row justify={"end"}>
+            <Button type="primary" icon={<DeleteOutlined />} disabled={true} danger>
+              Eliminar
             </Button>
+          </Row>
+        </Col>
+        <Col span={24}>
+          <KeywordCardList />
+        </Col>
+        <Col span={24}>
+          <Row justify={"end"} gutter={[32, 32]}>
+            <Col>
+              <Button
+                type="primary"
+                onClick={() => props.changeStep(0)}
+                icon={<LeftOutlined />}
+              >
+                Volver
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                type="primary"
+                icon={<RightOutlined />}
+                loading={loadings[0]}
+                disabled={true}
+                onClick={() => enterLoading(0)}
+              >
+                Generar preguntas
+              </Button>
             </Col>
           </Row>
         </Col>

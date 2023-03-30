@@ -9,11 +9,13 @@ function Stepper(props) {
   return (
     <Row
       style={{
-        height: "25%",
-        paddingLeft: "10%",
-        paddingRight: "10%",
-        paddingTop: "5%",
-        paddingBottom: "5%",
+        paddingLeft: "5%",
+        paddingRight: "5%",
+        paddingTop: "2%",
+        paddingBottom: "1%",
+        marginTop: "2%",
+        backgroundColor: "white",
+        borderRadius: "50px"
       }}
     >
       <Steps
@@ -22,15 +24,16 @@ function Stepper(props) {
         labelPlacement="vertical"
         items={[
           {
-            title: "Procesar texto",
+            title: "Introduzca texto 😀",
             inputText,
+
           },
           {
-            title: "Seleccione las palabras clave",
+            title: "Seleccione las palabras más interesantes 🤔",
             selectKeywords,
           },
           {
-            title: "Seleccione las preguntas",
+            title: "Seleccione las preguntas 😉",
             selectQuestions,
           },
         ]}
