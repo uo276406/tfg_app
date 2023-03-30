@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import Stepper from "../components/stepper/Stepper";
-import { Button, Row, Col, Input } from "antd";
-
-const { TextArea } = Input;
+import { Button, Row, Col } from "antd";
+import KeywordCard from "./KeywordCard";
 
 const justifyProps = {
   xxl: "end",
@@ -13,7 +11,8 @@ const justifyProps = {
   xs: "end",
 };
 
-function TextProcessView() {
+function SelectKeywordsForm() {
+
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
     setLoadings((prevLoadings) => {
@@ -32,16 +31,9 @@ function TextProcessView() {
 
   return (
     <div>
-      <Stepper />
       <Row gutter={[32, 32]} style={{ paddingBottom: "5%" }}>
-        <Col xs={24} sm={24} md={24} lg={24} xl={21} xxl={20}>
-          <TextArea
-            showCount
-            maxLength={10000}
-            style={{ height: 100 }}
-            placeholder="Escriba su texto..."
-            name="TextToProcess"
-          />
+        <Col xs={24} sm={24} md={24} lg={24} xl={21} xxl={20} style={{ padding:"2%", border: "2px solid blue", borderRadius: "5px"}}>
+          <KeywordCard/>
         </Col>
         <Col xs={24} sm={24} md={24} lg={24} xl={3} xxl={3}>
           <Row justify={justifyProps} >
@@ -51,7 +43,7 @@ function TextProcessView() {
               loading={loadings[0]}
               onClick={() => enterLoading(0)}
             >
-              Procesar texto
+              Crear Preguntas
             </Button>
             </Col>
           </Row>
@@ -61,4 +53,4 @@ function TextProcessView() {
   );
 }
 
-export default TextProcessView;
+export default SelectKeywordsForm;

@@ -5,8 +5,7 @@ import NavBarApp from "./components/navbar/NavBarApp";
 import HomeView from "./views/HomeView";
 import LoginView from "./views/LoginView";
 import SigninView from "./views/SigninView";
-import TextProcessView from "./views/TextProcessView";
-import SelectKeywordsView from "./views/SelectKeywordsView";
+import ProcessView from "./views/ProcessView";
 
 
 function App() {
@@ -41,14 +40,10 @@ function App() {
           />
 
           <Route
-            path="/textProcess"
-            element={<TextProcessView/>}
+            path="/process"
+            element={<ProcessView/>}
           />
 
-          <Route
-            path="/selectKeywords"
-            element={<SelectKeywordsView />}
-          />
 
         </Routes>
       </Content>

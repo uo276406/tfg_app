@@ -5,20 +5,20 @@ const inputText = "Introduzca el texto que desee";
 const selectKeywords = "Elija las palabras clave que más se adecúen";
 const selectQuestions = "Seleccione las preguntas más interesantes";
 
-function Stepper() {
+function Stepper(props) {
   return (
     <Row
       style={{
         height: "25%",
-        paddingLeft: "15%",
-        paddingRight: "15%",
+        paddingLeft: "10%",
+        paddingRight: "10%",
         paddingTop: "5%",
         paddingBottom: "5%",
       }}
     >
       <Steps
         direction="horizontal"
-        current={0}
+        current={props.step}
         labelPlacement="vertical"
         items={[
           {
