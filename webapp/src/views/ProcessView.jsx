@@ -11,7 +11,7 @@ function ProcessView(props) {
   const [step, setStep] = useState(0);
   function getStep(currentStep){
     const steps ={
-      0: <SelectKeywordsForm changeStep={changeStep} onSendText={handleText} textValue={text}/>,
+      0: <TextProcessArea changeStep={changeStep} onSendText={handleText} textValue={text}/>,
       1: <SelectKeywordsForm changeStep={changeStep} textValue={text}/>,
     }
     return steps[currentStep]

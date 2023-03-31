@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Checkbox, Modal, Input, Form, Button } from "antd";
+import { Card, Checkbox, Form} from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import KeywordEditForm from "./KeywordEditForm";
 
