@@ -7,20 +7,24 @@ import SelectKeywordsForm from "../components/selectkeywords/SelectKeywordForm";
 
 function ProcessView(props) {
   
+  //Maneja los pasos de la página web
   const [step, setStep] = useState(0);
-
-  // Retorna la vista en base al paso correspondiente
   function getStep(currentStep){
     const steps ={
-      0: <SelectKeywordsForm changeStep={changeStep}/>,
-      1: <SelectKeywordsForm changeStep={changeStep}/>,
+      0: <SelectKeywordsForm changeStep={changeStep} onSendText={handleText} textValue={text}/>,
+      1: <SelectKeywordsForm changeStep={changeStep} textValue={text}/>,
     }
     return steps[currentStep]
   }
-
-  // Modifica el paso a la siguiente vista
   function changeStep(nextStep){
     setStep(nextStep)
+  }
+
+  //Maneja el texto introducido por el usuario
+  const [text, setText] = useState('')
+  function handleText(textSent){
+    console.log(textSent)
+    setText(textSent)
   }
 
   return (

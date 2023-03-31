@@ -3,13 +3,6 @@ import { Button, Row, Col } from "antd";
 import { RightOutlined, LeftOutlined, DeleteOutlined } from "@ant-design/icons";
 import KeywordCardList from "./KeywordCardList";
 
-const justifyProps = {
-  lg: "end",
-  md: "end",
-  sm: "end",
-  xs: "end",
-};
-
 function SelectKeywordsForm(props) {
   // Botón de siguiente
   const [loadings, setLoadings] = useState([]);
@@ -46,7 +39,8 @@ function SelectKeywordsForm(props) {
             <Col>
               <Button
                 type="primary"
-                onClick={() => props.changeStep(0)}
+                onClick={() => {
+                  props.changeStep(0)}}
                 icon={<LeftOutlined />}
               >
                 Volver
