@@ -22,4 +22,4 @@ class KeywordExtractor:
                         convergence_threshold=1e-3, iteration_steps=15)
 
         keywords_found = scorer.get_keywords()
-        return keywords_found
+        return {'keywords': keywords_found}

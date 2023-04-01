@@ -3,6 +3,7 @@ import { Button, Row, Col } from "antd";
 import { RightOutlined, LeftOutlined, DeleteOutlined } from "@ant-design/icons";
 import KeywordCardList from "./KeywordCardList";
 
+
 function SelectKeywordsForm(props) {
   // Botón de siguiente
   const [loadings, setLoadings] = useState([]);

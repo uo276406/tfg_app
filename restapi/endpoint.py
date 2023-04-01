@@ -1,9 +1,19 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from keywordalgorithm.keywordextractor import KeywordExtractor
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="KeywordExtractorAPI", version="v1.0")
 
+# Ajustes de CORS -----------------------------------------
+# Se permiten todos los orígenes
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Modelos de datos ----------------------------------------
 
