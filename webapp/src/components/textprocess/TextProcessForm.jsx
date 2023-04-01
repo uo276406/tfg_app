@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col, Input } from "antd";
 import { RightOutlined } from "@ant-design/icons";
+import KeywordsConnector from "../../api/keywordsconnector";
 
 const { TextArea } = Input;
 
-function TextProcessArea(props) {
-  const [loadings, setLoadings] = useState([]);
+function TextProcessForm(props) {
   const [text, setText] = useState("");
 
   useEffect(() => {
-    setText(props.textValue)
-  }, [props.textValue])
+    setText(props.textValue);
+  }, [props.textValue]);
 
+  // Carga del botón ------------------------------------------------
+  const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
     setLoadings((prevLoadings) => {
       const newLoadings = [...prevLoadings];
@@ -21,26 +23,30 @@ function TextProcessArea(props) {
     setTimeout(() => {
       setLoadings((prevLoadings) => {
         const newLoadings = [...prevLoadings];
-        newLoadings[index] = false;
+        //Se envía el texto y se recogen las palabras clave
+        let connector = new KeywordsConnector(text);
+        connector.getKeywords().then((keywordsFetched) => {
 
-        //Envía le text
-        props.onSendText(text);
+          newLoadings[index] = false;
 
-        // Pasa a la nueva vista
-        props.changeStep(1);
+          props.onPassStep(text, keywordsFetched.keywords);
+          // Pasa a la nueva vista
+          props.changeStep(1);
 
+        });
         return newLoadings;
+
       });
-    }, 2000);
+    }, 100);
   };
 
-    return (
+  return (
     <div>
       <Row justify={"end"} gutter={[16, 16]} style={{ paddingBottom: "4%" }}>
         <Col span={24}>
           <TextArea
             showCount
-            maxLength={10000}
+            maxLength={15000}
             style={{
               height: 200,
               resize: "none",
@@ -49,7 +55,9 @@ function TextProcessArea(props) {
             placeholder="Escriba su texto..."
             name="TextToProcess"
             value={text}
-            onChange={(event) => {setText(event.target.value)}}
+            onChange={(event) => {
+              setText(event.target.value);
+            }}
           />
         </Col>
         <Col span={24}>
@@ -74,4 +82,4 @@ function TextProcessArea(props) {
   );
 }
 
-export default TextProcessArea;
+export default TextProcessForm;

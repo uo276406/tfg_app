@@ -15,7 +15,7 @@ function Stepper(props) {
         paddingBottom: "1%",
         marginTop: "2%",
         backgroundColor: "white",
-        borderRadius: "50px"
+        borderRadius: "15px"
       }}
     >
       <Steps

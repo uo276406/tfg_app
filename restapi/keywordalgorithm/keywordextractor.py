@@ -22,4 +22,9 @@ class KeywordExtractor:
                         convergence_threshold=1e-3, iteration_steps=15)
 
         keywords_found = scorer.get_keywords()
-        return {'keywords': keywords_found}
+        res = []
+        i = 0
+        for k in keywords_found:
+            res.append({'index': i, 'value': k})
+            i += 1
+        return {'keywords': res}

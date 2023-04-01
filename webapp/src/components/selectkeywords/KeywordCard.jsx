@@ -5,11 +5,25 @@ import KeywordEditForm from "./KeywordEditForm";
 
 const { Meta } = Card;
 
-function KeywordCard() {
+function KeywordCard(props) {
+
+  // Chckboxes de selección ------------------------------------------------------
+  const [selected, setSelected] = useState(true)
+  function handleSelect(){
+    const keywordSelected = {
+      key: props.index,
+      value: props.value,
+      selected: selected
+    }
+    setSelected(!selected)
+    props.updateCountSelectedKeywords(keywordSelected)
+  }
+
+  // Formulario de editar ---------------------------------------------------------
   const [keyword, setKeyword] = useState([
     {
       name: 'keyword',
-      value: "Keyword1",
+      value: props.value,
     },
   ]);
   const [form] = Form.useForm();
@@ -41,7 +55,7 @@ function KeywordCard() {
             showModal();
           }}
         />,
-        <Checkbox />,
+        <Checkbox value={props.enableAll} onChange={handleSelect} key={props.index}/>,
       ]}
     >
       <Meta title={keyword[0]['value']} />
