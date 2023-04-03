@@ -24,7 +24,7 @@ function Stepper(props) {
         labelPlacement="vertical"
         items={[
           {
-            title: "Introduzca texto 😀",
+            title: "Introduzca el texto 😀",
             inputText,
 
           },

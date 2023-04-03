@@ -1,10 +1,23 @@
 import { useState } from "react";
-import { Button, Row, Col, Input, Checkbox } from "antd";
-import { RightOutlined, LeftOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Button, Row, Col } from "antd";
+import {
+  RightOutlined,
+  LeftOutlined,
+} from "@ant-design/icons";
 import KeywordCardList from "./KeywordCardList";
+
+const justifyButtonsBottom = {
+  xs: "center",
+  sm: "center",
+  md: "end",
+  lg: "end",
+  xl: "end",
+  xxxl: "end",
+};
 
 function SelectKeywordsForm(props) {
   // Botón de generar preguntas -----------------------------------------------
+  const [enabledGenerateButton, setEnabledGenerateButton] = useState(false);
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
     setLoadings((prevLoadings) => {
@@ -21,76 +34,42 @@ function SelectKeywordsForm(props) {
     }, 6000);
   };
 
-  // Botón de eliminar ---------------------------------------------------------
-  const [enabledDeleteButton, setEnabledDeleteButton] = useState(false);
-  const [countSelected, setCountSelected] = useState(0);
-  function handleEnabledDeleteButton(count) {
-    setCountSelected(count);
-    count > 0 ? setEnabledDeleteButton(true) : setEnabledDeleteButton(false);
-  }
-
-  // Botón de seleccionar todas ------------------------------------------------
-  const [enableAll, setEnableAll] = useState(false);
-  function handleEnableAll() {
-    setEnableAll(true);
-  }
-
   return (
     <div>
-      <Row gutter={[16, 16]} style={{ paddingBottom: "4%" }}>
-        <Col span={10}>
-          <Input placeholder="Buscar..." />
-          <Checkbox style={{ marginTop: "3%" }} onChange={handleEnableAll}>
-            {countSelected > 0
-              ? countSelected + " palabras seleccionadas"
-              : "Seleccionar todas"}
-          </Checkbox>
-        </Col>
-
-        <Col span={14}>
-          <Row justify={"end"}>
-            <Button
-              type="primary"
-              icon={<DeleteOutlined />}
-              disabled={!enabledDeleteButton}
-              danger
-            >
-              Eliminar
-            </Button>
-          </Row>
-        </Col>
+      <Row gutter={[16, 16]} style={{ paddingBottom: "2%" }}>
         <Col span={24}>
           <KeywordCardList
             keywordsFound={props.keywordsFound}
-            enableDelete={handleEnabledDeleteButton}
-            enableAll={enableAll}
+            enableGenerateQuestionButton = {setEnabledGenerateButton}
           />
+          </Col>
+      </Row>
+      <Row
+        justify={justifyButtonsBottom}
+        gutter={[8, 8]}
+        style={{ paddingBottom: "1%" }}
+      >
+        <Col>
+          <Button
+            type="primary"
+            onClick={() => {
+              props.changeStep(0);
+            }}
+            icon={<LeftOutlined />}
+          >
+            Volver
+          </Button>
         </Col>
-        <Col span={24}>
-          <Row justify={"end"} gutter={[32, 32]}>
-            <Col>
-              <Button
-                type="primary"
-                onClick={() => {
-                  props.changeStep(0);
-                }}
-                icon={<LeftOutlined />}
-              >
-                Volver
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                type="primary"
-                icon={<RightOutlined />}
-                loading={loadings[0]}
-                disabled={true}
-                onClick={() => enterLoading(0)}
-              >
-                Generar preguntas
-              </Button>
-            </Col>
-          </Row>
+        <Col>
+          <Button
+            type="primary"
+            icon={<RightOutlined />}
+            loading={loadings[0]}
+            disabled={!enabledGenerateButton}
+            onClick={() => enterLoading(0)}
+          >
+            Generar preguntas
+          </Button>
         </Col>
       </Row>
     </div>

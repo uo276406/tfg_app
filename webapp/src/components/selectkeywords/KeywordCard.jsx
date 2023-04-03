@@ -16,7 +16,7 @@ function KeywordCard(props) {
       selected: selected
     }
     setSelected(!selected)
-    props.updateCountSelectedKeywords(keywordSelected)
+    props.updateSelectedKeywords(keywordSelected)
   }
 
   // Formulario de editar ---------------------------------------------------------
@@ -55,7 +55,7 @@ function KeywordCard(props) {
             showModal();
           }}
         />,
-        <Checkbox value={props.enableAll} onChange={handleSelect} key={props.index}/>,
+        <Checkbox onChange={handleSelect} key={props.index}/>,
       ]}
     >
       <Meta title={keyword[0]['value']} />

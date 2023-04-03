@@ -24,7 +24,6 @@ function KeywordEditForm(props) {
       <Form fields={props.fields} layout="vertical" form={props.form}>
       <Form.Item
         name="keyword"
-        label="Nueva palabra:"
         rules={[
           {
             required: true,
