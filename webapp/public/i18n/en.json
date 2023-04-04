@@ -6,10 +6,33 @@
     "english": "English 🇬🇧",
     "signin": "Sign in",
     "login": "Log in",
-    
+
     "personalinfo": "Personal information:",
     "email": "Email",
     "tfgdoc": "Final Degree Docs",
     "uniovi": "University of Oviedo",
-    "eii": "School of Computer Engineering"
+    "eii": "School of Computer Engineering",
+
+    "step1": "Input the text 😀",
+    "step2": "Select the most interesting words 🤔",
+    "step3": "Select the questions 😉",
+
+    "textAreaPlaceHolder": "Write your text...",
+    "processTextButton": "Process text",
+
+    "deleteMessage" : "Words deleted",
+    "addMessage" : "New word added",
+    "repeatMessage": "Word repeated",
+    "selectAll": "Select all",
+    "numberSelectAll": " words selected",
+    "newWordPlaceHolder": "New word...",
+    "newWordTooltip": "Add",
+    "noEmptyEditForm": "It can not be empty",
+    "modifyEditForm": "Edit",
+    "cancelEditForm": "Cancel",
+    "generateQuestionsButton": "Generate questions",
+    "backButton": "Back",
+    "editFormTitle": "Edit keyword",
+    "deleteSelected": "Delete",
+    "searchPlaceholder": "Search..."
 }

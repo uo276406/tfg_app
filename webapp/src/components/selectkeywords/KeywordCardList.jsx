@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Row, Col, Input, Checkbox, message, Tooltip } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import KeywordCard from "./KeywordCard";
+import { useTranslation } from "react-i18next";
 
 const justifyAddButtons = {
   xs: "center",
@@ -13,6 +14,8 @@ const justifyAddButtons = {
 };
 
 function KeywordCardList(props) {
+  const { t } = useTranslation();
+
   // Compara palabras clave ----------------------------------------------------
   function isKeywordEqual(k1, k2) {
     return k1.value.toLowerCase() === k2.value.toLowerCase();
@@ -58,7 +61,7 @@ function KeywordCardList(props) {
   const successDelete = () => {
     messageApi.open({
       type: "success",
-      content: "Palabras eliminadas correctamente",
+      content: t("deleteMessage"),
       duration: 5,
     });
   };
@@ -158,7 +161,7 @@ function KeywordCardList(props) {
   const successAdd = () => {
     messageApi.open({
       type: "success",
-      content: "Palabra añadida correctamente",
+      content: t("addMessage"),
       duration: 5,
     });
   };
@@ -166,7 +169,7 @@ function KeywordCardList(props) {
   const errorAdd = () => {
     messageApi.open({
       type: "error",
-      content: "Palabra repetida",
+      content: t("repeatMessage"),
       duration: 5,
     });
   };
@@ -178,7 +181,7 @@ function KeywordCardList(props) {
           <Input
             value={searchTerm}
             onChange={(event) => editSearchField(event)}
-            placeholder="Buscar..."
+            placeholder={t("searchPlaceholder")}
           />
         </Col>
         <Col span={14}>
@@ -190,7 +193,7 @@ function KeywordCardList(props) {
               onClick={deleteKeywordsSelected}
               danger
             >
-              Eliminar
+              {t("deleteSelected")}
             </Button>
           </Row>
         </Col>
@@ -201,8 +204,8 @@ function KeywordCardList(props) {
             onChange={(event) => activateAll(event.target.checked)}
           >
             {countSelected === 0
-              ? "Seleccionar todas"
-              : countSelected + " palabras seleccionadas"}
+              ? t("selectAll")
+              : countSelected + t("numberSelectAll")}
           </Checkbox>
         </Col>
         <Col span={24}>
@@ -240,12 +243,12 @@ function KeywordCardList(props) {
           <Input
             onChange={(event) => activateButtonAdd(event)}
             value={keywordToAdd}
-            placeholder="Nueva palabra..."
+            placeholder={t("newWordPlaceHolder")}
           ></Input>
         </Col>
         {contextHolder}
         <Col>
-          <Tooltip title="Añadir">
+          <Tooltip title={t("newWordTooltip")}>
             <Button
               type="primary"
               disabled={!enabledAddButton}

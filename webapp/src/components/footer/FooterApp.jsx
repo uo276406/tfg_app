@@ -11,7 +11,7 @@ import {
 const { Text, Link } = Typography;
 
 function FooterApp() {
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   const { Footer } = Layout;
 
   return (

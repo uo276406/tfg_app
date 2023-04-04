@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Card, Checkbox, Form, Tooltip } from "antd";
+import { Card, Checkbox, Form } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import KeywordEditForm from "./KeywordEditForm";
+
 
 const { Meta } = Card;
 
 function KeywordCard(props) {
+
   // Chckboxes de selección ------------------------------------------------------
   function handleSelect() {
     const keywordSelected = {

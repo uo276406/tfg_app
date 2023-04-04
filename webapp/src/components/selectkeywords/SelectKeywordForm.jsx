@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Button, Row, Col } from "antd";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import KeywordCardList from "./KeywordCardList";
+import { useTranslation } from "react-i18next";
+
 
 const justifyButtonsBottom = {
   xs: "center",
@@ -13,6 +15,9 @@ const justifyButtonsBottom = {
 };
 
 function SelectKeywordsForm(props) {
+
+  const { t } = useTranslation();
+
   // Botón de generar preguntas -----------------------------------------------
   const [enabledGenerateButton, setEnabledGenerateButton] = useState(false);
   const [loadings, setLoadings] = useState([]);
@@ -59,7 +64,7 @@ function SelectKeywordsForm(props) {
             }}
             icon={<LeftOutlined />}
           >
-            Volver
+            {t("backButton")}
           </Button>
         </Col>
         <Col>
@@ -70,7 +75,7 @@ function SelectKeywordsForm(props) {
             disabled={!enabledGenerateButton}
             onClick={() => enterLoading(0)}
           >
-            Generar preguntas
+            {t("generateQuestionsButton")}
           </Button>
         </Col>
       </Row>

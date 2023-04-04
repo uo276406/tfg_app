@@ -1,11 +1,13 @@
 import React from "react";
 import { Row, Steps } from "antd";
+import { useTranslation } from "react-i18next";
 
-const inputText = "Introduzca el texto que desee";
-const selectKeywords = "Elija las palabras clave que más se adecúen";
-const selectQuestions = "Seleccione las preguntas más interesantes";
 
 function Stepper(props) {
+
+  const { t } = useTranslation();
+
+
   return (
     <Row
       style={{
@@ -24,17 +26,13 @@ function Stepper(props) {
         labelPlacement="vertical"
         items={[
           {
-            title: "Introduzca el texto 😀",
-            inputText,
-
+            title: t("step1")
           },
           {
-            title: "Seleccione las palabras más interesantes 🤔",
-            selectKeywords,
+            title: t("step2"),
           },
           {
-            title: "Seleccione las preguntas 😉",
-            selectQuestions,
+            title:t("step3"),
           },
         ]}
       />

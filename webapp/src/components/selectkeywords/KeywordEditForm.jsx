@@ -1,14 +1,19 @@
 import React from "react";
 import { Modal, Input, Form } from "antd";
+import { useTranslation } from "react-i18next";
+
 
 function KeywordEditForm(props) {
+
+  const { t } = useTranslation();
+
 
   return (
     <Modal
       open={props.visible}
-      title="Edite la palabra clave"
-      okText="Modificar"
-      cancelText="Cancelar"
+      title={t("editFormTitle")}
+      okText={t("modifyEditForm")}
+      cancelText={t("cancelEditForm")}
       onCancel={props.onCancel}
       onOk={() => {
         props.form
@@ -27,7 +32,7 @@ function KeywordEditForm(props) {
         rules={[
           {
             required: true,
-            message: 'No puede ser vacío',
+            message: t("noEmptyEditForm"),
           },
         ]}
       >

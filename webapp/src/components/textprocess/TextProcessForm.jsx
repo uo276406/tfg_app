@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Button, Row, Col, Input } from "antd";
 import { RightOutlined } from "@ant-design/icons";
 import KeywordsConnector from "../../api/keywordsconnector";
+import { useTranslation } from "react-i18next";
+
 
 const { TextArea } = Input;
 
 function TextProcessForm(props) {
+  const { t } = useTranslation();
   const [text, setText] = useState("");
 
   useEffect(() => {
@@ -52,7 +55,7 @@ function TextProcessForm(props) {
               resize: "none",
               marginBottom: "1%",
             }}
-            placeholder="Escriba su texto..."
+            placeholder={t("textAreaPlaceHolder")}
             name="TextToProcess"
             value={text}
             onChange={(event) => {
@@ -72,7 +75,7 @@ function TextProcessForm(props) {
                   enterLoading(0);
                 }}
               >
-                Procesar texto
+                {t("processTextButton")}
               </Button>
             </Col>
           </Row>

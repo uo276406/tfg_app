@@ -6,10 +6,35 @@
     "english": "Inglés 🇬🇧",
     "signin": "Registrarse",
     "login": "Iniciar sesión",
-    
+
     "personalinfo": "Información personal:",
     "email": "Correo electrónico",
     "tfgdoc": "Memoria TFG",
     "uniovi": "Universidad de Oviedo",
-    "eii": "Escuela de Ingeniería Informática"
+    "eii": "Escuela de Ingeniería Informática",
+
+    "step1": "Introduzca el texto 😀",
+    "step2": "Seleccione las palabras más interesantes 🤔",
+    "step3": "Seleccione las preguntas 😉",
+
+    "textAreaPlaceHolder": "Escriba su texto...",
+    "processTextButton": "Procesar texto",
+
+    "deleteMessage" : "Palabras eliminadas correctamente",
+    "addMessage" : "Palabra añadida correctamente",
+    "repeatMessage": "Palabra repetida",
+    "selectAll": "Seleccionar todas",
+    "numberSelectAll": " palabras seleccionadas",
+    "newWordPlaceHolder": "Nueva palabra...",
+    "newWordTooltip": "Añadir",
+    "noEmptyEditForm": "No puede ser vacío",
+    "modifyEditForm": "Editar",
+    "cancelEditForm": "Cancelar",
+    "generateQuestionsButton": "Generar preguntas",
+    "backButton": "Volver",
+    "editFormTitle": "Edite la palabra clave",
+    "deleteSelected": "Eliminar",
+    "searchPlaceholder": "Buscar..."
+
+
 }
