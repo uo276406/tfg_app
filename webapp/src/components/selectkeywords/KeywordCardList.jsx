@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Row, Col, Input, Checkbox, message } from "antd";
+import { Button, Row, Col, Input, Checkbox, message, Tooltip } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import KeywordCard from "./KeywordCard";
 
@@ -245,12 +245,14 @@ function KeywordCardList(props) {
         </Col>
         {contextHolder}
         <Col>
-          <Button
-            type="primary"
-            disabled={!enabledAddButton}
-            onClick={addNewKeyword}
-            icon={<PlusOutlined />}
-          ></Button>
+          <Tooltip title="Añadir">
+            <Button
+              type="primary"
+              disabled={!enabledAddButton}
+              onClick={addNewKeyword}
+              icon={<PlusOutlined />}
+            ></Button>
+          </Tooltip>
         </Col>
       </Row>
     </div>

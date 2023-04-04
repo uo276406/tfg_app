@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { Button, Row, Col } from "antd";
-import {
-  RightOutlined,
-  LeftOutlined,
-} from "@ant-design/icons";
+import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import KeywordCardList from "./KeywordCardList";
 
 const justifyButtonsBottom = {
@@ -29,6 +26,9 @@ function SelectKeywordsForm(props) {
       setLoadings((prevLoadings) => {
         const newLoadings = [...prevLoadings];
         newLoadings[index] = false;
+        
+        props.changeStep(2);
+        
         return newLoadings;
       });
     }, 6000);
@@ -39,10 +39,12 @@ function SelectKeywordsForm(props) {
       <Row gutter={[16, 16]} style={{ paddingBottom: "2%" }}>
         <Col span={24}>
           <KeywordCardList
-            keywordsFound={props.keywordsFound.map((k) => {return {key: k.index, value:k.value, selected: false}})}
-            enableGenerateQuestionButton = {setEnabledGenerateButton}
+            keywordsFound={props.keywordsFound.map((k) => {
+              return { key: k.index, value: k.value, selected: false };
+            })}
+            enableGenerateQuestionButton={setEnabledGenerateButton}
           />
-          </Col>
+        </Col>
       </Row>
       <Row
         justify={justifyButtonsBottom}

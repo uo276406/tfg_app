@@ -3,8 +3,9 @@ import { Divider } from "antd";
 import Stepper from "../components/stepper/Stepper";
 import TextProcessForm from "../components/textprocess/TextProcessForm";
 import SelectKeywordsForm from "../components/selectkeywords/SelectKeywordForm";
+import SelectQuestionsForm from "../components/selectquestions/SelectQuestionsForm";
 
-function ProcessView(props) {
+function ProcessView() {
   
   //Maneja los pasos de la página web
   const [step, setStep] = useState(0);
@@ -12,6 +13,7 @@ function ProcessView(props) {
     const steps ={
       0: <TextProcessForm changeStep={handleStep} onPassStep={handleTextSent} textValue={text}/>,
       1: <SelectKeywordsForm changeStep={handleStep} textValue={text} keywordsFound={keywordsFound}/>,
+      2: <SelectQuestionsForm />
     }
     return steps[currentStep]
   }
