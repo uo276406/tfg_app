@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Row, Col, Input, Checkbox } from "antd";
+import { Button, Row, Col, Input, Checkbox, message } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import KeywordCard from "./KeywordCard";
 
@@ -15,39 +15,54 @@ const justifyAddButtons = {
 function KeywordCardList(props) {
   // Compara palabras clave ----------------------------------------------------
   function isKeywordEqual(k1, k2) {
-    return k1.key === k2.key && k1.value === k2.value;
-  }
-
-  // Quita palabras de la lista de seleccionadas --------------------------------------
-  function deselectKeywordSelected(k) {
-    for (let i = 0; i < keywordsSelectedList.length; i++) {
-      if (isKeywordEqual(k, keywordsSelectedList[i])) {
-        keywordsSelectedList.splice(i, 1);
-      }
-    }
+    return k1.value.toLowerCase() === k2.value.toLowerCase();
   }
 
   // Lista de palabras clave totales ---------------------------------------------------
   let [keywordsList, setKeywordsList] = useState([...props.keywordsFound]);
 
   // Lista de palabras clave seleccionadas ---------------------------------------------
-  let [keywordsSelectedList, setKeywordsSelectedList] = useState([]);
+  let selectedKeywords = keywordsList.filter((k) => k.selected);
   let [countSelected, setCountSelected] = useState(0);
 
-  function updateSelectedKeywords(keywordSelected) {
-    if (keywordSelected.selected) {
-      setCountSelected(++countSelected);
-      keywordsSelectedList.push(keywordSelected);
-    } else {
-      setCountSelected(--countSelected);
-      deselectKeywordSelected(keywordSelected);
+  function updateSelectedKeywords(keyword) {
+    for (let elem of keywordsList) {
+      if (isKeywordEqual(elem, keyword)) {
+        elem.selected = keyword.selected;
+      }
     }
-    console.log(keywordsSelectedList);
-    handleActivateButtons(countSelected);
+
+    selectedKeywords = keywordsList.filter((k) => k.selected);
+    handleActivateButtons(selectedKeywords.length);
   }
 
   // Botón de eliminar ---------------------------------------------------------
   let [enabledDeleteButton, setEnabledDeleteButton] = useState(false);
+
+  function deleteKeywordsSelected() {
+    setKeywordsList((prevKeywordsList) => {
+      for (let i = 0; i<prevKeywordsList.length; i++) {
+        if (prevKeywordsList[i].selected) {
+          console.log(prevKeywordsList[i])
+          prevKeywordsList.splice(i, 1)
+          i--
+        }
+      }
+      console.log(prevKeywordsList)
+      return prevKeywordsList;
+    });
+    successDelete()
+    handleActivateButtons()
+    selectedKeywords = []
+  }
+
+  const successDelete = () => {
+    messageApi.open({
+      type: "success",
+      content: "Palabras eliminadas correctamente",
+      duration: 5,
+    });
+  };
 
   // Activa botones ------------------------------------------------------------
   function handleActivateButtons(count) {
@@ -68,6 +83,7 @@ function KeywordCardList(props) {
   // Botón de añadir -----------------------------------------------------------
   const [enabledAddButton, setEnabledAddButton] = useState(false);
   const [keywordToAdd, setKeywordToAdd] = useState("");
+  const [messageApi, contextHolder] = message.useMessage();
 
   function activateButtonAdd(event) {
     setKeywordToAdd(event.target.value);
@@ -76,19 +92,43 @@ function KeywordCardList(props) {
       : setEnabledAddButton(false);
   }
 
+  // Añade una nueva palabra clave a la lista -----------------------------------
   function addNewKeyword() {
-    console.log(keywordsList);
-
     setKeywordsList((prevKeywordsList) => {
-      let newKeywordList = [...prevKeywordsList];
       let toAdd = {
-        index: keywordsList.length,
+        key: Math.max(...prevKeywordsList.map((k) => k.key)) + 1,
         value: keywordToAdd,
+        selected: false,
       };
-      newKeywordList.push(toAdd);
-      return newKeywordList;
+      for (const k of prevKeywordsList) {
+        if (isKeywordEqual(toAdd, k)) {
+          errorAdd();
+          return prevKeywordsList;
+        }
+      }
+      prevKeywordsList.push(toAdd);
+      successAdd();
+      return prevKeywordsList;
     });
+    setKeywordToAdd("");
+    setEnabledAddButton(false);
   }
+
+  const successAdd = () => {
+    messageApi.open({
+      type: "success",
+      content: "Palabra añadida correctamente",
+      duration: 5,
+    });
+  };
+
+  const errorAdd = () => {
+    messageApi.open({
+      type: "error",
+      content: "Palabra repetida",
+      duration: 5,
+    });
+  };
 
   return (
     <div>
@@ -102,6 +142,7 @@ function KeywordCardList(props) {
               type="primary"
               icon={<DeleteOutlined />}
               disabled={!enabledDeleteButton}
+              onClick={deleteKeywordsSelected}
               danger
             >
               Eliminar
@@ -128,9 +169,9 @@ function KeywordCardList(props) {
               return (
                 <KeywordCard
                   updateSelectedKeywords={updateSelectedKeywords}
-                  key={keyword.index}
+                  key={keyword.key}
                   value={keyword.value}
-                  index={keyword.index}
+                  selected={keyword.selected}
                 />
               );
             })}
@@ -149,6 +190,7 @@ function KeywordCardList(props) {
             placeholder="Nueva palabra..."
           ></Input>
         </Col>
+        {contextHolder}
         <Col>
           <Button
             type="primary"

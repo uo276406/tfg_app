@@ -8,14 +8,14 @@ const { Meta } = Card;
 function KeywordCard(props) {
 
   // Chckboxes de selección ------------------------------------------------------
-  const [selected, setSelected] = useState(true)
+  const [selected, setSelected] = useState(props.selected)
   function handleSelect(){
+    setSelected(() => !selected)
     const keywordSelected = {
-      key: props.index,
+      key: props.key,
       value: props.value,
-      selected: selected
+      selected: !selected
     }
-    setSelected(!selected)
     props.updateSelectedKeywords(keywordSelected)
   }
 
@@ -55,7 +55,7 @@ function KeywordCard(props) {
             showModal();
           }}
         />,
-        <Checkbox onChange={handleSelect} key={props.index}/>,
+        <Checkbox onChange={handleSelect} key={props.key} checked={selected}/>,
       ]}
     >
       <Meta title={keyword[0]['value']} />

@@ -39,7 +39,7 @@ function SelectKeywordsForm(props) {
       <Row gutter={[16, 16]} style={{ paddingBottom: "2%" }}>
         <Col span={24}>
           <KeywordCardList
-            keywordsFound={props.keywordsFound}
+            keywordsFound={props.keywordsFound.map((k) => {return {key: k.index, value:k.value, selected: false}})}
             enableGenerateQuestionButton = {setEnabledGenerateButton}
           />
           </Col>
