@@ -110,6 +110,18 @@ function KeywordCardList(props) {
   }
 
   // Buscador ------------------------------------------------------------------
+  const searchedElements = keywordsList;
+  const [searchTerm, setSearchTerm] = useState("");
+
+  function editSearchField(event) {
+    setSearchTerm(event.target.value);
+  }
+
+  function getSearchedTerms() {
+    return searchedElements.filter((keyword) =>
+      keyword.value.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+    );
+  }
 
   // Botón de añadir -----------------------------------------------------------
   const [enabledAddButton, setEnabledAddButton] = useState(false);
@@ -163,7 +175,11 @@ function KeywordCardList(props) {
     <div>
       <Row gutter={[16, 16]} style={{ paddingBottom: "2%" }}>
         <Col span={10}>
-          <Input placeholder="Buscar..." />
+          <Input
+            value={searchTerm}
+            onChange={(event) => editSearchField(event)}
+            placeholder="Buscar..."
+          />
         </Col>
         <Col span={14}>
           <Row justify={"end"}>
@@ -198,8 +214,8 @@ function KeywordCardList(props) {
               backgroundColor: "white",
             }}
           >
-            {keywordsList.length > 0 ? (
-              keywordsList.map((keyword) => {
+            {getSearchedTerms().length > 0 ? (
+              getSearchedTerms().map((keyword) => {
                 return (
                   <KeywordCard
                     updateSelectedKeywords={updateSelectedKeywords}
