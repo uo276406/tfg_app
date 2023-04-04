@@ -7,6 +7,19 @@
     "signin": "Sign in",
     "login": "Log in",
 
+    "inputEmailCompulsory": "Input your email",
+    "inputPasswordCompulsory": "Input your password",
+    "password": "Password",
+
+    "name": "name",
+    "inputName": "Input your name",
+    "firstSurname": "First surname",
+    "inputFirstSurname": "Input your first surname",
+    "secondSurname": "Second surname",
+    "inputSecondSurname": "Input your second surname",
+    "confirmPassword": "Confirm password",
+    "repeatPassword": "Repeat your password",
+
     "personalinfo": "Personal information:",
     "email": "Email",
     "tfgdoc": "Final Degree Docs",

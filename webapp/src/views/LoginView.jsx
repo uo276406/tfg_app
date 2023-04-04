@@ -1,7 +1,11 @@
 import React from "react";
 import { Button, Form, Input, Card, Col, Row } from "antd";
+import { useTranslation } from "react-i18next";
+
 
 function LoginView(props) {
+
+  const { t } = useTranslation();
 
   async function sendLogin(values) {
     props.sendLoginToConsole({
@@ -23,20 +27,20 @@ function LoginView(props) {
               autoComplete="off"
             >
               <Form.Item
-                label="Email"
+                label={t("email")}
                 name="email"
                 rules={[
-                  { required: true, message: "Introduzca su email" },
+                  { required: true, message: t("inputEmailCompulsory") },
                 ]}
               >
                 <Input />
               </Form.Item>
 
               <Form.Item
-                label="Contraseña"
+                label={t("password")}
                 name="password"
                 rules={[
-                  { required: true, message: "Introduzca su contraseña" },
+                  { required: true, message: t("inputPasswordCompulsory") },
                 ]}
               >
                 <Input.Password />
@@ -49,7 +53,7 @@ function LoginView(props) {
                 }}
               >
                 <Button type="primary" htmlType="submit" block>
-                  Iniciar sesión
+                  {t("login")}
                 </Button>
               </Form.Item>
 

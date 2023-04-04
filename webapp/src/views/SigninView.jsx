@@ -1,7 +1,13 @@
 import React from "react";
 import { Button, Form, Input, Card, Col, Row } from "antd";
+import { useTranslation } from "react-i18next";
+
 
 function SigninView() {
+
+  const { t } = useTranslation();
+
+
   return (
     <Row style={{ marginTop: 34, marginBottom: 34, height: "100%" }}>
       <Col span={24} style={{ height: "100%" }}>
@@ -14,53 +20,53 @@ function SigninView() {
             autoComplete="off"
           >
             <Form.Item
-              label="Nombre"
+              label={t("name")}
               name="name"
-              rules={[{ required: true, message: "Introduzca su nombre" }]}
+              rules={[{ required: true, message: t("inputName") }]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item
-              label="Primer apellido"
+              label={t("firstSurname")}
               name="surname1"
               rules={[
-                { required: true, message: "Introduzca su primer apellido" },
+                { required: true, message: t("inputFirstSurname")},
               ]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item
-              label="Segundo apellido"
+              label={t("secondSurname")}
               name="surname2"
               rules={[
-                { required: false, message: "Introduzca su segundo apellido" },
+                { required: false, message: t("inputSecondSurname") },
               ]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item
-              label="Email"
+              label={t("email")}
               name="email"
-              rules={[{ required: true, message: "Introduzca su email" }]}
+              rules={[{ required: true, message: t("inputEmailCompulsory") }]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item
-              label="Contraseña"
+              label={t("password")}
               name="password"
-              rules={[{ required: true, message: "Introduzca su contraseña" }]}
+              rules={[{ required: true, message: t("inputPasswordCompulsory") }]}
             >
               <Input.Password />
             </Form.Item>
 
             <Form.Item
-              label="Corfime su contraseña"
+              label={t("confirmPassword")}
               name="passwordConfirm"
-              rules={[{ required: true, message: "Repita su contraseña" }]}
+              rules={[{ required: true, message: t("repeatPassword") }]}
             >
               <Input.Password />
             </Form.Item>
@@ -72,7 +78,7 @@ function SigninView() {
               }}
             >
               <Button type="primary" htmlType="submit" block>
-                Registrarse
+                {t("signin")}
               </Button>
             </Form.Item>
           </Form>

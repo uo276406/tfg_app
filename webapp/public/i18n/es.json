@@ -7,6 +7,19 @@
     "signin": "Registrarse",
     "login": "Iniciar sesión",
 
+    "inputEmailCompulsory": "Introduzca su email",
+    "inputPasswordCompulsory": "Introduzca su contraseña",
+    "password": "Contraseña",
+
+    "name": "Nombre",
+    "inputName": "Introduzca su nombre",
+    "firstSurname": "Primer apellido",
+    "inputFirstSurname": "Introduzca su primer apellido",
+    "secondSurname": "Segundo apellido",
+    "inputSecondSurname": "Introduzca su segundo apellido",
+    "confirmPassword": "Confirme su constraseña",
+    "repeatPassword": "Repita su contraseña",
+
     "personalinfo": "Información personal:",
     "email": "Correo electrónico",
     "tfgdoc": "Memoria TFG",
