@@ -1,4 +1,5 @@
 import Layout from "antd/es/layout/layout";
+import { useTranslation } from "react-i18next";
 import { Row, Col, Space, Typography, Tooltip } from "antd";
 import {
   GithubFilled,
@@ -10,6 +11,7 @@ import {
 const { Text, Link } = Typography;
 
 function FooterApp() {
+  const { i18n, t } = useTranslation();
   const { Footer } = Layout;
 
   return (
@@ -18,14 +20,14 @@ function FooterApp() {
         <Col span={6} xs={24} sm={12} md={8} lg={8} xl={8} xxl={6}>
           <Row justify={"center"}>
             <Link href="https://www.uniovi.es/">
-              <img src="uniovilogo.png" alt="Universidad de Oviedo" />
+              <img src="uniovilogo.png" alt={t("uniovi")} />
             </Link>
           </Row>
         </Col>
         <Col span={6} xs={24} sm={12} md={8} lg={8} xl={8} xxl={6}>
           <Row justify={"center"}>
             <Link href="https://ingenieriainformatica.uniovi.es/">
-              <img src="eiilogo.png" alt="Escuela de Ingeniería Informática" />
+              <img src="eiilogo.png" alt={t("eii")} />
             </Link>
           </Row>
         </Col>
@@ -33,26 +35,26 @@ function FooterApp() {
           <Row justify={"center"}>
             <Space direction="vertical">
               <Space>
-                <Text strong> Información personal: </Text>
-                <Tooltip title="Perfil de LinkedIn">
+                <Text strong> {t("personalinfo")} </Text>
+                <Tooltip title="LinkedIn">
                   <Link href="https://www.linkedin.com/in/diego-gonz%C3%A1lez-su%C3%A1rez-64b2371b1/">
                     <LinkedinFilled />
                   </Link>
                 </Tooltip>
-                <Tooltip title="Perfil de Github">
+                <Tooltip title="Github">
                   <Link href="https://github.com/uo276406">
                     <GithubFilled />
                   </Link>
                 </Tooltip>
-                <Tooltip title="Correo electrónico">
+                <Tooltip title={t("email")}>
                   <Link href="mailto:uo276406@uniovi.es">
                     <MailFilled />
                   </Link>
                 </Tooltip>
-                <Tooltip title="Memoria TFG">
-                <Link href="https://github.com/uo276406">
-                  <FileFilled />
-                </Link>
+                <Tooltip title={t("tfgdoc")}>
+                  <Link href="https://github.com/uo276406">
+                    <FileFilled />
+                  </Link>
                 </Tooltip>
               </Space>
               <Space>

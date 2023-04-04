@@ -1,26 +1,25 @@
 import React, { useState } from "react";
-import { Card, Checkbox, Form} from "antd";
+import { Card, Checkbox, Form, Tooltip } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import KeywordEditForm from "./KeywordEditForm";
 
 const { Meta } = Card;
 
 function KeywordCard(props) {
-
   // Chckboxes de selección ------------------------------------------------------
-  function handleSelect(){
+  function handleSelect() {
     const keywordSelected = {
       key: props.key,
       value: props.value,
-      selected: !props.selected
-    }
-    props.updateSelectedKeywords(keywordSelected)
+      selected: !props.selected,
+    };
+    props.updateSelectedKeywords(keywordSelected);
   }
 
   // Formulario de editar ---------------------------------------------------------
   const [keyword, setKeyword] = useState([
     {
-      name: 'keyword',
+      name: "keyword",
       value: props.value,
     },
   ]);
@@ -29,19 +28,19 @@ function KeywordCard(props) {
 
   function showModal() {
     setVisible(true);
-  };
+  }
   function handleCancel() {
     setVisible(false);
-  };
+  }
   function handleModify(values) {
     setKeyword([
       {
-        name: 'keyword',
+        name: "keyword",
         value: values.keyword,
       },
-    ])
-    setVisible(false)
-  };
+    ]);
+    setVisible(false);
+  }
 
   return (
     <Card
@@ -53,13 +52,17 @@ function KeywordCard(props) {
             showModal();
           }}
         />,
-        <Checkbox onChange={handleSelect} key={props.key} checked={props.selected}/>,
+        <Checkbox
+          onChange={handleSelect}
+          key={props.key}
+          checked={props.selected}
+        />,
       ]}
     >
-      <Meta title={keyword[0]['value']} />
+      <Meta title={keyword[0]["value"]} />
 
       <KeywordEditForm
-        form = {form}
+        form={form}
         visible={visible}
         onCancel={handleCancel}
         onModify={handleModify}

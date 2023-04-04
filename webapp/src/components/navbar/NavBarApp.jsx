@@ -1,39 +1,69 @@
 import { Menu } from "antd";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import {
   SnippetsOutlined,
   LoginOutlined,
   QuestionOutlined,
-  PhoneOutlined,
 } from "@ant-design/icons";
 
 function NavBarApp() {
+  const { i18n, t } = useTranslation();
+
+  // Menu items
+  const items = [
+    {
+      label: <Link to="/">Keywords App</Link>,
+      key: "app",
+    },
+    {
+      label: <Link to="/doc">{t("doc")}</Link>,
+      key: "doc",
+      icon: <SnippetsOutlined />,
+      style: { marginLeft: "auto" },
+    },
+    {
+      label: <Link to="/about">{t("about")}</Link>,
+      key: "about",
+      icon: <QuestionOutlined />,
+    },
+    {
+      label: t("lang"),
+      key: "lang",
+      icon: <SnippetsOutlined />,
+      children: [
+        {
+          label: t("spanish"),
+          key: "ES",
+          onClick: () => onClickChangeLang("es")
+        },
+        {
+          label: t("english"),
+          key: "EN",
+          onClick: () => onClickChangeLang("en")
+          
+        },
+      ],
+    },
+    {
+      label: <Link to="/login">{t("login")}</Link>,
+      key: "login",
+      icon: <LoginOutlined />,
+    },
+    {
+      label: <Link to="/signin">{t("signin")}</Link>,
+      key: "signin",
+      icon: <LoginOutlined />,
+    },
+  ];
+
+  // Cambia idioma ----------------------------------------------------
+  const onClickChangeLang = (code) => {
+    i18n.changeLanguage(code);
+  };
+
   return (
-    <Menu theme="dark" selectable={true} mode="horizontal">
-        <Menu.Item key="menuHome">
-          <Link to="/">Keywords App</Link>
-        </Menu.Item>
-
-        <Menu.Item style={{ marginLeft: 'auto' }} key="menuDoc" icon={<SnippetsOutlined />}>
-          <Link to="/doc">Documentación</Link>
-        </Menu.Item>
-
-        <Menu.Item key="menuAbout" icon={<QuestionOutlined />}>
-          <Link to="/about">Sobre mí</Link>
-        </Menu.Item>
-
-        <Menu.Item key="menuContact" icon={<PhoneOutlined />}>
-          <Link to="/contact">Contacto</Link>
-        </Menu.Item>
-
-        <Menu.Item key="menuLogin" icon={<LoginOutlined />}>
-          <Link to="/login">Inicia sesión</Link>
-        </Menu.Item>
-
-        <Menu.Item key="menuSignin" icon={<LoginOutlined />}>
-          <Link to="/signin">Registro</Link>
-        </Menu.Item>
-    </Menu>
+    <Menu theme="dark" selectable={false} mode="horizontal" items={items} />
   );
 }
 

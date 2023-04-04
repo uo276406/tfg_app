@@ -234,7 +234,7 @@ function KeywordCardList(props) {
       <Row
         justify={justifyAddButtons}
         gutter={[8, 8]}
-        style={{ paddingBottom: "2%" }}
+        style={{ paddingBottom: "1%" }}
       >
         <Col>
           <Input

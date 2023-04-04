@@ -1,0 +1,15 @@
+{
+    "about": "Sobre mí",
+    "doc": "Documentacion",
+    "lang": "Idioma",
+    "spanish": "Español 🇪🇸",
+    "english": "Inglés 🇬🇧",
+    "signin": "Registrarse",
+    "login": "Iniciar sesión",
+    
+    "personalinfo": "Información personal:",
+    "email": "Correo electrónico",
+    "tfgdoc": "Memoria TFG",
+    "uniovi": "Universidad de Oviedo",
+    "eii": "Escuela de Ingeniería Informática"
+}

@@ -6,6 +6,7 @@ import HomeView from "./views/HomeView";
 import LoginView from "./views/LoginView";
 import SigninView from "./views/SigninView";
 import ProcessView from "./views/ProcessView";
+import "./i18n";
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
         <NavBarApp />
       </Header>
 
-      <Content style={{ padding: "0 50px", backgroundColor: "lightGrey" }}>
+      <Content style={{ padding: "0 20px", backgroundColor: "lightGrey" }}>
         <Routes>
           <Route path="/" element={<HomeView />} />
 

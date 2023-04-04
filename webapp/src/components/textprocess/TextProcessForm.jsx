@@ -42,7 +42,7 @@ function TextProcessForm(props) {
 
   return (
     <div>
-      <Row justify={"end"} gutter={[16, 16]} style={{ paddingBottom: "4%" }}>
+      <Row justify={"end"} gutter={[16, 16]} style={{ paddingBottom: "2%" }}>
         <Col span={24}>
           <TextArea
             showCount
