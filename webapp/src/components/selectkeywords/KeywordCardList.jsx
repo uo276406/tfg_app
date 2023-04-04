@@ -52,7 +52,7 @@ function KeywordCardList(props) {
       return prevKeywordsList;
     });
     successDelete()
-    handleActivateButtons()
+    handleActivateButtons(0)
     selectedKeywords = []
   }
 
