@@ -31,8 +31,7 @@ function KeywordCardList(props) {
         elem.selected = keyword.selected;
       }
     }
-    selectedKeywords = keywordsList.filter((k) => k.selected);
-    updateActivateAllButton(selectedKeywords);
+    updateCheckAllButton();
     handleActivateButtons(selectedKeywords.length);
   }
 
@@ -51,6 +50,7 @@ function KeywordCardList(props) {
       return prevKeywordsList;
     });
     successDelete();
+    updateCheckAllButton();
     handleActivateButtons(0);
     selectedKeywords = [];
   }
@@ -86,14 +86,14 @@ function KeywordCardList(props) {
       }
       return prevKeywordsList;
     });
-    selectedKeywords = keywordsList.filter((k) => k.selected);
-    updateActivateAllButton(selectedKeywords);
+    updateCheckAllButton();
     value
       ? handleActivateButtons(keywordsList.length)
       : handleActivateButtons(0);
   }
 
-  function updateActivateAllButton(selectedKeywords) {
+  function updateCheckAllButton() {
+    selectedKeywords = keywordsList.filter((k) => k.selected);
     if (
       selectedKeywords.length > 0 &&
       selectedKeywords.length < keywordsList.length
