@@ -31,8 +31,8 @@ function KeywordCardList(props) {
         elem.selected = keyword.selected;
       }
     }
-
     selectedKeywords = keywordsList.filter((k) => k.selected);
+    updateActivateAllButton(selectedKeywords);
     handleActivateButtons(selectedKeywords.length);
   }
 
@@ -41,19 +41,18 @@ function KeywordCardList(props) {
 
   function deleteKeywordsSelected() {
     setKeywordsList((prevKeywordsList) => {
-      for (let i = 0; i<prevKeywordsList.length; i++) {
+      for (let i = 0; i < prevKeywordsList.length; i++) {
         if (prevKeywordsList[i].selected) {
-          console.log(prevKeywordsList[i])
-          prevKeywordsList.splice(i, 1)
-          i--
+          prevKeywordsList.splice(i, 1);
+          i--;
         }
       }
-      console.log(prevKeywordsList)
+      console.log(prevKeywordsList);
       return prevKeywordsList;
     });
-    successDelete()
-    handleActivateButtons(0)
-    selectedKeywords = []
+    successDelete();
+    handleActivateButtons(0);
+    selectedKeywords = [];
   }
 
   const successDelete = () => {
@@ -77,6 +76,38 @@ function KeywordCardList(props) {
   }
 
   // Botón de seleccionar todas ------------------------------------------------
+  const [indeterminate, setIndeterminate] = useState(false);
+  const [checkAll, setCheckAll] = useState(false);
+
+  function activateAll(value) {
+    setKeywordsList((prevKeywordsList) => {
+      for (const k of prevKeywordsList) {
+        k.selected = value;
+      }
+      return prevKeywordsList;
+    });
+    selectedKeywords = keywordsList.filter((k) => k.selected);
+    updateActivateAllButton(selectedKeywords);
+    value
+      ? handleActivateButtons(keywordsList.length)
+      : handleActivateButtons(0);
+  }
+
+  function updateActivateAllButton(selectedKeywords) {
+    if (
+      selectedKeywords.length > 0 &&
+      selectedKeywords.length < keywordsList.length
+    ) {
+      setIndeterminate(true);
+      setCheckAll(false);
+    } else if (selectedKeywords.length === 0) {
+      setIndeterminate(false);
+      setCheckAll(false);
+    } else if (selectedKeywords.length === keywordsList.length) {
+      setIndeterminate(false);
+      setCheckAll(true);
+    }
+  }
 
   // Buscador ------------------------------------------------------------------
 
@@ -91,8 +122,6 @@ function KeywordCardList(props) {
       ? setEnabledAddButton(true)
       : setEnabledAddButton(false);
   }
-
-  // Añade una nueva palabra clave a la lista -----------------------------------
   function addNewKeyword() {
     setKeywordsList((prevKeywordsList) => {
       let toAdd = {
@@ -150,7 +179,11 @@ function KeywordCardList(props) {
           </Row>
         </Col>
         <Col>
-          <Checkbox>
+          <Checkbox
+            checked={checkAll}
+            indeterminate={indeterminate}
+            onChange={(event) => activateAll(event.target.checked)}
+          >
             {countSelected === 0
               ? "Seleccionar todas"
               : countSelected + " palabras seleccionadas"}
@@ -165,16 +198,20 @@ function KeywordCardList(props) {
               backgroundColor: "white",
             }}
           >
-            {keywordsList.map((keyword) => {
-              return (
-                <KeywordCard
-                  updateSelectedKeywords={updateSelectedKeywords}
-                  key={keyword.key}
-                  value={keyword.value}
-                  selected={keyword.selected}
-                />
-              );
-            })}
+            {keywordsList.length > 0 ? (
+              keywordsList.map((keyword) => {
+                return (
+                  <KeywordCard
+                    updateSelectedKeywords={updateSelectedKeywords}
+                    key={keyword.key}
+                    value={keyword.value}
+                    selected={keyword.selected}
+                  />
+                );
+              })
+            ) : (
+              <h1>No se han encontrado palabras</h1>
+            )}
           </Row>
         </Col>
       </Row>
