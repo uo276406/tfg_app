@@ -42,6 +42,9 @@
 
     "textAreaPlaceHolder": "Escriba su texto...",
     "processTextButton": "Procesar texto",
+    "uploadButton": "Subir archivo...",
+    "tooBig": " demasiado grande",
+    "sucessfulUpload": " cargado correctamente",
 
     "deleteMessage" : "Palabras eliminadas correctamente",
     "addMessage" : "Palabra añadida correctamente",

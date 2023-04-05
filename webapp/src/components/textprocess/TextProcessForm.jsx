@@ -5,7 +5,7 @@ import KeywordsConnector from "../../api/keywordsconnector";
 import { useTranslation } from "react-i18next";
 
 const { TextArea } = Input;
-const maxChars = 60000;
+const maxChars = 70000;
 
 function TextProcessForm(props) {
   const { t } = useTranslation();
@@ -21,24 +21,20 @@ function TextProcessForm(props) {
     accept: ".txt",
     listType: "text",
     beforeUpload: (file) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setText(e.target.result);
-      };
-      reader.readAsText(file);
-      // Prevent upload
+      if (file.size > maxChars) {
+        message.error(`${file.name}` + t("tooBig"));
+      }
+      else{
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setText(e.target.result);
+        };
+        reader.readAsText(file);
+        message.success(`${file.name}` + t("sucessfulUpload"));
+      }
       return false;
-    },
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
+    }
+    
   };
 
   useEffect(() => {
@@ -92,7 +88,7 @@ function TextProcessForm(props) {
         </Col>
         <Col span={6}>
           <Upload {...uploadProps}>
-            <Button icon={<UploadOutlined />}>Upload</Button>
+            <Button icon={<UploadOutlined />}>{t("uploadButton")}</Button>
           </Upload>
         </Col>
         <Col span={18}>

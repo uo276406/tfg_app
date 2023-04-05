@@ -15,7 +15,7 @@ const cardStyle = {
   background: "lightgrey",
   border: "lightgrey",
   textAlign: "center",
-  fontSize: "50px"
+  fontSize: "40px"
 }
 
 const bodyStyle = {
