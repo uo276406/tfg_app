@@ -1,15 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { Button, Row, Col, Input } from "antd";
-import { RightOutlined } from "@ant-design/icons";
+import { Button, Row, Col, Input, Upload, message } from "antd";
+import { RightOutlined, UploadOutlined } from "@ant-design/icons";
 import KeywordsConnector from "../../api/keywordsconnector";
 import { useTranslation } from "react-i18next";
 
-
 const { TextArea } = Input;
+const maxChars = 60000;
 
 function TextProcessForm(props) {
   const { t } = useTranslation();
   const [text, setText] = useState("");
+
+  // Botón upload --------------------------------------------------
+  const uploadProps = {
+    name: "file",
+    headers: {
+      authorization: "authorization-text",
+    },
+    maxCount: 1,
+    accept: ".txt",
+    listType: "text",
+    beforeUpload: (file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setText(e.target.result);
+      };
+      reader.readAsText(file);
+      // Prevent upload
+      return false;
+    },
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
 
   useEffect(() => {
     setText(props.textValue);
@@ -29,16 +59,13 @@ function TextProcessForm(props) {
         //Se envía el texto y se recogen las palabras clave
         let connector = new KeywordsConnector(text);
         connector.getKeywords().then((keywordsFetched) => {
-
           newLoadings[index] = false;
 
           props.onPassStep(text, keywordsFetched.keywords);
           // Pasa a la nueva vista
           props.changeStep(1);
-
         });
         return newLoadings;
-
       });
     }, 100);
   };
@@ -49,7 +76,7 @@ function TextProcessForm(props) {
         <Col span={24}>
           <TextArea
             showCount
-            maxLength={15000}
+            maxLength={maxChars}
             style={{
               height: 200,
               resize: "none",
@@ -63,7 +90,12 @@ function TextProcessForm(props) {
             }}
           />
         </Col>
-        <Col span={24}>
+        <Col span={6}>
+          <Upload {...uploadProps}>
+            <Button icon={<UploadOutlined />}>Upload</Button>
+          </Upload>
+        </Col>
+        <Col span={18}>
           <Row justify={"end"} gutter={[32, 32]}>
             <Col>
               <Button
