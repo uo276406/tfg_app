@@ -11,7 +11,7 @@ function SigninView() {
   return (
     <Row style={{ marginTop: 34, marginBottom: 34, height: "100%" }}>
       <Col span={24} style={{ height: "100%" }}>
-        <Card>
+        <Card title={t("signinTitle")} headStyle={{textAlign: "center"}}>
           <Form
             name="basic"
             labelCol={{ span: 24 / 3 }}

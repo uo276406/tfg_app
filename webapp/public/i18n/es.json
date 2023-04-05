@@ -1,4 +1,9 @@
 {
+
+    "processHome": "Procese sus textos",
+    "keywordsHome": "Selecccione las palabras clave que quiera",
+    "questionsHome": "Gestione aquellas preguntas más interesantes",
+
     "about": "Sobre mí",
     "doc": "Documentacion",
     "lang": "Idioma",
@@ -10,6 +15,10 @@
     "inputEmailCompulsory": "Introduzca su email",
     "inputPasswordCompulsory": "Introduzca su contraseña",
     "password": "Contraseña",
+    "loginTitle": "Inicie sesión para disfrutar de todas las carcaterísticas. 😀",
+    "startButton": "¡Comenzar!",
+    "textHome1": "Esta aplicación parte de un proyecto de fin de grado basado en la extracción de palabras clave de textos educativos.",
+    "textHome2": "Aquí podrá acceder a múltiples funcionalidades que le permitirán generar preguntas a partir de los textos que introduzca... Obviamente no es magia 😉 (aunque parezca). Se utiliza un sistema basado en puntuación de palabras de grafos. Puede comenzar y probar la aplicación haciendo click en el botón.",
 
     "name": "Nombre",
     "inputName": "Introduzca su nombre",
@@ -19,6 +28,7 @@
     "inputSecondSurname": "Introduzca su segundo apellido",
     "confirmPassword": "Confirme su constraseña",
     "repeatPassword": "Repita su contraseña",
+    "signinTitle": "Registrese, si no tiene cuenta, para disfrutar de todas las carcaterísticas. 😀",
 
     "personalinfo": "Información personal:",
     "email": "Correo electrónico",

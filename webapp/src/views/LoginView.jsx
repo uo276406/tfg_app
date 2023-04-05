@@ -15,9 +15,9 @@ function LoginView(props) {
   }
 
   return (
-      <Row style={{ marginTop: 34, marginBottom: 34, height: "100%" }}>
-        <Col span={24} style={{height: "100%"}}>
-          <Card>
+      <Row style={{ marginTop: 34, marginBottom: 34 } }>
+        <Col span={24}>
+          <Card title={t("loginTitle")} headStyle={{textAlign: "center"}}>
             <Form
               name="basic"
               labelCol={{ span: 24 / 3 }}
