@@ -1,4 +1,4 @@
-const apiendpoint = process.env.API_URL || 'http://localhost:8000';
+const apiendpoint = process.env.REACT_APP_API_URL;
 
 class KeywordsConnector {
   constructor(text) {
