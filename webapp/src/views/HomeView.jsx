@@ -11,10 +11,13 @@ const contentStyle = {
 const carouselContentStyle = {
   textAlign: "center",
   borderRadius: "20px",
+  marginLeft: "10%",
+  marginRight: "10%",
+
 };
 
 const cardStyle = {
-  marginTop: "1%",
+  marginTop: "5%",
   background: "lightgrey",
   border: "lightgrey",
   textAlign: "center",
@@ -44,7 +47,7 @@ function HomeView() {
   return (
     <Row gutter={[32, 32]}>
       <Col span={16} xs={24} sm={24} md={24} lg={16} xl={16} xxl={16}>
-        <Carousel effect="fade" autoplay>
+        <Carousel dotPosition="left" effect="fade" autoplay>
           <div>
             <Row style={contentStyle} align={"middle"} justify={"center"}>
               <Col>
@@ -52,7 +55,6 @@ function HomeView() {
                   style={carouselContentStyle}
                   cover={<img alt="Uniovi" src="homeimg/uniovilogobig.jpg" />}
                 >
-                  <Meta style={carouselContentStyle} />
                 </Card>
               </Col>
             </Row>
@@ -64,7 +66,6 @@ function HomeView() {
                   style={carouselContentStyle}
                   cover={<img alt="EII" src="homeimg/eiilogobig.jpg" />}
                 >
-                  <Meta style={carouselContentStyle} />
                 </Card>
               </Col>
             </Row>
@@ -74,7 +75,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="EII" src="homeimg/eiilogobig.jpg" />}
+                  cover={<img alt="Process text example" src="homeimg/processTextExample.jpg" />}
                 >
                   <Meta style={carouselContentStyle} title={t("processHome")} description={t("processHomeDesc")} />
                 </Card>
@@ -86,7 +87,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="EII" src="homeimg/eiilogobig.jpg" />}
+                  cover={<img alt="Select kewywords example" src="homeimg/selectKeywordsExample.jpg" />}
                 >
                   <Meta
                     style={carouselContentStyle}
@@ -102,7 +103,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="EII" src="homeimg/eiilogobig.jpg" />}
+                  cover={<img alt="Select questions example" src="homeimg/selectQuestionsExample.jpg" />}
                 >
                   <Meta
                     style={carouselContentStyle}

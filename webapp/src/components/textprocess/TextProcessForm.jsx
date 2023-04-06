@@ -8,14 +8,19 @@ const { TextArea } = Input;
 const maxChars = 70000;
 
 const textAreaStyle = {
-  height: 200,
+  height: 275,
   resize: "none",
-  padding: "1%",
-  margin: "1%",
+  paddingLeft: "1%",
+  paddingRight: "1%",
+  paddingBottom: "0.5%",
+  marginLeft: "1%",
+  marginRight: "1%",
+  marginBottom: "0.5%",
+
 };
 const buttonsStyle = {
-  paddingRight: "2%",
-  paddingLeft: "2%",
+  paddingRight: "2.5%",
+  paddingLeft: "2.5%",
   marginBottom: "1%",
 }
 

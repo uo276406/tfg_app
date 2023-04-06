@@ -1,8 +1,8 @@
 {
 
-    "processHome": "Input the text you want",
-    "keywordsHome": "Select the most important keywords",
-    "questionsHome": "Manage the most interesting questions",
+    "processHome": "1st. Input the text you want",
+    "keywordsHome": "2nd. Select the most important keywords",
+    "questionsHome": "3rd. Manage the most interesting questions",
     "startButton": "Get started!",
     "textHome1": "This application borns due to a final degree project based on keyword extraction on schollar texts.",
     "textHome2": "Here you will be able to enjoy some features in order to generate exam questions from your texts... Obviously it is not magic 😉 (Althought it seems to be). It is based on a graph system that scores texts' words. You can try it now pressing down the button.",
