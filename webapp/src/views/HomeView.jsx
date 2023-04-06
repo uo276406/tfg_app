@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 const contentStyle = {
   color: "#fff",
-  height: "35em",
+  height: "37em",
   background: "#001529",
 };
 
@@ -48,11 +48,50 @@ function HomeView() {
           <div>
             <Row style={contentStyle} align={"middle"} justify={"center"}>
               <Col>
-                <Card style={carouselContentStyle} cover={<img alt="Uniovi" src="uniovilogobig.jpg" />}>
-                  <Meta
+                <Card
                   style={carouselContentStyle}
-                    title={t("uniovi")}
-                    description="www.uniovi.es"
+                  cover={<img alt="Uniovi" src="uniovilogobig.jpg" />}
+                >
+                  <Meta style={carouselContentStyle} />
+                </Card>
+              </Col>
+            </Row>
+          </div>
+          <div>
+            <Row style={contentStyle} align={"middle"} justify={"center"}>
+              <Col>
+                <Card
+                  style={carouselContentStyle}
+                  cover={<img alt="EII" src="eiilogobig.jpg" />}
+                >
+                  <Meta style={carouselContentStyle} />
+                </Card>
+              </Col>
+            </Row>
+          </div>
+          <div>
+            <Row style={contentStyle} align={"middle"} justify={"center"}>
+              <Col>
+                <Card
+                  style={carouselContentStyle}
+                  cover={<img alt="EII" src="eiilogobig.jpg" />}
+                >
+                  <Meta style={carouselContentStyle} title={t("processHome")} description={t("processHomeDesc")} />
+                </Card>
+              </Col>
+            </Row>
+          </div>
+          <div>
+            <Row style={contentStyle} align={"middle"} justify={"center"}>
+              <Col>
+                <Card
+                  style={carouselContentStyle}
+                  cover={<img alt="EII" src="eiilogobig.jpg" />}
+                >
+                  <Meta
+                    style={carouselContentStyle}
+                    title={t("keywordsHome")}
+                    description={t("keywordsHomeDesc")}
                   />
                 </Card>
               </Col>
@@ -61,43 +100,16 @@ function HomeView() {
           <div>
             <Row style={contentStyle} align={"middle"} justify={"center"}>
               <Col>
-                <Card style={carouselContentStyle} cover={<img alt="EII" src="eiilogobig.jpg" />}>
-                  <Meta
+                <Card
                   style={carouselContentStyle}
-                    title={t("eii")}
-                    description="www.instagram.com"
+                  cover={<img alt="EII" src="eiilogobig.jpg" />}
+                >
+                  <Meta
+                    style={carouselContentStyle}
+                    title={t("questionsHome")}
+                    description={t("questionsHomeDesc")}
                   />
                 </Card>
-              </Col>
-            </Row>
-          </div>
-          <div>
-            <Row style={contentStyle}>
-              <Col style={carouselContentStyle} span={12}>
-                <h3> {t("processHome")} </h3>
-              </Col>
-              <Col style={carouselContentStyle} span={12}>
-                <h3> </h3>
-              </Col>
-            </Row>
-          </div>
-          <div>
-            <Row style={contentStyle}>
-              <Col style={carouselContentStyle} span={12}>
-                <h3> {t("keywordsHome")} </h3>
-              </Col>
-              <Col style={carouselContentStyle} span={12}>
-                <h3> </h3>
-              </Col>
-            </Row>
-          </div>
-          <div>
-            <Row style={contentStyle}>
-              <Col style={carouselContentStyle} span={12}>
-                <h3> {t("questionsHome")}</h3>
-              </Col>
-              <Col style={carouselContentStyle} span={12}>
-                <h3> </h3>
               </Col>
             </Row>
           </div>

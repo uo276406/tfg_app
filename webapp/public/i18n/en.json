@@ -6,6 +6,9 @@
     "startButton": "Get started!",
     "textHome1": "This application borns due to a final degree project based on keyword extraction on schollar texts.",
     "textHome2": "Here you will be able to enjoy some features in order to generate exam questions from your texts... Obviously it is not magic 😉 (Althought it seems to be). It is based on a graph system that scores texts' words. You can try it now pressing down the button.",
+    "processHomeDesc": "Write, upload and edit your text throught out an interactive user interface.",
+    "keywordsHomeDesc": "Select, add, delete and edit the most interesting keywords.",
+    "questionsHomeDesc": "Edit, export and manage the questions extracted from the text.",
 
     "about": "About",
     "doc": "Documentation",

@@ -3,6 +3,12 @@
     "processHome": "Procese sus textos",
     "keywordsHome": "Selecccione las palabras clave que quiera",
     "questionsHome": "Gestione aquellas preguntas más interesantes",
+    "startButton": "¡Comenzar!",
+    "textHome1": "Esta aplicación parte de un proyecto de fin de grado basado en la extracción de palabras clave de textos educativos.",
+    "textHome2": "Aquí podrá acceder a múltiples funcionalidades que le permitirán generar preguntas a partir de los textos que introduzca... Obviamente no es magia 😉 (aunque parezca). Se utiliza un sistema basado en puntuación de palabras de grafos. Puede comenzar y probar la aplicación haciendo click en el botón.",
+    "processHomeDesc": "Introduzca y edite el texto con el que desee generar preguntas, puede escribirlo o subirlo con un fichero.",
+    "keywordsHomeDesc": "Seleccione, añada, edite y elimine aquellas palabras más importantes de entre las encontradas.",
+    "questionsHomeDesc": "Edite, exporte y gestione aquellas preguntas más interesantes y crea que puedan ser más útiles.",
 
     "about": "Sobre mí",
     "doc": "Documentacion",
@@ -16,9 +22,6 @@
     "inputPasswordCompulsory": "Introduzca su contraseña",
     "password": "Contraseña",
     "loginTitle": "Inicie sesión para disfrutar de todas las carcaterísticas. 😀",
-    "startButton": "¡Comenzar!",
-    "textHome1": "Esta aplicación parte de un proyecto de fin de grado basado en la extracción de palabras clave de textos educativos.",
-    "textHome2": "Aquí podrá acceder a múltiples funcionalidades que le permitirán generar preguntas a partir de los textos que introduzca... Obviamente no es magia 😉 (aunque parezca). Se utiliza un sistema basado en puntuación de palabras de grafos. Puede comenzar y probar la aplicación haciendo click en el botón.",
 
     "name": "Nombre",
     "inputName": "Introduzca su nombre",
