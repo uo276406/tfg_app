@@ -20,13 +20,17 @@ function App() {
   // for not using Layout.Header, Layout.Footer, etc...
   const { Header, Content } = Layout;
 
+  const contentStyle = {
+    backgroundColor: "lightGrey"
+  }
+
   return (
     <Layout className="layout">
       <Header>
         <NavBarApp />
       </Header>
 
-      <Content style={{ padding: "0 20px", backgroundColor: "lightGrey" }}>
+      <Content style={contentStyle}>
         <Routes>
           <Route path="/" element={<HomeView />} />
 

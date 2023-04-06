@@ -3,11 +3,11 @@ import { Card, Checkbox, Form } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import KeywordEditForm from "./KeywordEditForm";
 
-
 const { Meta } = Card;
 
-function KeywordCard(props) {
+const cardStyle = { margin: "0.5%", textAlign: "center" };
 
+function KeywordCard(props) {
   // Chckboxes de selección ------------------------------------------------------
   function handleSelect() {
     const keywordSelected = {
@@ -46,7 +46,7 @@ function KeywordCard(props) {
 
   return (
     <Card
-      style={{ margin: "0.5%", textAlign: "center" }}
+      style={cardStyle}
       actions={[
         <EditOutlined
           key="editKeyword"

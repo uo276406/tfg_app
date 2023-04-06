@@ -7,6 +7,18 @@ import { useTranslation } from "react-i18next";
 const { TextArea } = Input;
 const maxChars = 70000;
 
+const textAreaStyle = {
+  height: 200,
+  resize: "none",
+  padding: "1%",
+  margin: "1%",
+};
+const buttonsStyle = {
+  paddingRight: "2%",
+  paddingLeft: "2%",
+  marginBottom: "1%",
+}
+
 function TextProcessForm(props) {
   const { t } = useTranslation();
   const [text, setText] = useState("");
@@ -23,8 +35,7 @@ function TextProcessForm(props) {
     beforeUpload: (file) => {
       if (file.size > maxChars) {
         message.error(`${file.name}` + t("tooBig"));
-      }
-      else{
+      } else {
         const reader = new FileReader();
         reader.onload = (e) => {
           setText(e.target.result);
@@ -33,8 +44,7 @@ function TextProcessForm(props) {
         message.success(`${file.name}` + t("sucessfulUpload"));
       }
       return false;
-    }
-    
+    },
   };
 
   useEffect(() => {
@@ -68,16 +78,12 @@ function TextProcessForm(props) {
 
   return (
     <div>
-      <Row justify={"end"} gutter={[16, 16]} style={{ paddingBottom: "2%" }}>
-        <Col span={24}>
+      <Row justify={"end"} gutter={[16, 16]} >
+        <Col span={24} >
           <TextArea
             showCount
             maxLength={maxChars}
-            style={{
-              height: 200,
-              resize: "none",
-              marginBottom: "1%",
-            }}
+            style={textAreaStyle}
             placeholder={t("textAreaPlaceHolder")}
             name="TextToProcess"
             value={text}
@@ -86,12 +92,12 @@ function TextProcessForm(props) {
             }}
           />
         </Col>
-        <Col span={6}>
+        <Col span={6} style={buttonsStyle}>
           <Upload {...uploadProps}>
             <Button icon={<UploadOutlined />}>{t("uploadButton")}</Button>
           </Upload>
         </Col>
-        <Col span={18}>
+        <Col span={18} style={buttonsStyle}>
           <Row justify={"end"} gutter={[32, 32]}>
             <Col>
               <Button

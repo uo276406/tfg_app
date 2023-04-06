@@ -14,6 +14,16 @@ const justifyButtonsBottom = {
   xxxl: "end",
 };
 
+const keywordsListStyle = {
+  paddingRight: "1%",
+  paddingLeft: "1%",
+};
+
+const buttonsStyle = {
+  paddingRight: "2%",
+  marginBottom: "1%",
+}
+
 function SelectKeywordsForm(props) {
 
   const { t } = useTranslation();
@@ -41,7 +51,7 @@ function SelectKeywordsForm(props) {
 
   return (
     <div>
-      <Row gutter={[16, 16]} style={{ paddingBottom: "2%" }}>
+      <Row gutter={[16, 16]} style={keywordsListStyle}>
         <Col span={24}>
           <KeywordCardList
             keywordsFound={props.keywordsFound.map((k) => {
@@ -54,7 +64,7 @@ function SelectKeywordsForm(props) {
       <Row
         justify={justifyButtonsBottom}
         gutter={[8, 8]}
-        style={{ paddingBottom: "1%" }}
+        style={buttonsStyle}
       >
         <Col>
           <Button

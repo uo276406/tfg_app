@@ -2,16 +2,17 @@ import React from "react";
 import { Button, Form, Input, Card, Col, Row } from "antd";
 import { useTranslation } from "react-i18next";
 
+const signinStyle = {
+  margin: "2%",
+};
 
 function SigninView() {
-
   const { t } = useTranslation();
 
-
   return (
-    <Row style={{ marginTop: 34, marginBottom: 34, height: "100%" }}>
+    <Row style={signinStyle}>
       <Col span={24} style={{ height: "100%" }}>
-        <Card title={t("signinTitle")} headStyle={{textAlign: "center"}}>
+        <Card title={t("signinTitle")} headStyle={{ textAlign: "center" }}>
           <Form
             name="basic"
             labelCol={{ span: 24 / 3 }}
@@ -30,9 +31,7 @@ function SigninView() {
             <Form.Item
               label={t("firstSurname")}
               name="surname1"
-              rules={[
-                { required: true, message: t("inputFirstSurname")},
-              ]}
+              rules={[{ required: true, message: t("inputFirstSurname") }]}
             >
               <Input />
             </Form.Item>
@@ -40,9 +39,7 @@ function SigninView() {
             <Form.Item
               label={t("secondSurname")}
               name="surname2"
-              rules={[
-                { required: false, message: t("inputSecondSurname") },
-              ]}
+              rules={[{ required: false, message: t("inputSecondSurname") }]}
             >
               <Input />
             </Form.Item>
@@ -58,7 +55,9 @@ function SigninView() {
             <Form.Item
               label={t("password")}
               name="password"
-              rules={[{ required: true, message: t("inputPasswordCompulsory") }]}
+              rules={[
+                { required: true, message: t("inputPasswordCompulsory") },
+              ]}
             >
               <Input.Password />
             </Form.Item>

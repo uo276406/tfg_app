@@ -13,6 +13,14 @@ const justifyAddButtons = {
   xxxl: "start",
 };
 
+const listStyle = {
+  padding: "1%",
+  borderRadius: "15px",
+  backgroundColor: "white",
+};
+
+const addButtonStyle = { paddingTop: "1%" };
+
 function KeywordCardList(props) {
   const { t } = useTranslation();
 
@@ -176,7 +184,7 @@ function KeywordCardList(props) {
 
   return (
     <div>
-      <Row gutter={[16, 16]} style={{ paddingBottom: "2%" }}>
+      <Row gutter={[16, 16]}>
         <Col span={10}>
           <Input
             value={searchTerm}
@@ -209,14 +217,7 @@ function KeywordCardList(props) {
           </Checkbox>
         </Col>
         <Col span={24}>
-          <Row
-            justify={"center"}
-            style={{
-              padding: "2%",
-              borderRadius: "15px",
-              backgroundColor: "white",
-            }}
-          >
+          <Row justify={"center"} style={listStyle}>
             {getSearchedTerms().length > 0 ? (
               getSearchedTerms().map((keyword) => {
                 return (
@@ -234,11 +235,7 @@ function KeywordCardList(props) {
           </Row>
         </Col>
       </Row>
-      <Row
-        justify={justifyAddButtons}
-        gutter={[8, 8]}
-        style={{ paddingBottom: "1%" }}
-      >
+      <Row justify={justifyAddButtons} gutter={[8, 8]} style={addButtonStyle}>
         <Col>
           <Input
             onChange={(event) => activateButtonAdd(event)}
