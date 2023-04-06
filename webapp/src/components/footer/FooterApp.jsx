@@ -20,14 +20,14 @@ function FooterApp() {
         <Col span={6} xs={24} sm={12} md={8} lg={8} xl={8} xxl={6}>
           <Row justify={"center"}>
             <Link href="https://www.uniovi.es/">
-              <img src="uniovilogo.png" alt={t("uniovi")} />
+              <img src="footerimg/uniovilogo.png" alt={t("uniovi")} />
             </Link>
           </Row>
         </Col>
         <Col span={6} xs={24} sm={12} md={8} lg={8} xl={8} xxl={6}>
           <Row justify={"center"}>
             <Link href="https://ingenieriainformatica.uniovi.es/">
-              <img src="eiilogo.png" alt={t("eii")} />
+              <img src="footerimg/eiilogo.png" alt={t("eii")} />
             </Link>
           </Row>
         </Col>

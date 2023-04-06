@@ -50,7 +50,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="Uniovi" src="uniovilogobig.jpg" />}
+                  cover={<img alt="Uniovi" src="homeimg/uniovilogobig.jpg" />}
                 >
                   <Meta style={carouselContentStyle} />
                 </Card>
@@ -62,7 +62,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="EII" src="eiilogobig.jpg" />}
+                  cover={<img alt="EII" src="homeimg/eiilogobig.jpg" />}
                 >
                   <Meta style={carouselContentStyle} />
                 </Card>
@@ -74,7 +74,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="EII" src="eiilogobig.jpg" />}
+                  cover={<img alt="EII" src="homeimg/eiilogobig.jpg" />}
                 >
                   <Meta style={carouselContentStyle} title={t("processHome")} description={t("processHomeDesc")} />
                 </Card>
@@ -86,7 +86,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="EII" src="eiilogobig.jpg" />}
+                  cover={<img alt="EII" src="homeimg/eiilogobig.jpg" />}
                 >
                   <Meta
                     style={carouselContentStyle}
@@ -102,7 +102,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="EII" src="eiilogobig.jpg" />}
+                  cover={<img alt="EII" src="homeimg/eiilogobig.jpg" />}
                 >
                   <Meta
                     style={carouselContentStyle}
