@@ -5,6 +5,7 @@ from spacy.lang.en.stop_words import STOP_WORDS
 
 class Scorer:
     """Extract keywords from text"""
+
     def __init__(self, damping_factor=0.85, convergence_threshold=1e-5, iteration_steps=50, score_threshold=0, processor=None, graph=None):
         self.damping_factor = damping_factor  # usually  .85
         self.threshold = convergence_threshold
@@ -14,6 +15,7 @@ class Scorer:
         self.graph = graph
 
     """Gives a score for every word which has been found in the vocabulary"""
+
     def score_vocabulary_words(self):
         vocab_len = len(self.processor.vocabulary)
 
@@ -30,21 +32,25 @@ class Scorer:
 
                 for j in range(0, vocab_len):
                     if self.graph.weighted_edge[i][j] != 0:
-                        summation += (self.graph.weighted_edge[i][j] / inout[j]) * self.graph.score[j]
-                self.graph.score[i] = (1 - self.damping_factor) + self.damping_factor * summation
+                        summation += (self.graph.weighted_edge[i]
+                                      [j] / inout[j]) * self.graph.score[j]
+                self.graph.score[i] = (
+                    1 - self.damping_factor) + self.damping_factor * summation
 
             if np.sum(np.fabs(prev_score - self.graph.score)) <= self.threshold:  # convergence condition
                 print("Converging at iteration " + str(iteration) + "...")
                 break
 
     """Gets keyphrases susceptible of being keywords"""
+
     def get_candidate_keyphrases(self):
         candidate_phrases = []
         candidate_phrase = " "
         for word in self.processor.lemmatized_text:
             if word in self.processor.stopwords or word in STOP_WORDS:
                 if candidate_phrase != " " and candidate_phrase in self.processor.cleaned_text:
-                    candidate_phrases.append(str(candidate_phrase).strip().split())
+                    candidate_phrases.append(
+                        str(candidate_phrase).strip().split())
                 candidate_phrase = " "
             elif word not in self.processor.stopwords and word not in STOP_WORDS:
                 candidate_phrase += str(word)
@@ -68,6 +74,7 @@ class Scorer:
         return unique_phrases
 
     """Score the keyphrases selected"""
+
     def score_keyphrases(self, phrases):
         phrase_scores = []
         keywords = []
@@ -78,18 +85,21 @@ class Scorer:
                 keyword += str(word)
                 keyword += " "
                 if word in self.processor.vocabulary:
-                    phrase_score += self.graph.score[self.processor.vocabulary.index(word)]
+                    phrase_score += self.graph.score[self.processor.vocabulary.index(
+                        word)]
 
             phrase_scores.append(phrase_score)
             keywords.append(keyword.strip())
 
         for i in range(len(keywords)):
-            if phrase_scores[i] < self.score_threshold:  # Only return keywords with score 0.2 or more
+            # Only return keywords with score 0.2 or more
+            if phrase_scores[i] < self.score_threshold:
                 keywords.pop(i)
 
         return keywords, phrase_scores
 
     """Returns the keywords of the text"""
+
     def get_keywords(self):
         # calculates the punctuation
         self.score_vocabulary_words()
@@ -109,6 +119,3 @@ class Scorer:
             print(str(keywords[sorted_index[i]]))
         """
         return keywords
-
-
-

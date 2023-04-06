@@ -39,14 +39,18 @@ class TextProcessor:
         lemmatized_text = []
         for word in self.pos_tag:
             if word[1] in adjective_tags:
-                lemmatized_text.append(str(wordnet_lemmatizer.lemmatize(word[0], pos="a")))  # "a" tels the function that it has to lemmatize an adjective
+                # "a" tels the function that it has to lemmatize an adjective
+                lemmatized_text.append(
+                    str(wordnet_lemmatizer.lemmatize(word[0], pos="a")))
             else:
-                lemmatized_text.append(str(wordnet_lemmatizer.lemmatize(word[0])))  # default POS = noun
+                # default POS = noun
+                lemmatized_text.append(
+                    str(wordnet_lemmatizer.lemmatize(word[0])))
         self.lemmatized_text = lemmatized_text
 
     def set_stopwords(self):
-        #wanted_pos = ['NN', 'NNS', 'NNP', 'NNPS', 'JJ', 'JJR', 'JJS'] # Sustantivos y adjetivos
-        wanted_pos = ['NN', 'NNS', 'NNP', 'NNPS'] # Sustantivos
+        # wanted_pos = ['NN', 'NNS', 'NNP', 'NNPS', 'JJ', 'JJR', 'JJS'] # Sustantivos y adjetivos
+        wanted_pos = ['NN', 'NNS', 'NNP', 'NNPS']  # Sustantivos
         for word in self.pos_tag:
             if word[1] not in wanted_pos:
                 self.stopwords.append(word[0])

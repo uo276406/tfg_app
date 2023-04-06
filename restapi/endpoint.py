@@ -9,13 +9,14 @@ app = FastAPI(title="KeywordExtractorAPI", version="v1.0")
 # Se permiten todos los orígenes
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'], 
+    allow_origins=['*'],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # Modelos de datos ----------------------------------------
+
 
 class Text(BaseModel):
     text_body: str

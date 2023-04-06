@@ -31,14 +31,19 @@ class Graph:
                         window = self.processed_text[window_start:window_end]
 
                         if (self.vocabulary[i] in window) and (self.vocabulary[j] in window):
-                            index_of_i = window_start + window.index(self.vocabulary[i])
-                            index_of_j = window_start + window.index(self.vocabulary[j])
+                            index_of_i = window_start + \
+                                window.index(self.vocabulary[i])
+                            index_of_j = window_start + \
+                                window.index(self.vocabulary[j])
 
                             # index_of_x is the absolute position of the xth term in the window
                             # (counting from 0)
                             # in the processed_text
 
                             if [index_of_i, index_of_j] not in self.covered_coocurrences:
-                                self.weighted_edge[i][j] += 1 / math.fabs(index_of_i - index_of_j)
-                                self.weighted_edge[j][i] += 1 / math.fabs(index_of_i - index_of_j)
-                                self.covered_coocurrences.append([index_of_i, index_of_j])
+                                self.weighted_edge[i][j] += 1 / \
+                                    math.fabs(index_of_i - index_of_j)
+                                self.weighted_edge[j][i] += 1 / \
+                                    math.fabs(index_of_i - index_of_j)
+                                self.covered_coocurrences.append(
+                                    [index_of_i, index_of_j])
