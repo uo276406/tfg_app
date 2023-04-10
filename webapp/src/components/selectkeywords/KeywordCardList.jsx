@@ -1,4 +1,4 @@
-import { useState }  from "react";
+import { useState } from "react";
 import { Button, Row, Col, Input, Checkbox, message, Tooltip } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import KeywordCard from "./KeywordCard";
@@ -30,7 +30,11 @@ function KeywordCardList(props) {
   }
 
   // Lista de palabras clave totales ---------------------------------------------------
-  let [keywordsList, setKeywordsList] = useState([...props.keywordsFound]);
+  let [keywordsList, setKeywordsList] = useState([
+    ...props.keywordsFound.map((k) => {
+      return { index: k.index, value: k.value, selected: false };
+    }),
+  ]);
 
   // Lista de palabras clave seleccionadas ---------------------------------------------
 
@@ -43,7 +47,7 @@ function KeywordCardList(props) {
         elem.selected = keyword.selected;
       }
     }
-    props.handleKeywordsSelected(keywordsList.filter((k) => k.selected))
+    props.handleKeywordsSelected(keywordsList.filter((k) => k.selected));
     updateCheckAllButton();
     handleActivateButtons(selectedKeywords.length);
   }
@@ -150,7 +154,7 @@ function KeywordCardList(props) {
   function addNewKeyword() {
     setKeywordsList((prevKeywordsList) => {
       let toAdd = {
-        key: Math.max(...prevKeywordsList.map((k) => k.key)) + 1,
+        index: Math.max(...prevKeywordsList.map((k) => k.index)) + 1,
         value: keywordToAdd,
         selected: false,
       };
@@ -225,7 +229,8 @@ function KeywordCardList(props) {
                 return (
                   <KeywordCard
                     updateSelectedKeywords={updateSelectedKeywords}
-                    key={keyword.key}
+                    key={keyword.index}
+                    index={keyword.index}
                     value={keyword.value}
                     selected={keyword.selected}
                   />

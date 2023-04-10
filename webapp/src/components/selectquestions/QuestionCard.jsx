@@ -13,8 +13,6 @@ function QuestionCard(props) {
   // Enucnciado ------------------------------------------------------------------
   const [questionAnswer, setQuestionAnswer] = useState("Enunciado");
 
-  // Opciones --------------------------------------------------------------------
-  const [options, setOptions] = useState([]);
 
   return (
     <Card

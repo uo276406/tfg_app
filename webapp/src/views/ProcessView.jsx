@@ -29,6 +29,7 @@ function ProcessView() {
   function handleKeywordsFound(textSent, keywordsFound){
     setText(textSent)
     setKeywordsFound(keywordsFound)
+    console.log(keywordsFound)
   }
 
   // Recoge las preguntas devueltas -------------------------------------------------------------

@@ -12,7 +12,7 @@ function KeywordCard(props) {
   // Chckboxes de selección ------------------------------------------------------
   function handleSelect() {
     const keywordSelected = {
-      key: props.key,
+      key: props.index,
       value: props.value,
       selected: !props.selected,
     };
@@ -57,7 +57,7 @@ function KeywordCard(props) {
         />,
         <Checkbox
           onChange={handleSelect}
-          key={props.key}
+          key={props.index}
           checked={props.selected}
         />,
       ]}

@@ -32,6 +32,7 @@ function SelectKeywordsForm(props) {
   // Botón de generar preguntas -----------------------------------------------
   const [enabledGenerateButton, setEnabledGenerateButton] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  // Envía la petición para que la restapi genere preguntas -------------------
   const sendApiMessage = async () => {
     setIsLoading(true);
     let connector = new QuestionsConnector(props.text, selectedKeywords);
@@ -53,9 +54,7 @@ function SelectKeywordsForm(props) {
       <Row gutter={[16, 16]} style={keywordsListStyle}>
         <Col span={24}>
           <KeywordCardList
-            keywordsFound={props.keywordsFound.map((k) => {
-              return { key: k.index, value: k.value, selected: false };
-            })}
+            keywordsFound={props.keywordsFound}
             enableGenerateQuestionButton={setEnabledGenerateButton}
             handleKeywordsSelected={handleKeywordsSelected}
           />
