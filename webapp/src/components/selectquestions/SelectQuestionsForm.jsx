@@ -1,34 +1,33 @@
-import { useState } from "react";
 import { Button, Row, Col } from "antd";
 import { DownloadOutlined, LeftOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import QuestionCardList from "./QuestionCardList";
 
 const justifyButtonsBottom = {
-    xs: "center",
-    sm: "center",
-    md: "end",
-    lg: "end",
-    xl: "end",
-    xxxl: "end",
-  };
-  
-  const questionsListStyle = {
-    paddingRight: "1%",
-    paddingLeft: "1%",
-  };
+  xs: "center",
+  sm: "center",
+  md: "start",
+  lg: "start",
+  xl: "start",
+  xxxl: "start",
+};
 
-  const buttonsStyle = {
-    paddingRight: "2%",
-    paddingTop: "1%",
-    marginBottom: "1%",
-  }
+const questionsListStyle = {
+  paddingRight: "1%",
+  paddingLeft: "1%",
+};
 
-function SelectQuestionsForm(props){
+const buttonsStyle = {
+  paddingLeft: "2%",
+  paddingTop: "1%",
+  marginBottom: "1%",
+};
 
-    const { t } = useTranslation();
+function SelectQuestionsForm(props) {
+  const { t } = useTranslation();
 
-    return (<div>
+  return (
+    <div>
       <Row gutter={[16, 16]} style={questionsListStyle}>
         <Col span={24}>
           <QuestionCardList questions={props.questions}></QuestionCardList>
@@ -51,15 +50,13 @@ function SelectQuestionsForm(props){
           </Button>
         </Col>
         <Col>
-          <Button
-            type="primary"
-            icon={<DownloadOutlined />}
-          >
+          <Button type="primary" icon={<DownloadOutlined />}>
             {t("exportButton")}
           </Button>
         </Col>
       </Row>
-    </div>)
+    </div>
+  );
 }
 
-export default SelectQuestionsForm
+export default SelectQuestionsForm;

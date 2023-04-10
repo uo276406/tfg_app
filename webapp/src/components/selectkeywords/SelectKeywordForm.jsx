@@ -43,7 +43,7 @@ function SelectKeywordsForm(props) {
 
   // Almacena palabras seleccionadas ----------------------------------------------
   const [selectedKeywords, setSelectedKeywords] = useState([]);
-  function handleKeywordsSelected(selectedKeywords) {
+  const handleKeywordsSelected = (selectedKeywords) => {
     setSelectedKeywords([
       ...selectedKeywords.map((k) => {
         return { value: k.value };

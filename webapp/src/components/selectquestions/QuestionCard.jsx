@@ -1,6 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { Card, Typography, Tag, Input, Space, Tooltip, theme } from "antd";
-import { PlusOutlined, CheckCircleOutlined, CloseCircleOutlined  } from "@ant-design/icons";
+import { Card, Typography, Tag, Input, Space, message } from "antd";
+import {
+  PlusOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+} from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 const { Paragraph } = Typography;
 
@@ -10,17 +15,48 @@ const questionCardStyle = {
   margin: "1%",
 };
 
+const questionTextStyle = {
+  fontSize: "18px"
+}
+
+const tagInputStyle = {
+  width: 78,
+  verticalAlign: "top",
+};
+
+const tagPlusStyle = {
+  borderStyle: "dashed",
+  fontSize: "15px"
+};
+
+const tagsAdded = {
+  userSelect: "none",
+  fontSize: "16px"
+}
+
 function QuestionCard(props) {
+  const { t } = useTranslation();
+  const [messageApi, contextHolder] = message.useMessage();
+
   // Enucnciado ------------------------------------------------------------------
-  const [questionAnswer, setQuestionAnswer] = useState("Enunciado");
+  const [questionText, setQuestionText] = useState(props.questionText);
+
+  const handleModifyQuestionText = (text) => {
+    if (text.length === 0) {
+      emptyOption();
+    }
+    else{
+      setQuestionText(text);
+    }
+  }
 
   // Opciones --------------------------------------------------------------------
-  const { token } = theme.useToken();
   const [tags, setTags] = useState([
     ...props.options.map((o) => {
       return o.value;
     }),
   ]);
+
   const [corrects, setCorrects] = useState([
     ...props.options.map((o) => {
       return o.correct;
@@ -66,7 +102,20 @@ function QuestionCard(props) {
   };
 
   const handleEditInputChange = (e) => {
-    setEditInputValue(e.target.value);
+    if (e.target.value.length === 0) {
+      emptyOption();
+    }
+    else{
+      setEditInputValue(e.target.value);
+    }
+  };
+
+  const emptyOption = () => {
+    messageApi.open({
+      type: "error",
+      content: t("optionEmpty"),
+      duration: 5,
+    });
   };
 
   const handleEditInputConfirm = () => {
@@ -77,91 +126,90 @@ function QuestionCard(props) {
     setInputValue("");
   };
 
-  const tagInputStyle = {
-    width: 78,
-    verticalAlign: "top",
-  };
-  const tagPlusStyle = {
-    background: token.colorBgContainer,
-    borderStyle: "dashed",
-  };
-
   return (
-    <Card
-      size="small"
-      title={
-        <Paragraph
-          editable={{
-            onChange: setQuestionAnswer,
-          }}
-        >
-          {props.questionText}
-        </Paragraph>
-      }
-      style={questionCardStyle}
-    >
-      <Space size={[0, 8]} wrap>
+    <>
+      {contextHolder}
+      <Card
+        size="small"
+        title={
+          <Paragraph
+            editable={{
+              onChange: handleModifyQuestionText,
+            }}
+            style = {questionTextStyle}
+          >
+            {questionText}
+          </Paragraph>
+        }
+        style={questionCardStyle}
+      >
         <Space size={[0, 8]} wrap>
-          {tags.map((option, index) => {
-            if (editInputIndex === index) {
-              return (
-                <Input
-                  ref={editInputRef}
+          <Space size={[0, 8]} wrap>
+            {tags.map((option, index) => {
+              if (editInputIndex === index) {
+                return (
+                  <Input
+                    ref={editInputRef}
+                    key={option}
+                    size="small"
+                    style={tagInputStyle}
+                    value={editInputValue}
+                    onChange={handleEditInputChange}
+                    onBlur={handleEditInputConfirm}
+                    onPressEnter={handleEditInputConfirm}
+                  />
+                );
+              }
+              const tagElem = (
+                <Tag
                   key={option}
-                  size="small"
-                  style={tagInputStyle}
-                  value={editInputValue}
-                  onChange={handleEditInputChange}
-                  onBlur={handleEditInputConfirm}
-                  onPressEnter={handleEditInputConfirm}
-                />
-              );
-            }
-            const tagElem = (
-              <Tag
-                key={option}
-                closable={corrects[index] ? false : true}
-                color={corrects[index] ? "success": "error"}
-                icon={corrects[index] ? <CheckCircleOutlined /> : <CloseCircleOutlined />}
-                style={{
-                  userSelect: "none",
-                }}
-                onClose={() => handleClose(option)}
-              >
-                <span
-                  onDoubleClick={(e) => {
-                    if (index !== 0) {
-                      setEditInputIndex(index);
-                      setEditInputValue(option);
-                      e.preventDefault();
-                    }
-                  }}
+                  closable={corrects[index] ? false : true}
+                  color={corrects[index] ? "success" : "error"}
+                  icon={
+                    corrects[index] ? (
+                      <CheckCircleOutlined />
+                    ) : (
+                      <CloseCircleOutlined />
+                    )
+                  }
+                  style={tagsAdded}
+                  onClose={() => handleClose(option)}
                 >
-                  {option}
-                </span>
-              </Tag>
-            );
-            return tagElem;
-          })}
+                  <span
+                    onDoubleClick={(e) => {
+                      if (index !== 0) {
+                        setEditInputIndex(index);
+                        setEditInputValue(option);
+                        e.preventDefault();
+                      }
+                    }}
+                  >
+                    {option}
+                  </span>
+                </Tag>
+              );
+              return tagElem;
+            })}
+          </Space>
+          {inputVisible ? (
+            <Input
+              ref={inputRef}
+              type="text"
+              size="small"
+              style={tagInputStyle}
+              value={inputValue}
+              onChange={handleInputChange}
+              onBlur={handleInputConfirm}
+              onPressEnter={handleInputConfirm}
+            />
+          ) : (
+            <Tag style={tagPlusStyle} onClick={showInput}>
+              <PlusOutlined /> {t("addOption")}
+            </Tag>
+          )}
         </Space>
-        {inputVisible ? (
-          <Input
-            ref={inputRef}
-            type="text"
-            size="small"
-            style={tagInputStyle}
-            value={inputValue}
-            onChange={handleInputChange}
-            onBlur={handleInputConfirm}
-            onPressEnter={handleInputConfirm}
-          />
-        ) : (
-          <Tag style={tagPlusStyle} onClick={showInput}>
-            <PlusOutlined /> New Tag
-          </Tag>
-        )}
-      </Space>
-    </Card>
+      </Card>
+    </>
   );
 }
 

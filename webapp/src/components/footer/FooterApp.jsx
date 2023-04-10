@@ -1,6 +1,6 @@
 import Layout from "antd/es/layout/layout";
 import { useTranslation } from "react-i18next";
-import { Row, Col, Space, Typography, Tooltip, Tag } from "antd";
+import { Row, Col, Space, Typography, Tag } from "antd";
 import {
   GithubFilled,
   LinkedinFilled,

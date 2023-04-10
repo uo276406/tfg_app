@@ -40,7 +40,7 @@ function HomeView() {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
-  function navigateToStartProcess() {
+  const navigateToStartProcess = () => {
     navigate("/process");
   }
 

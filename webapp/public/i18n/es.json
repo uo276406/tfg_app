@@ -65,7 +65,9 @@
     "deleteSelected": "Eliminar",
     "searchPlaceholder": "Buscar...",
 
-    "exportButton": "Exportar..."
+    "exportButton": "Exportar...",
+    "addOption": "Añadir opción...",
+    "optionEmpty": "No puede ser vacío"
 
 
 }

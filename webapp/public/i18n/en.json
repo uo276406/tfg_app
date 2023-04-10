@@ -66,5 +66,9 @@
     "deleteSelected": "Delete",
     "searchPlaceholder": "Search...",
 
-    "exportButton": "Export..."
+    "exportButton": "Export...",
+    "addOption": "Add option...",
+    "optionEmpty": "It can't be empty"
+
+
 }

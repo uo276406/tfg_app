@@ -10,7 +10,7 @@ const cardStyle = { margin: "0.5%", textAlign: "center", height: 'auto' };
 function KeywordCard(props) {
 
   // Chckboxes de selección ------------------------------------------------------
-  function handleSelect() {
+  const handleSelect = () => {
     const keywordSelected = {
       key: props.index,
       value: props.value,
@@ -29,13 +29,13 @@ function KeywordCard(props) {
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
 
-  function showModal() {
+  const showModal = () => {
     setVisible(true);
   }
-  function handleCancel() {
+  const handleCancel = () => {
     setVisible(false);
   }
-  function handleModify(values) {
+  const handleModify = (values) => {
     setKeyword([
       {
         name: "keyword",

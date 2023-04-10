@@ -43,7 +43,7 @@ function KeywordCardList(props) {
   let selectedKeywords = keywordsList.filter((k) => k.selected);
   let [countSelected, setCountSelected] = useState(0);
 
-  function updateSelectedKeywords(keyword) {
+  const updateSelectedKeywords = (keyword) => {
     for (let elem of keywordsList) {
       if (isKeywordEqual(elem, keyword)) {
         elem.selected = keyword.selected;
@@ -57,7 +57,7 @@ function KeywordCardList(props) {
   // Botón de eliminar ---------------------------------------------------------
   let [enabledDeleteButton, setEnabledDeleteButton] = useState(false);
 
-  function deleteKeywordsSelected() {
+  const deleteKeywordsSelected = () => {
     setKeywordsList((prevKeywordsList) => {
       for (let i = 0; i < prevKeywordsList.length; i++) {
         if (prevKeywordsList[i].selected) {
@@ -83,7 +83,7 @@ function KeywordCardList(props) {
   };
 
   // Activa botones ------------------------------------------------------------
-  function handleActivateButtons(count) {
+  const handleActivateButtons = (count) => {
     setCountSelected(count);
     if (count > 0) {
       setEnabledDeleteButton(true);
@@ -98,7 +98,7 @@ function KeywordCardList(props) {
   const [indeterminate, setIndeterminate] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
 
-  function activateAll(value) {
+  const activateAll = (value) => {
     setKeywordsList((prevKeywordsList) => {
       for (const k of prevKeywordsList) {
         k.selected = value;
@@ -111,7 +111,7 @@ function KeywordCardList(props) {
       : handleActivateButtons(0);
   }
 
-  function updateCheckAllButton() {
+  const updateCheckAllButton = () => {
     selectedKeywords = keywordsList.filter((k) => k.selected);
     if (
       selectedKeywords.length > 0 &&
@@ -132,11 +132,11 @@ function KeywordCardList(props) {
   const searchedElements = keywordsList;
   const [searchTerm, setSearchTerm] = useState("");
 
-  function editSearchField(event) {
+  const editSearchField = (event) => {
     setSearchTerm(event.target.value);
   }
 
-  function getSearchedTerms() {
+  const getSearchedTerms = () => {
     return searchedElements.filter((keyword) =>
       keyword.value.toLowerCase().includes(searchTerm.toLocaleLowerCase())
     );
@@ -147,13 +147,13 @@ function KeywordCardList(props) {
   const [keywordToAdd, setKeywordToAdd] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
 
-  function activateButtonAdd(event) {
+  const activateButtonAdd = (event) => {
     setKeywordToAdd(event.target.value);
     event.target.value !== ""
       ? setEnabledAddButton(true)
       : setEnabledAddButton(false);
   }
-  function addNewKeyword() {
+  const addNewKeyword = () => {
     setKeywordsList((prevKeywordsList) => {
       let toAdd = {
         index: Math.max(...prevKeywordsList.map((k) => k.index)) + 1,
