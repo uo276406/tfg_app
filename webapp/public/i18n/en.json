@@ -64,5 +64,7 @@
     "backButton": "Back",
     "editFormTitle": "Edit keyword",
     "deleteSelected": "Delete",
-    "searchPlaceholder": "Search..."
+    "searchPlaceholder": "Search...",
+
+    "exportButton": "Export..."
 }

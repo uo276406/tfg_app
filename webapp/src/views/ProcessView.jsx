@@ -7,13 +7,13 @@ import SelectQuestionsForm from "../components/selectquestions/SelectQuestionsFo
 
 function ProcessView() {
   
-  //Maneja los pasos de la página web
+  //Maneja los pasos de la página web ---------------------------------------------------------
   const [step, setStep] = useState(0);
   function getStep(currentStep){
     const steps ={
-      0: <TextProcessForm changeStep={handleStep} onPassStep={handleTextSent} textValue={text}/>,
-      1: <SelectKeywordsForm changeStep={handleStep} textValue={text} keywordsFound={keywordsFound}/>,
-      2: <SelectQuestionsForm />
+      0: <TextProcessForm changeStep={handleStep} handleKeywordsFound={handleKeywordsFound} textValue={text}/>,
+      1: <SelectKeywordsForm changeStep={handleStep} text={text} keywordsFound={keywordsFound} handleQuestions={handleQuestions}/>,
+      2: <SelectQuestionsForm changeStep={handleStep} questions={questions}/>
     }
     return steps[currentStep]
   }
@@ -22,13 +22,19 @@ function ProcessView() {
   }
 
 
-  //Maneja el texto introducido por el usuario y lo envía a la api
+  //Maneja el texto introducido por el usuario y lo envía a la api ---------------------------------
   const [text, setText] = useState('')
-  //Recoge las palabars clave devueltas
+  //Recoge las palabras clave devueltas ------------------------------------------------------------
   const [keywordsFound, setKeywordsFound] = useState([])
-  function handleTextSent(textSent, keywordsFound){
+  function handleKeywordsFound(textSent, keywordsFound){
     setText(textSent)
     setKeywordsFound(keywordsFound)
+  }
+
+  // Recoge las preguntas devueltas -------------------------------------------------------------
+  const [questions, setQuestions] = useState()
+  function handleQuestions(questions) {
+    setQuestions(questions)
   }
 
 

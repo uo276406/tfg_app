@@ -63,7 +63,9 @@
     "backButton": "Volver",
     "editFormTitle": "Edite la palabra clave",
     "deleteSelected": "Eliminar",
-    "searchPlaceholder": "Buscar..."
+    "searchPlaceholder": "Buscar...",
+
+    "exportButton": "Exportar..."
 
 
 }

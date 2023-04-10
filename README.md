@@ -25,4 +25,4 @@ npm install
 npm start
 ```
 
-Deberias ser capaz de acceder a la aplicación en [http://localhost:3000](http://localhost:3000).
+Deberias ser capaz de acceder a la webapp en [http://localhost:3000](http://localhost:3000) y la restapi [http://localhost:8000](http://localhost:8000)

@@ -22,6 +22,10 @@ class Text(BaseModel):
     text_body: str
 
 
+class KeywordsSelected(BaseModel):
+    keywords_selected: list
+
+
 # -------------------------------------------------------------------------------------------------------------------
 
 
@@ -34,3 +38,18 @@ async def root():
 async def find_keywords(text: Text):
     extractor = KeywordExtractor()
     return extractor.extract_keywords(text.text_body)
+
+
+@app.post("/api/v1.0/questions")
+async def generate_questions(text: Text, keywords: KeywordsSelected):
+    return {'questions': [
+        {'enunciado1': ['a', 'b', 'b']},
+        {'enunciado2': ['a', 'b', 'b']}
+    ]}
+
+@app.get("/api/v1.0/questions")
+async def generate_questions():
+    return {'questions': [
+        {'enunciado1': ['a', 'b', 'b']},
+        {'enunciado2': ['a', 'b', 'b']}
+    ]}

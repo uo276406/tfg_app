@@ -16,19 +16,32 @@ const textAreaStyle = {
   marginLeft: "1%",
   marginRight: "1%",
   marginBottom: "0.5%",
-
 };
 const buttonsStyle = {
   paddingRight: "2.5%",
   paddingLeft: "2.5%",
   marginBottom: "1%",
-}
+};
 
 function TextProcessForm(props) {
   const { t } = useTranslation();
   const [text, setText] = useState("");
 
   // Botón upload --------------------------------------------------
+  const loadFile = (file) => {
+    if (file.size > maxChars) {
+      message.error(`${file.name}` + t("tooBig"));
+    } else {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setText(e.target.result);
+      };
+      reader.readAsText(file);
+      message.success(`${file.name}` + t("sucessfulUpload"));
+    }
+    return false;
+  }
+
   const uploadProps = {
     name: "file",
     headers: {
@@ -37,54 +50,30 @@ function TextProcessForm(props) {
     maxCount: 1,
     accept: ".txt",
     listType: "text",
-    beforeUpload: (file) => {
-      if (file.size > maxChars) {
-        message.error(`${file.name}` + t("tooBig"));
-      } else {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setText(e.target.result);
-        };
-        reader.readAsText(file);
-        message.success(`${file.name}` + t("sucessfulUpload"));
-      }
-      return false;
-    },
+    beforeUpload: loadFile,
   };
+
 
   useEffect(() => {
     setText(props.textValue);
   }, [props.textValue]);
 
-  // Carga del botón ------------------------------------------------
-  const [loadings, setLoadings] = useState([]);
-  const enterLoading = (index) => {
-    setLoadings((prevLoadings) => {
-      const newLoadings = [...prevLoadings];
-      newLoadings[index] = true;
-      return newLoadings;
+  // Botón envío de texto ------------------------------------------------
+  const [isLoading, setIsLoading] = useState(false);
+  const sendApiMessage = async () => {
+    setIsLoading(true);
+    let connector = new KeywordsConnector(text);
+    await connector.getKeywords().then((keywordsFetched) => {
+      props.handleKeywordsFound(text, keywordsFetched.keywords);
+      setIsLoading(false);
+      props.changeStep(1);
     });
-    setTimeout(() => {
-      setLoadings((prevLoadings) => {
-        const newLoadings = [...prevLoadings];
-        //Se envía el texto y se recogen las palabras clave
-        let connector = new KeywordsConnector(text);
-        connector.getKeywords().then((keywordsFetched) => {
-          newLoadings[index] = false;
-
-          props.onPassStep(text, keywordsFetched.keywords);
-          // Pasa a la nueva vista
-          props.changeStep(1);
-        });
-        return newLoadings;
-      });
-    }, 100);
-  };
+  }
 
   return (
     <div>
-      <Row justify={"end"} gutter={[16, 16]} >
-        <Col span={24} >
+      <Row justify={"end"} gutter={[16, 16]}>
+        <Col span={24}>
           <TextArea
             showCount
             maxLength={maxChars}
@@ -108,11 +97,9 @@ function TextProcessForm(props) {
               <Button
                 type="primary"
                 icon={<RightOutlined />}
-                loading={loadings[0]}
+                loading={isLoading}
                 disabled={!text}
-                onClick={() => {
-                  enterLoading(0);
-                }}
+                onClick={sendApiMessage}
               >
                 {t("processTextButton")}
               </Button>

@@ -3,6 +3,7 @@ import { Button, Row, Col } from "antd";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import KeywordCardList from "./KeywordCardList";
 import { useTranslation } from "react-i18next";
+import QuestionsConnector from "../../api/questionsconnector";
 
 
 const justifyButtonsBottom = {
@@ -30,24 +31,22 @@ function SelectKeywordsForm(props) {
 
   // Botón de generar preguntas -----------------------------------------------
   const [enabledGenerateButton, setEnabledGenerateButton] = useState(false);
-  const [loadings, setLoadings] = useState([]);
-  const enterLoading = (index) => {
-    setLoadings((prevLoadings) => {
-      const newLoadings = [...prevLoadings];
-      newLoadings[index] = true;
-      return newLoadings;
+  const [isLoading, setIsLoading] = useState(false);
+  const sendApiMessage = async () => {
+    setIsLoading(true);
+    let connector = new QuestionsConnector(props.text, selectedKeywords);
+    await connector.getQuestions().then((questionsFetched) => {
+      props.handleQuestions(questionsFetched);
+      setIsLoading(false);
+      props.changeStep(2);
     });
-    setTimeout(() => {
-      setLoadings((prevLoadings) => {
-        const newLoadings = [...prevLoadings];
-        newLoadings[index] = false;
-        
-        props.changeStep(2);
-        
-        return newLoadings;
-      });
-    }, 6000);
-  };
+  }
+
+  // Almacena palabras seleccionadas ----------------------------------------------
+  const [selectedKeywords, setSelectedKeywords] = useState([])
+  function handleKeywordsSelected(selectedKeywords){
+    setSelectedKeywords(selectedKeywords)
+  }
 
   return (
     <div>
@@ -58,6 +57,7 @@ function SelectKeywordsForm(props) {
               return { key: k.index, value: k.value, selected: false };
             })}
             enableGenerateQuestionButton={setEnabledGenerateButton}
+            handleKeywordsSelected={handleKeywordsSelected}
           />
         </Col>
       </Row>
@@ -81,9 +81,9 @@ function SelectKeywordsForm(props) {
           <Button
             type="primary"
             icon={<RightOutlined />}
-            loading={loadings[0]}
+            loading={isLoading}
             disabled={!enabledGenerateButton}
-            onClick={() => enterLoading(0)}
+            onClick={sendApiMessage}
           >
             {t("generateQuestionsButton")}
           </Button>

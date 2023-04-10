@@ -8,6 +8,7 @@ const { Meta } = Card;
 const cardStyle = { margin: "0.5%", textAlign: "center" };
 
 function KeywordCard(props) {
+
   // Chckboxes de selección ------------------------------------------------------
   function handleSelect() {
     const keywordSelected = {

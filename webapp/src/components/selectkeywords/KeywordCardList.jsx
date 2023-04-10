@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState }  from "react";
 import { Button, Row, Col, Input, Checkbox, message, Tooltip } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import KeywordCard from "./KeywordCard";
@@ -33,6 +33,7 @@ function KeywordCardList(props) {
   let [keywordsList, setKeywordsList] = useState([...props.keywordsFound]);
 
   // Lista de palabras clave seleccionadas ---------------------------------------------
+
   let selectedKeywords = keywordsList.filter((k) => k.selected);
   let [countSelected, setCountSelected] = useState(0);
 
@@ -42,6 +43,7 @@ function KeywordCardList(props) {
         elem.selected = keyword.selected;
       }
     }
+    props.handleKeywordsSelected(keywordsList.filter((k) => k.selected))
     updateCheckAllButton();
     handleActivateButtons(selectedKeywords.length);
   }
