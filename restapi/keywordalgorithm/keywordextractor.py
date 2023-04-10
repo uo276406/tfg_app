@@ -4,11 +4,15 @@ from keywordalgorithm.scorer.keywordscorer import Scorer
 
 
 class KeywordExtractor:
+
+    def __init__(self, text):
+        self.text = text
+
     """Extract keywords from text"""
 
-    def extract_keywords(self, text):
+    def extract_keywords(self):
         # Process the text
-        processor = TextProcessor(text)
+        processor = TextProcessor(self.text)
         processor.process_text()
 
         # nltk.download('averaged_perceptron_tagger')

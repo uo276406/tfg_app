@@ -13,5 +13,5 @@ class Text(BaseModel):
 
 @router.post("/find")
 async def find_keywords(text: Text):
-    extractor = KeywordExtractor()
-    return extractor.extract_keywords(text.text_body)
+    extractor = KeywordExtractor(text.text_body)
+    return extractor.extract_keywords()

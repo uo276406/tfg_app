@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
+from questiongenerator.fillingapsgenerator import FillInGapsGenerator
 
 router = APIRouter()
 
@@ -19,32 +20,6 @@ class TextKeywords(BaseModel):
 
 @router.post("/generate")
 async def generate_questions(text_keywords: TextKeywords):
-    return [
-        {
-            'question': 'blablabla1',
-            'options': [
-                {'value': 'a', 'correct': False},
-                {'value': 'b', 'correct': False},
-                {'value': 'c', 'correct': True},
-                {'value': 'd', 'correct': False}
-            ]
-        },
-        {
-            'question': 'blablabla2',
-            'options': [
-                {'value': 'a', 'correct': False},
-                {'value': 'b', 'correct': False},
-                {'value': 'c', 'correct': True},
-                {'value': 'd', 'correct': False}
-            ]
-        },
-        {
-            'question': 'blablabla3',
-            'options': [
-                {'value': 'a', 'correct': False},
-                {'value': 'b', 'correct': False},
-                {'value': 'c', 'correct': True},
-                {'value': 'd', 'correct': False}
-            ]
-        }
-    ]
+    generator = FillInGapsGenerator()
+    return generator.generate_questions(text_keywords.text_body, text_keywords.keywords_selected)
+    
