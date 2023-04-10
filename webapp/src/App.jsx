@@ -9,6 +9,14 @@ import ProcessView from "./views/ProcessView";
 import "./i18n";
 
 
+/**
+ * The main component of the application. Renders the layout of the app and the different views based on the current route.
+ * @returns {JSX.Element} - The JSX element of the App component.
+ */
+/**
+ * The main component of the application. Renders the layout of the app and the different views based on the current route.
+ * @returns {JSX.Element} - The JSX element of the App component.
+ */
 function App() {
 
   function func(loginUser) {

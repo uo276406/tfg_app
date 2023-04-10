@@ -36,6 +36,10 @@ const buttonStyle = {
 
 const { Meta } = Card;
 
+/**
+ * The HomeView component displays a carousel of images and a card with text and a button.
+ * @returns A React component that displays a carousel of images and a card with text and a button.
+ */
 function HomeView() {
   const { t } = useTranslation();
 

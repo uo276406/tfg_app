@@ -6,6 +6,11 @@ const loginStyle = {
   margin: "2%",
 };
 
+/**
+ * A functional component that renders a login form.
+ * @param {{object}} props - The props object that contains the sendLoginToConsole function.
+ * @returns A JSX element that renders a login form.
+ */
 function LoginView(props) {
   const { t } = useTranslation();
 

@@ -34,6 +34,11 @@ const tagsAdded = {
   fontSize: "16px"
 }
 
+/**
+ * A component that displays a question card with editable question text and tags for options.
+ * @param {{questionText: string, options: Array<{value: string, correct: boolean}>}} props - The props object containing the question text and options.
+ * @returns A JSX element that displays the question card.
+ */
 function QuestionCard(props) {
   const { t } = useTranslation();
   const [messageApi, contextHolder] = message.useMessage();

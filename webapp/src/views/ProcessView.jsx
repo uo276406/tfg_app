@@ -5,6 +5,10 @@ import TextProcessForm from "../components/textprocess/TextProcessForm";
 import SelectKeywordsForm from "../components/selectkeywords/SelectKeywordForm";
 import SelectQuestionsForm from "../components/selectquestions/SelectQuestionsForm";
 
+/**
+ * A component that processes a given text and generates questions based on the keywords found.
+ * @returns A React component that displays a form for processing text and generating questions.
+ */
 function ProcessView() {
   //Maneja los pasos de la página web ---------------------------------------------------------
   const [step, setStep] = useState(0);

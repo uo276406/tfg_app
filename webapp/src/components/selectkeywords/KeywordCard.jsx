@@ -7,6 +7,11 @@ const { Meta } = Card;
 
 const cardStyle = { margin: "0.5%", textAlign: "center", height: 'auto' };
 
+/**
+ * A component that displays a keyword card with options to edit and select the keyword.
+ * @param {{object}} props - The props object containing the keyword information and functions to update the selected keywords.
+ * @returns A card component displaying the keyword and options to edit and select it.
+ */
 function KeywordCard(props) {
 
   // Chckboxes de selección ------------------------------------------------------

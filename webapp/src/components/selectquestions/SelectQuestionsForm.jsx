@@ -23,6 +23,11 @@ const buttonsStyle = {
   marginBottom: "1%",
 };
 
+/**
+ * A functional component that renders a form for selecting questions.
+ * @param {{Object}} props - The props object containing the questions to display and a function to change the step.
+ * @returns A JSX element that displays the questions and buttons for navigating the form.
+ */
 function SelectQuestionsForm(props) {
   const { t } = useTranslation();
 

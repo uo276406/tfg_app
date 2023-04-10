@@ -23,6 +23,10 @@ const buttonsStyle = {
   marginBottom: "1%",
 };
 
+/**
+"""
+A component that displays a form for processing text. The form includes a text area for inputting text, a button for uploading a text file, and a button for processing the text and finding keywords.
+ */
 function TextProcessForm(props) {
   const { t } = useTranslation();
   const [text, setText] = useState("");

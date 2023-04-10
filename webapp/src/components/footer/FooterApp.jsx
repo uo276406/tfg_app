@@ -10,6 +10,10 @@ import {
 
 const { Text, Link } = Typography;
 
+/**
+ * A functional component that renders the footer of the application.
+ * @returns The JSX code for the footer.
+ */
 function FooterApp() {
   const { t } = useTranslation();
   const { Footer } = Layout;

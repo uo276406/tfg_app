@@ -12,6 +12,12 @@ const stepperStyle = {
   borderRadius: "15px",
 };
 
+/**
+ * A component that displays a horizontal stepper with the given steps.
+ * @param {{Object}} props - The props object for the component.
+ * @param {{number}} props.step - The current step of the stepper.
+ * @returns A React component that displays a horizontal stepper.
+ */
 function Stepper(props) {
   const { t } = useTranslation();
 

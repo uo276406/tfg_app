@@ -6,6 +6,10 @@ const signinStyle = {
   margin: "2%",
 };
 
+/**
+ * A functional component that renders a sign-in form using Ant Design components.
+ * @returns The sign-in form component.
+ */
 function SigninView() {
   const { t } = useTranslation();
 

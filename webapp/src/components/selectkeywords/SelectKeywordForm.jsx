@@ -3,6 +3,16 @@ import { Button, Row, Col } from "antd";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import KeywordCardList from "./KeywordCardList";
 import { useTranslation } from "react-i18next";
+/**
+ * A form component for editing a keyword. Displays a modal with a form that allows the user to modify the keyword.
+ * @param {{object}} props - The props object containing the following properties:
+ *   - visible: A boolean indicating whether the modal is visible or not.
+ *   - onCancel: A function to be called when the user cancels the form.
+ *   - onModify: A function to be called when the user modifies the keyword.
+ *   - fields: An array of objects representing the fields in the form.
+ *   - form: The antd form object used to manage the form state.
+ * @returns A modal containing a form for editing a keyword.
+ */
 import QuestionsConnector from "../../api/questionsconnector";
 
 const justifyButtonsBottom = {
@@ -24,6 +34,16 @@ const buttonsStyle = {
   marginBottom: "1%",
 };
 
+
+/**
+ * A form component that allows users to select keywords and generate questions based on them.
+ * @param {{object}} props - The props object containing the necessary data for the component.
+ * @param {function} props.handleQuestions - A function to handle the generated questions.
+ * @param {array} props.keywordsFound - An array of keywords found in the text.
+ * @param {string} props.text - The text to generate questions from.
+ * @param {function} props.changeStep - A function to change the current step in the parent component.
+ * @returns A JSX element that displays the form.
+ */
 function SelectKeywordsForm(props) {
   const { t } = useTranslation();
 

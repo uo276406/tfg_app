@@ -7,6 +7,10 @@ import {
   QuestionOutlined,
 } from "@ant-design/icons";
 
+/**
+ * A functional component that renders a navigation bar with links to various pages and language options.
+ * @returns The rendered navigation bar.
+ */
 function NavBarApp() {
   const { i18n, t } = useTranslation();
 

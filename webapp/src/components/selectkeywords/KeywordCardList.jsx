@@ -23,6 +23,14 @@ const listStyle = {
 
 const addButtonStyle = { paddingTop: "1%" };
 
+/**
+ * A component that displays a list of keywords and allows the user to select, delete, and add new keywords.
+ * @param {{Object}} props - The props object.
+ * @param {Array} props.keywordsFound - An array of objects representing the keywords found.
+ * @param {Function} props.handleKeywordsSelected - A function that handles the selected keywords.
+ * @param {Function} props.enableGenerateQuestionButton - A function that enables the generate question button.
+ * @returns A component that displays a list of keywords and allows the user to select, delete, and add new keywords.
+ */
 function KeywordCardList(props) {
   const { t } = useTranslation();
 
