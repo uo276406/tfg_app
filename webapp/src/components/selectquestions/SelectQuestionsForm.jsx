@@ -31,7 +31,7 @@ function SelectQuestionsForm(props){
     return (<div>
       <Row gutter={[16, 16]} style={questionsListStyle}>
         <Col span={24}>
-          <QuestionCardList></QuestionCardList>
+          <QuestionCardList questions={props.questions}></QuestionCardList>
         </Col>
       </Row>
       <Row

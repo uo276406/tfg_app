@@ -15,8 +15,10 @@ const justifyAddButtons = {
 
 const listStyle = {
   padding: "1%",
-  borderRadius: "15px",
   backgroundColor: "white",
+  overflow: 'scroll',
+  maxHeight: 275
+  
 };
 
 const addButtonStyle = { paddingTop: "1%" };

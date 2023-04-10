@@ -5,7 +5,7 @@ import KeywordEditForm from "./KeywordEditForm";
 
 const { Meta } = Card;
 
-const cardStyle = { margin: "0.5%", textAlign: "center" };
+const cardStyle = { margin: "0.5%", textAlign: "center", height: 'auto' };
 
 function KeywordCard(props) {
 

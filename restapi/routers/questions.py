@@ -19,13 +19,32 @@ class TextKeywords(BaseModel):
 
 @router.post("/generate")
 async def generate_questions(text_keywords: TextKeywords):
-    return {'questions': [
+    return [
         {
-            'question1': 'blablabla',
-            'options1': ['a', 'b', 'b']
+            'question': 'blablabla1',
+            'options': [
+                {'value': 'a', 'correct': False},
+                {'value': 'b', 'correct': False},
+                {'value': 'c', 'correct': True},
+                {'value': 'd', 'correct': False}
+            ]
         },
         {
-            'question2': 'blablabla',
-            'options2': ['a2', 'b2', 'b2']
+            'question': 'blablabla2',
+            'options': [
+                {'value': 'a', 'correct': False},
+                {'value': 'b', 'correct': False},
+                {'value': 'c', 'correct': True},
+                {'value': 'd', 'correct': False}
+            ]
         },
-    ]}
+        {
+            'question': 'blablabla3',
+            'options': [
+                {'value': 'a', 'correct': False},
+                {'value': 'b', 'correct': False},
+                {'value': 'c', 'correct': True},
+                {'value': 'd', 'correct': False}
+            ]
+        }
+    ]

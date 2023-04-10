@@ -3,8 +3,9 @@ import { Row, Col } from "antd";
 
 const listStyle = {
   padding: "1%",
-  borderRadius: "15px",
   backgroundColor: "white",
+  overflow: 'scroll',
+  maxHeight: 275
 };
 
 function QuestionCardList(props) {
@@ -12,9 +13,15 @@ function QuestionCardList(props) {
     <div>
       <Col span={24}>
         <Row style={listStyle}>
-          <QuestionCard></QuestionCard>
-          <QuestionCard></QuestionCard>
-          <QuestionCard></QuestionCard>
+          {props.questions.map((q, index) => {
+            return (
+              <QuestionCard
+                key={index}
+                questionText={q.question}
+                options={q.options}
+              />
+            );
+          })}
         </Row>
       </Col>
     </div>

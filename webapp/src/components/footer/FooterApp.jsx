@@ -1,6 +1,6 @@
 import Layout from "antd/es/layout/layout";
 import { useTranslation } from "react-i18next";
-import { Row, Col, Space, Typography, Tooltip } from "antd";
+import { Row, Col, Space, Typography, Tooltip, Tag } from "antd";
 import {
   GithubFilled,
   LinkedinFilled,
@@ -17,48 +17,54 @@ function FooterApp() {
   return (
     <Footer theme="dark">
       <Row gutter={[8, 8]}>
-        <Col span={6} xs={24} sm={12} md={8} lg={8} xl={8} xxl={6}>
+        <Col span={6} xs={24} sm={24} md={12} lg={8} xl={8} xxl={6}>
           <Row justify={"center"}>
             <Link href="https://www.uniovi.es/">
               <img src="footerimg/uniovilogo.png" alt={t("uniovi")} />
             </Link>
           </Row>
         </Col>
-        <Col span={6} xs={24} sm={12} md={8} lg={8} xl={8} xxl={6}>
+        <Col span={6} xs={24} sm={24} md={12} lg={8} xl={8} xxl={6}>
           <Row justify={"center"}>
             <Link href="https://ingenieriainformatica.uniovi.es/">
               <img src="footerimg/eiilogo.png" alt={t("eii")} />
             </Link>
           </Row>
         </Col>
-        <Col span={6} xs={24} sm={24} md={8} lg={8} xl={8} xxl={6}>
+        <Col span={6} xs={24} sm={24} md={24} lg={8} xl={8} xxl={6}>
           <Row justify={"center"}>
             <Space direction="vertical">
               <Space>
-                <Text strong> {t("personalinfo")} </Text>
-                <Tooltip title="LinkedIn">
-                  <Link href="https://www.linkedin.com/in/diego-gonz%C3%A1lez-su%C3%A1rez-64b2371b1/">
-                    <LinkedinFilled />
-                  </Link>
-                </Tooltip>
-                <Tooltip title="Github">
-                  <Link href="https://github.com/uo276406">
-                    <GithubFilled />
-                  </Link>
-                </Tooltip>
-                <Tooltip title={t("email")}>
-                  <Link href="mailto:uo276406@uniovi.es">
-                    <MailFilled />
-                  </Link>
-                </Tooltip>
-                <Tooltip title={t("tfgdoc")}>
-                  <Link href="https://github.com/uo276406">
-                    <FileFilled />
-                  </Link>
-                </Tooltip>
+                <Link href="https://www.linkedin.com/in/diego-gonz%C3%A1lez-su%C3%A1rez-64b2371b1/">
+                  <Tag icon={<LinkedinFilled />} color="#55acee">
+                    {" "}
+                    LinkedIn{" "}
+                  </Tag>
+                </Link>
+
+                <Link href="https://github.com/uo276406">
+                  <Tag icon={<GithubFilled />} color="grey">
+                    {" "}
+                    Github{" "}
+                  </Tag>
+                </Link>
+
+                <Link href="mailto:uo276406@uniovi.es">
+                  <Tag icon={<MailFilled />} color="#001529">
+                    {" "}
+                    Email{" "}
+                  </Tag>
+                </Link>
+
+                <Link href="">
+                  <Tag icon={<FileFilled />} color="#3b5999">
+                    {" "}
+                    {t("tfgdoc")}
+                  </Tag>
+                </Link>
               </Space>
               <Space>
-                <Text strong> Diego González Suárez - uo276406 </Text>
+                <Text> 2023. Diego González Suárez - uo276406 </Text>
               </Space>
             </Space>
           </Row>
