@@ -7,15 +7,14 @@ class QuestionsConnector {
   }
 
   async getQuestions() {
-    console.log(this.text, this.selectedKeywords)
-    return await fetch(apiendpoint + "/api/v1.0/questions", {
+    return await fetch(apiendpoint + "/api/v1.0/questions/generate", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         text_body : this.text,
-        keywords_selected: this.keywords_selected
+        keywords_selected: this.selectedKeywords
       }),
     }).then((response) => response.json())
   }

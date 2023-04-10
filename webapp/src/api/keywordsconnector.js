@@ -6,7 +6,7 @@ class KeywordsConnector {
   }
 
   async getKeywords() {
-    return await fetch(apiendpoint + "/api/v1.0/keywords", {
+    return await fetch(apiendpoint + "/api/v1.0/keywords/find", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

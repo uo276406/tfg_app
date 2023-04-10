@@ -16,7 +16,7 @@ Para ejecutar el proyecto primero complila y ejecuta la restapi:
 ```shell
 cd restapi
 pip install -r requirements.txt
-uvicorn.exe endpoint:app --reload
+uvicorn.exe main:app --reload
 ```
 a continuación la webapp:
 ```shell

@@ -5,7 +5,6 @@ import KeywordCardList from "./KeywordCardList";
 import { useTranslation } from "react-i18next";
 import QuestionsConnector from "../../api/questionsconnector";
 
-
 const justifyButtonsBottom = {
   xs: "center",
   sm: "center",
@@ -23,10 +22,9 @@ const keywordsListStyle = {
 const buttonsStyle = {
   paddingRight: "2%",
   marginBottom: "1%",
-}
+};
 
 function SelectKeywordsForm(props) {
-
   const { t } = useTranslation();
 
   // Botón de generar preguntas -----------------------------------------------
@@ -41,12 +39,16 @@ function SelectKeywordsForm(props) {
       setIsLoading(false);
       props.changeStep(2);
     });
-  }
+  };
 
   // Almacena palabras seleccionadas ----------------------------------------------
-  const [selectedKeywords, setSelectedKeywords] = useState([])
-  function handleKeywordsSelected(selectedKeywords){
-    setSelectedKeywords(selectedKeywords)
+  const [selectedKeywords, setSelectedKeywords] = useState([]);
+  function handleKeywordsSelected(selectedKeywords) {
+    setSelectedKeywords([
+      ...selectedKeywords.map((k) => {
+        return { value: k.value };
+      }),
+    ]);
   }
 
   return (
@@ -60,11 +62,7 @@ function SelectKeywordsForm(props) {
           />
         </Col>
       </Row>
-      <Row
-        justify={justifyButtonsBottom}
-        gutter={[8, 8]}
-        style={buttonsStyle}
-      >
+      <Row justify={justifyButtonsBottom} gutter={[8, 8]} style={buttonsStyle}>
         <Col>
           <Button
             type="primary"

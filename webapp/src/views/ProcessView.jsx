@@ -34,8 +34,9 @@ function ProcessView() {
 
   // Recoge las preguntas devueltas -------------------------------------------------------------
   const [questions, setQuestions] = useState()
-  function handleQuestions(questions) {
-    setQuestions(questions)
+  function handleQuestions(questionsGenerated) {
+    setQuestions(questionsGenerated)
+    console.log(questionsGenerated)
   }
 
 
