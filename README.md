@@ -2,6 +2,7 @@
 ## An application to generate your own questions from your texts.
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=uo276406_tfg_app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=uo276406_tfg_app)
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=uo276406_tfg_app)
 
 ### Tecnologías utilizadas: 🕵️
 <p float="left">
