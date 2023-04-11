@@ -2,7 +2,7 @@
 ## An application to generate your own questions from your texts.
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=uo276406_tfg_app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=uo276406_tfg_app)
-[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=uo276406_tfg_app)
+
 
 ### Tecnologías utilizadas: 🕵️
 <p float="left">
@@ -10,6 +10,7 @@
 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTab05l3ndGtZqyqxgTeOkmB7g2eDGyYrQp60gRu108tIEXOLQTl8tf9Jpx90UiNJEIv1Q&usqp=CAU" height="100">
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Python.svg/1200px-Python.svg.png" height="100">
 <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" height="100">
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=uo276406_tfg_app)
 </p>
 
 ### Guia de inicio rápido 🤔
