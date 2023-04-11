@@ -1,6 +1,8 @@
 # Keywords App 
 ## An application to generate your own questions from your texts.
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=uo276406_tfg_app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=uo276406_tfg_app)
+
 ### Tecnologías utilizadas: 🕵️
 <p float="left">
 <img src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
