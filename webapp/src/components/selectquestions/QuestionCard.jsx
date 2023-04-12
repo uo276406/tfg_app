@@ -16,7 +16,8 @@ const questionCardStyle = {
 };
 
 const questionTextStyle = {
-  fontSize: "18px"
+  fontSize: "15px",
+  whiteSpace: "pre-line"
 }
 
 const tagInputStyle = {

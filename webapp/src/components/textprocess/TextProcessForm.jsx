@@ -8,7 +8,7 @@ const { TextArea } = Input;
 const maxChars = 70000;
 
 const textAreaStyle = {
-  height: 275,
+  height: 250,
   resize: "none",
   paddingLeft: "1%",
   paddingRight: "1%",
