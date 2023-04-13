@@ -1,4 +1,4 @@
-import random as r
+import random
 import gensim.downloader as api
 
 class FillInGapsGenerator():
@@ -7,6 +7,7 @@ class FillInGapsGenerator():
     """
     def __init__(self):
         self.model = api.load('glove-twitter-25')
+        self.system_random = random.SystemRandom()
 
     def generate_questions(self, text, keywords_selected):
         res = []
@@ -43,7 +44,7 @@ class FillInGapsGenerator():
             random_word = self.get_related_word(word)
             if (random_word not in res):
                 res.append(random_word)
-        index = r.randint(0, 3)
+        index = self.system_random.randint(0, 3)
         res.insert(index, {'value': word, 'correct': True})
 
         return res
@@ -56,5 +57,5 @@ class FillInGapsGenerator():
 
         similar_words = self.model.most_similar(word)
 
-        index = r.randint(0, 5)
+        index = self.system_random.randint(0, 5)
         return {'value': similar_words[index][0], 'correct': False}
