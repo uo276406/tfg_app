@@ -46,7 +46,7 @@ function FooterApp() {
                   </Tag>
                 </Link>
 
-                <Link href="https://github.com/uo276406">
+                <Link href="https://github.com/uo276406/tfg_app">
                   <Tag icon={<GithubFilled />} color="grey">
                     {" "}
                     Github{" "}
