@@ -21,7 +21,7 @@ const justifyButtonsBottom = {
   md: "end",
   lg: "end",
   xl: "end",
-  xxxl: "end",
+  xxl: "end",
 };
 
 const keywordsListStyle = {

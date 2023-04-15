@@ -6,15 +6,14 @@ import HomeView from "./views/HomeView";
 import LoginView from "./views/LoginView";
 import SigninView from "./views/SigninView";
 import ProcessView from "./views/ProcessView";
+import DocView from "./views/DocView";
 import "./i18n";
-
 
 /**
  * The main component of the application. Renders the layout of the app and the different views based on the current route.
  * @returns {JSX.Element} - The JSX element of the App component.
  */
 function App() {
-
   function func(loginUser) {
     console.log(loginUser);
     console.log("Cambiado " + loginUser.email);
@@ -25,8 +24,8 @@ function App() {
   const { Header, Content } = Layout;
 
   const contentStyle = {
-    backgroundColor: "lightGrey"
-  }
+    backgroundColor: "lightGrey",
+  };
 
   return (
     <Layout className="layout">
@@ -43,17 +42,12 @@ function App() {
             element={<LoginView sendLoginToConsole={func} />}
           />
 
-          <Route
-            path="/signin"
-            element={<SigninView />}
-          />
+          <Route path="/signin" element={<SigninView />} />
 
-          <Route
-            path="/process"
-            element={<ProcessView/>}
-          />
+          <Route path="/process" element={<ProcessView />} />
 
-
+          <Route path="/doc" element={<DocView />} />
+          
         </Routes>
       </Content>
 

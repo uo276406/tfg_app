@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import {
   SnippetsOutlined,
   LoginOutlined,
-  QuestionOutlined,
 } from "@ant-design/icons";
 
 /**
@@ -25,11 +24,6 @@ function NavBarApp() {
       key: "doc",
       icon: <SnippetsOutlined />,
       style: { marginLeft: "auto" },
-    },
-    {
-      label: <Link to="/about">{t("about")}</Link>,
-      key: "about",
-      icon: <QuestionOutlined />,
     },
     {
       label: t("lang"),
