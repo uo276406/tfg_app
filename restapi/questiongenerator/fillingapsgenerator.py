@@ -1,5 +1,6 @@
 import random
 import gensim.downloader as api
+import nltk
 
 
 class FillInGapsGenerator():
@@ -93,8 +94,14 @@ class FillInGapsGenerator():
         splitted_word = word.split(" ")
         if (len(splitted_word) > 1):
             word = splitted_word[len(splitted_word)-1]
-
-        similar_words = self.model.most_similar(word)
+        
+        posttagged_word = nltk.pos_tag([word])
+        gramatical_tag = posttagged_word[0][1]
+        similar_words = self.model.most_similar(positive=[word], topn=15)
 
         index = self.system_random.randint(0, len(similar_words)-1)
+        
+        while (gramatical_tag != nltk.pos_tag([similar_words[index][0]])[0][1]):
+            index = self.system_random.randint(0, len(similar_words)-1)
+
         return {'value': similar_words[index][0], 'correct': False}
