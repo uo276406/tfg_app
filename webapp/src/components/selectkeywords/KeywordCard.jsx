@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Card, Checkbox, Form } from "antd";
+import { Card, Form } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import KeywordEditForm from "./KeywordEditForm";
 
 const { Meta } = Card;
 
-const cardStyle = { margin: "0.5%", textAlign: "center", height: 'auto' };
+const cardStyleNotSelected = { margin: "0.5%", textAlign: "center", height: 'auto' };
+const cardStyleSelected = { margin: "0.5%", textAlign: "center", height: 'auto', backgroundColor: '#e6f7ff' };
 
 /**
  * A component that displays a keyword card with options to edit and select the keyword.
@@ -14,7 +15,7 @@ const cardStyle = { margin: "0.5%", textAlign: "center", height: 'auto' };
  */
 function KeywordCard(props) {
 
-  // Chckboxes de selección ------------------------------------------------------
+  // Selección ------------------------------------------------------
   const handleSelect = () => {
     const keywordSelected = {
       key: props.index,
@@ -22,6 +23,7 @@ function KeywordCard(props) {
       selected: !props.selected,
     };
     props.updateSelectedKeywords(keywordSelected);
+
   }
 
   // Formulario de editar ---------------------------------------------------------
@@ -52,7 +54,7 @@ function KeywordCard(props) {
 
   return (
     <Card
-      style={cardStyle}
+      style={props.selected ? cardStyleSelected : cardStyleNotSelected}
       actions={[
         <EditOutlined
           key="editKeyword"
@@ -60,12 +62,8 @@ function KeywordCard(props) {
             showModal();
           }}
         />,
-        <Checkbox
-          onChange={handleSelect}
-          key={props.index}
-          checked={props.selected}
-        />,
       ]}
+      onClick={() => {handleSelect()}}
     >
       <Meta title={keyword[0]["value"]} />
 

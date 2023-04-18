@@ -58,6 +58,7 @@ function KeywordCardList(props) {
       }
     }
     props.handleKeywordsSelected(keywordsList.filter((k) => k.selected));
+    console.log(keywordsList.filter((k) => k.selected))
     updateCheckAllButton();
     handleActivateButtons(selectedKeywords.length);
   }
@@ -113,6 +114,7 @@ function KeywordCardList(props) {
       }
       return prevKeywordsList;
     });
+    console.log(keywordsList);
     updateCheckAllButton();
     value
       ? handleActivateButtons(keywordsList.length)
