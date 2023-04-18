@@ -5,7 +5,6 @@ import KeywordsConnector from "../../api/keywordsconnector";
 import { useTranslation } from "react-i18next";
 
 const { TextArea } = Input;
-const maxChars = 70000;
 
 const textAreaStyle = {
   height: 250,
@@ -33,18 +32,14 @@ function TextProcessForm(props) {
 
   // Botón upload --------------------------------------------------
   const loadFile = (file) => {
-    if (file.size > maxChars) {
-      message.error(`${file.name}` + t("tooBig"));
-    } else {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setText(e.target.result);
-      };
-      reader.readAsText(file);
-      message.success(`${file.name}` + t("sucessfulUpload"));
-    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setText(e.target.result);
+    };
+    reader.readAsText(file);
+    message.success(`${file.name}` + t("sucessfulUpload"));
     return false;
-  }
+  };
 
   const uploadProps = {
     name: "file",
@@ -56,7 +51,6 @@ function TextProcessForm(props) {
     listType: "text",
     beforeUpload: loadFile,
   };
-
 
   useEffect(() => {
     setText(props.textValue);
@@ -72,7 +66,7 @@ function TextProcessForm(props) {
       setIsLoading(false);
       props.changeStep(1);
     });
-  }
+  };
 
   return (
     <div>
@@ -80,7 +74,6 @@ function TextProcessForm(props) {
         <Col span={24}>
           <TextArea
             showCount
-            maxLength={maxChars}
             style={textAreaStyle}
             placeholder={t("textAreaPlaceHolder")}
             name="TextToProcess"
