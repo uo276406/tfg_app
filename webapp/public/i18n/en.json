@@ -53,6 +53,7 @@
     "deleteMessage" : "Words deleted",
     "addMessage" : "New word added",
     "repeatMessage": "Word repeated",
+    "inTextMessage": "Word not found in text",
     "selectAll": "Select all",
     "numberSelectAll": " words selected",
     "newWordPlaceHolder": "New word...",

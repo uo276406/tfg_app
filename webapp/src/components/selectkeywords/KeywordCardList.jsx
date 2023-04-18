@@ -35,8 +35,34 @@ function KeywordCardList(props) {
   const { t } = useTranslation();
 
   // Compara palabras clave ----------------------------------------------------
-  function isKeywordEqual(k1, k2) {
-    return k1.value.toLowerCase() === k2.value.toLowerCase();
+  const sameKeywordIndex = (i1, i2) => {
+    return i1 === i2;
+  }
+
+  const isRepeated = (keyword) => {
+    for (const k of keywordsList) {
+      if (k.value.toLowerCase() === keyword.toLowerCase()) {
+        return true
+      }
+    }
+    return false
+  }
+
+  const isInText = (keyword) => {
+    return RegExp('\\b'+ keyword.toLowerCase() +'\\b').test(props.text.toLowerCase())
+  }
+
+  const validateKeyword = (keyword) => {
+    if (isRepeated(keyword)) {
+      showMessages("repeatMessage", "error");
+      return false;
+    }
+
+    if (!isInText(keyword)){
+      showMessages("inTextMessage", "error");
+      return false;
+    }
+    return true;
   }
 
   // Lista de palabras clave totales ---------------------------------------------------
@@ -51,16 +77,16 @@ function KeywordCardList(props) {
   // Lista de palabras clave seleccionadas ---------------------------------------------
 
   let selectedKeywords = keywordsList.filter((k) => k.selected);
-  let [countSelected, setCountSelected] = useState(0);
+  let [countSelected, setCountSelected] = useState(Math.trunc(props.keywordsFound.length*percentageOfSelected)+1);
 
   const updateSelectedKeywords = (keyword) => {
     for (let elem of keywordsList) {
-      if (isKeywordEqual(elem, keyword)) {
+      if (sameKeywordIndex(elem.index, keyword.index)) {
         elem.selected = keyword.selected;
+        elem.value = keyword.value;
       }
     }
     props.handleKeywordsSelected(keywordsList.filter((k) => k.selected));
-    console.log(keywordsList.filter((k) => k.selected))
     updateCheckAllButton();
     handleActivateButtons(selectedKeywords.length);
   }
@@ -76,22 +102,13 @@ function KeywordCardList(props) {
           i--;
         }
       }
-      console.log(prevKeywordsList);
       return prevKeywordsList;
     });
-    successDelete();
+    showMessages("deleteMessage", "success");
     updateCheckAllButton();
     handleActivateButtons(0);
     selectedKeywords = [];
   }
-
-  const successDelete = () => {
-    messageApi.open({
-      type: "success",
-      content: t("deleteMessage"),
-      duration: 5,
-    });
-  };
 
   // Activa botones ------------------------------------------------------------
   const handleActivateButtons = (count) => {
@@ -106,7 +123,7 @@ function KeywordCardList(props) {
   }
 
   // Botón de seleccionar todas ------------------------------------------------
-  const [indeterminate, setIndeterminate] = useState(false);
+  const [indeterminate, setIndeterminate] = useState(true);
   const [checkAll, setCheckAll] = useState(false);
 
   const activateAll = (value) => {
@@ -116,8 +133,8 @@ function KeywordCardList(props) {
       }
       return prevKeywordsList;
     });
-    console.log(keywordsList);
-    updateCheckAllButton();
+    setCheckAll(value);
+    setIndeterminate(false);
     value
       ? handleActivateButtons(keywordsList.length)
       : handleActivateButtons(0);
@@ -125,6 +142,7 @@ function KeywordCardList(props) {
 
   const updateCheckAllButton = () => {
     selectedKeywords = keywordsList.filter((k) => k.selected);
+    console.log(selectedKeywords.length)
     if (
       selectedKeywords.length > 0 &&
       selectedKeywords.length < keywordsList.length
@@ -172,35 +190,26 @@ function KeywordCardList(props) {
         value: keywordToAdd,
         selected: false,
       };
-      for (const k of prevKeywordsList) {
-        if (isKeywordEqual(toAdd, k)) {
-          errorAdd();
-          return prevKeywordsList;
-        }
+
+      if(validateKeyword(toAdd.value)){
+        prevKeywordsList.push(toAdd);
+        showMessages("addMessage", "success");
       }
-      prevKeywordsList.push(toAdd);
-      successAdd();
       return prevKeywordsList;
     });
     setKeywordToAdd("");
     setEnabledAddButton(false);
+    updateCheckAllButton()
   }
 
-  const successAdd = () => {
-    messageApi.open({
-      type: "success",
-      content: t("addMessage"),
-      duration: 5,
-    });
-  };
 
-  const errorAdd = () => {
+  const showMessages = (text, type) => {
     messageApi.open({
-      type: "error",
-      content: t("repeatMessage"),
+      type: type,
+      content: t(text),
       duration: 5,
     });
-  };
+  }
 
   return (
     <div>
@@ -247,6 +256,9 @@ function KeywordCardList(props) {
                     index={keyword.index}
                     value={keyword.value}
                     selected={keyword.selected}
+                    isInText={isInText}
+                    isRepeated={isRepeated}
+                    showMessages={showMessages}
                   />
                 );
               })
@@ -261,6 +273,7 @@ function KeywordCardList(props) {
           <Input
             onChange={(event) => activateButtonAdd(event)}
             value={keywordToAdd}
+            onPressEnter={addNewKeyword}
             placeholder={t("newWordPlaceHolder")}
           ></Input>
         </Col>

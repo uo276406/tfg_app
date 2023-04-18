@@ -50,7 +50,7 @@ function SelectKeywordsForm(props) {
   // Botón de generar preguntas -----------------------------------------------
   const [enabledGenerateButton, setEnabledGenerateButton] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Envía la petición para que la restapi genere preguntas -------------------
   const sendApiMessage = async () => {
     setIsLoading(true);
@@ -80,6 +80,7 @@ function SelectKeywordsForm(props) {
             keywordsFound={props.keywordsFound}
             enableGenerateQuestionButton={setEnabledGenerateButton}
             handleKeywordsSelected={handleKeywordsSelected}
+            text={props.text}
           />
         </Col>
       </Row>

@@ -52,6 +52,7 @@
     "deleteMessage" : "Palabras eliminadas correctamente",
     "addMessage" : "Palabra añadida correctamente",
     "repeatMessage": "Palabra repetida",
+    "inTextMessage": "Palabra no encontrada en el texto",
     "selectAll": "Seleccionar todas",
     "numberSelectAll": " palabras seleccionadas",
     "newWordPlaceHolder": "Nueva palabra...",

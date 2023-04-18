@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Card, Form } from "antd";
-import { EditOutlined } from "@ant-design/icons";
-import KeywordEditForm from "./KeywordEditForm";
+import { Card, Input } from "antd";
 
 const { Meta } = Card;
 
@@ -26,63 +24,82 @@ function KeywordCard(props) {
   // Selección ------------------------------------------------------
   const handleSelect = () => {
     const keywordSelected = {
-      key: props.index,
-      value: props.value,
+      index: props.index,
+      value: keyword,
       selected: !props.selected,
     };
     props.updateSelectedKeywords(keywordSelected);
   };
 
-  // Formulario de editar ---------------------------------------------------------
-  const [keyword, setKeyword] = useState([
-    {
-      name: "keyword",
-      value: props.value,
-    },
-  ]);
-  const [form] = Form.useForm();
-  const [visible, setVisible] = useState(false);
+  // Editar ---------------------------------------------------------
+  const [editable, setEditable] = useState(false);
+  const [keyword, setKeyword] = useState(props.value);
+  let prevKeyword = props.value
 
-  const showModal = () => {
-    setVisible(true);
+  const handleDoubleClick = (event) => {
+    event.target.focus();
+    setEditable(true);
   };
-  const handleCancel = () => {
-    setVisible(false);
+
+  const handleEditConfirm = () => {
+    if (!props.isInText(keyword)){
+      props.showMessages("inTextMessage", "error");
+      setKeyword(prevKeyword)
+      setEditable(true);
+    } 
+    else if (props.isRepeated(keyword) && keyword !== prevKeyword) {
+      props.showMessages("repeatMessage", "error");
+      setKeyword(prevKeyword)
+      setEditable(true);
+    }
+    else if(keyword.length === 0){
+      props.showMessages("noEmptyEditForm", "error");
+      setKeyword(prevKeyword)
+      setEditable(true);
+    }
+    else{
+      setEditable(false);
+    }
+    prevKeyword = keyword;
+
+    
   };
-  const handleModify = (values) => {
-    setKeyword([
-      {
-        name: "keyword",
-        value: values.keyword,
-      },
-    ]);
-    setVisible(false);
+
+  const handleEdit = (e) => {
+    setKeyword(e.target.value);
   };
 
   return (
     <Card
       style={props.selected ? cardStyleSelected : cardStyleNotSelected}
-      actions={[
-        <EditOutlined
-          key="editKeyword"
-          onClick={() => {
-            showModal();
-          }}
-        />,
-      ]}
       onClick={() => {
         handleSelect();
       }}
     >
-      <Meta title={keyword[0]["value"]} />
-
-      <KeywordEditForm
-        form={form}
-        visible={visible}
-        onCancel={handleCancel}
-        onModify={handleModify}
-        fields={keyword}
-      />
+      {editable ? (
+        <Meta
+          onClick={(event) => {
+            handleSelect();
+            event.stopPropagation();
+          }}
+          title={
+            <Input
+              autoFocus
+              onChange={(event) => handleEdit(event)}
+              onBlur={() => handleEditConfirm()}
+              onPressEnter={() => handleEditConfirm()}
+              value={keyword}
+            ></Input>
+          }
+        />
+      ) : (
+        <Meta
+          onDoubleClick={(event) => {
+            handleDoubleClick(event);
+          }}
+          title={keyword}
+        />
+      )}
     </Card>
   );
 }
