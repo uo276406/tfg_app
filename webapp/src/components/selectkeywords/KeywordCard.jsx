@@ -5,8 +5,17 @@ import KeywordEditForm from "./KeywordEditForm";
 
 const { Meta } = Card;
 
-const cardStyleNotSelected = { margin: "0.5%", textAlign: "center", height: 'auto' };
-const cardStyleSelected = { margin: "0.5%", textAlign: "center", height: 'auto', backgroundColor: '#e6f7ff' };
+const cardStyleNotSelected = {
+  margin: "0.5%",
+  textAlign: "center",
+  height: "auto",
+};
+const cardStyleSelected = {
+  margin: "0.5%",
+  textAlign: "center",
+  height: "auto",
+  backgroundColor: "#e6f7ff",
+};
 
 /**
  * A component that displays a keyword card with options to edit and select the keyword.
@@ -14,7 +23,6 @@ const cardStyleSelected = { margin: "0.5%", textAlign: "center", height: 'auto',
  * @returns A card component displaying the keyword and options to edit and select it.
  */
 function KeywordCard(props) {
-
   // Selección ------------------------------------------------------
   const handleSelect = () => {
     const keywordSelected = {
@@ -23,8 +31,7 @@ function KeywordCard(props) {
       selected: !props.selected,
     };
     props.updateSelectedKeywords(keywordSelected);
-
-  }
+  };
 
   // Formulario de editar ---------------------------------------------------------
   const [keyword, setKeyword] = useState([
@@ -38,10 +45,10 @@ function KeywordCard(props) {
 
   const showModal = () => {
     setVisible(true);
-  }
+  };
   const handleCancel = () => {
     setVisible(false);
-  }
+  };
   const handleModify = (values) => {
     setKeyword([
       {
@@ -50,7 +57,7 @@ function KeywordCard(props) {
       },
     ]);
     setVisible(false);
-  }
+  };
 
   return (
     <Card
@@ -63,7 +70,9 @@ function KeywordCard(props) {
           }}
         />,
       ]}
-      onClick={() => {handleSelect()}}
+      onClick={() => {
+        handleSelect();
+      }}
     >
       <Meta title={keyword[0]["value"]} />
 

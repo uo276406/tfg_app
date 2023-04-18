@@ -83,7 +83,7 @@ class Scorer:
         @return A list of unique phrases.
         """
         unique_phrases = []
-        # Deletes repeated ones
+        # Elimina los duplicados
         for phrase in candidate_phrases:
             if phrase not in unique_phrases:
                 unique_phrases.append(phrase)
@@ -91,10 +91,6 @@ class Scorer:
         for word in self.processor.vocabulary:
             for phrase in unique_phrases:
                 if (word in phrase) and ([word] in unique_phrases) and (len(phrase) > 1):
-                    # if len(phrase)>1 then the current phrase is multi-worded.
-                    # if the word in vocabulary is present in unique_phrases as a single-word-phrase
-                    # and at the same time present as a word within a multi-worded phrase,
-                    # then I will remove the single-word-phrase from the list.
                     unique_phrases.remove([word])
         return unique_phrases
 
@@ -123,7 +119,7 @@ class Scorer:
             keywords.append(keyword.strip())
 
         for i in range(len(keywords)):
-            # Only return keywords with score 0.2 or more
+            # Retorna palabars clave a partir de un límite de puntuación
             if phrase_scores[i] < self.score_threshold:
                 keywords.pop(i)
 
@@ -134,21 +130,19 @@ class Scorer:
         """
         This method is part of a class. It returns a list of keywords that are extracted from a text document. 
         """
-        # calculates the punctuation
+        # Calcula la puntuación de cada palabra
         self.score_vocabulary_words()
 
-        # gets candidate phrases
+        # Obtiene las frases candidatas
         phrases = self.get_candidate_keyphrases()
 
-        # scores all the phrases
+        # Puntuación de las frases candidatas
         keywords, phrase_scores = self.score_keyphrases(phrases)
 
-        # Get ranked keywords
-        """
+        # Ordena las frases por puntuación
         sorted_index = np.flip(np.argsort(phrase_scores), 0)
-        keywords_num = 100
-        print("Keywords found:\n")
-        for i in range(0, keywords_num):
-            print(str(keywords[sorted_index[i]]))
-        """
-        return keywords
+        res = []
+        for i in range(0, len(keywords)):
+            res.append(str(keywords[sorted_index[i]]))
+
+        return res

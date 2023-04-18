@@ -40,9 +40,11 @@ function KeywordCardList(props) {
   }
 
   // Lista de palabras clave totales ---------------------------------------------------
+  const percentageOfSelected = 0.75
   let [keywordsList, setKeywordsList] = useState([
-    ...props.keywordsFound.map((k) => {
-      return { index: k.index, value: k.value, selected: false };
+    ...props.keywordsFound.map((k, index) => {
+      let toSelect = index < props.keywordsFound.length*percentageOfSelected ? true : false
+      return { index: k.index, value: k.value, selected: toSelect};
     }),
   ]);
 
