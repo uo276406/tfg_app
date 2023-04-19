@@ -1,6 +1,7 @@
 import random
 import gensim.downloader as api
 import nltk
+import re
 
 
 class FillInGapsGenerator():
@@ -25,18 +26,20 @@ class FillInGapsGenerator():
         @return a list of dictionaries containing the generated questions and options
         """
         res = []
+        sentences_used = []
         for keyword in keywords_selected:
             print("value: " + keyword.value)
-            question_text = self.get_question_text(text, keyword.value, res)
+            question_text, sentence_used = self.get_question_text(text, keyword.value, sentences_used) # Obtiene la pregunta
             options = self.get_options(keyword.value)
             if (question_text != ""):
+                sentences_used.append(sentence_used) # Guarda la oración de la pregunta
                 res.append({
                     'question': question_text.replace("\n", " "),
                     'options': options
                 })
         return res
 
-    def get_question_text(self, text, word, actual_list):
+    def get_question_text(self, text, word, sentences_used):
         """
         Given a text, a word, and a list of actual questions, return a fill-in-the-blank sentence containing the word if the word is in the text and not already in the list of actual questions. If the word is not in the text or is already in the list of actual questions, return an empty string.
         @param self - the object instance
@@ -46,13 +49,11 @@ class FillInGapsGenerator():
         @return a fill-in-the-blank sentence containing the word if the word is in the text and not already in the list of actual questions. If the word is not in the text or is already in the list of actual questions
         """
         for sentence in text.split("."):
-            if (len(actual_list) == 0):
-                if (word.lower() in sentence.lower()):
-                    return self.create_fillin_sentence(sentence, word)
-            elif (len(actual_list) != 0):
-                if (word.lower() in sentence.lower() and sentence not in map(lambda q: q['question'], actual_list)):
-                    return self.create_fillin_sentence(sentence, word)
-        return ""
+            print(sentence)
+            if (re.search(r'\b' + word.lower() + r'\b', sentence.lower()) is not None and sentence not in sentences_used):
+                return self.create_fillin_sentence(sentence, word), sentence
+
+        return "", ""
 
     def create_fillin_sentence(self, sentence, word):
         """
@@ -62,6 +63,7 @@ class FillInGapsGenerator():
         @param word - the word to be blanked out
         @return The sentence with the blank
         """
+
         start = sentence.lower().find(" " + word + "")
         end = len(word)
         sentence = sentence[:start+1] + " _________ " + sentence[start+1+end:]

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col, Input, Upload, message } from "antd";
-import { RightOutlined, UploadOutlined } from "@ant-design/icons";
+import { RightOutlined, UploadOutlined, DeleteOutlined } from "@ant-design/icons";
 import KeywordsConnector from "../../api/keywordsconnector";
 import { useTranslation } from "react-i18next";
 
 const { TextArea } = Input;
+
+const exampleText =
+  "America, Europe, and Africa Before 1492\nGlobalization, the ever-increasing interconnectedness of the world, is not a new phenomenon, but it accelerated when western Europeans discovered the riches of the East. During the Crusades (1095–1291), Europeans developed an appetite for spices, silk, porcelain, sugar, and other luxury items from the East, for which they traded fur, timber, and Slavic people they captured and sold (hence the word slave). But when the Silk Road, the long overland trading route from China to the Mediterranean, became costlier and more dangerous to travel, Europeans searched for a more efficient and inexpensive trade route over water, initiating the development of what we now call the Atlantic World. \n In pursuit of commerce in Asia, fifteenth-century traders unexpectedly encountered a “New World” populated by millions and home to sophisticated and numerous peoples. Mistakenly believing they had reached the East Indies, these early explorers called its inhabitants “Indians.” West Africa, a diverse and culturally rich area, soon entered the stage as other nations exploited its slave trade and brought its peoples to the New World in chains. Although Europeans would come to dominate the New World, they could not have done so without Africans and Native peoples .";
 
 const textAreaStyle = {
   height: 250,
@@ -21,6 +24,10 @@ const buttonsStyle = {
   paddingLeft: "2.5%",
   marginBottom: "1%",
 };
+const buttons2Style = {
+  marginLeft: "3%",
+}
+
 
 /**
 """
@@ -83,12 +90,27 @@ function TextProcessForm(props) {
             }}
           />
         </Col>
-        <Col span={6} style={buttonsStyle}>
-          <Upload {...uploadProps}>
-            <Button icon={<UploadOutlined />}>{t("uploadButton")}</Button>
-          </Upload>
+        <Col span={12} style={buttonsStyle}>
+          <Row >
+            <Upload  {...uploadProps}>
+              <Button icon={<UploadOutlined />}>{t("uploadButton")}</Button> 
+            </Upload>
+            <Button type="primary" style={buttons2Style} onClick={() => setText(exampleText)}>
+              {t("testText")}
+            </Button>
+            <Button
+              style={buttons2Style}
+              type="primary"
+              disabled={text.length == 0}
+              icon={<DeleteOutlined />}
+              onClick={() => setText("")}
+              danger
+            >
+              {t("deleteSelected")}
+            </Button>
+          </Row>
         </Col>
-        <Col span={18} style={buttonsStyle}>
+        <Col span={12} style={buttonsStyle}>
           <Row justify={"end"} gutter={[32, 32]}>
             <Col>
               <Button

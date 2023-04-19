@@ -48,6 +48,7 @@
     "uploadButton": "Subir archivo...",
     "tooBig": " demasiado grande",
     "sucessfulUpload": " cargado correctamente",
+    "testText": "¡Pruebe con un texto!",
 
     "deleteMessage" : "Palabras eliminadas correctamente",
     "addMessage" : "Palabra añadida correctamente",

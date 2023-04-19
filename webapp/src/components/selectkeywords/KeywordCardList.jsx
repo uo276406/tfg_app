@@ -142,7 +142,6 @@ function KeywordCardList(props) {
 
   const updateCheckAllButton = () => {
     selectedKeywords = keywordsList.filter((k) => k.selected);
-    console.log(selectedKeywords.length)
     if (
       selectedKeywords.length > 0 &&
       selectedKeywords.length < keywordsList.length
@@ -188,11 +187,12 @@ function KeywordCardList(props) {
       let toAdd = {
         index: Math.max(...prevKeywordsList.map((k) => k.index)) + 1,
         value: keywordToAdd,
-        selected: false,
+        selected: true,
       };
 
       if(validateKeyword(toAdd.value)){
         prevKeywordsList.push(toAdd);
+        setCountSelected(countSelected+1)
         showMessages("addMessage", "success");
       }
       return prevKeywordsList;

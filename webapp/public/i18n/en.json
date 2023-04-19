@@ -49,6 +49,7 @@
     "uploadButton": "Upload...",
     "tooBig": " file to big",
     "sucessfulUpload": " uploaded sucessful",
+    "testText": "Try it now!",
 
     "deleteMessage" : "Words deleted",
     "addMessage" : "New word added",
