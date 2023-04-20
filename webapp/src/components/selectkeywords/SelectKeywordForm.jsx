@@ -64,7 +64,6 @@ function SelectKeywordsForm(props) {
 
   // Almacena palabras seleccionadas ----------------------------------------------
 
-  const percentageOfSelected = 0.75;
   let [selectedKeywords, setSelectedKeywords] = useState([]);
 
   const handleKeywordsSelected = (selectedKeywords) => {

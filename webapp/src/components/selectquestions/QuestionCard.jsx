@@ -87,9 +87,11 @@ function QuestionCard(props) {
   }, [inputValue]);
 
   const handleClose = (removedTag) => {
+    let indexRemoved = tags.findIndex((tag) => tag === removedTag);
     const newTags = tags.filter((tag) => tag !== removedTag);
-    console.log(newTags);
+    const newCorrects = corrects.filter((correct, index) => index !== indexRemoved);
     setTags(newTags);
+    setCorrects(newCorrects);
   };
 
   const showInput = () => {
