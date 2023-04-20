@@ -101,7 +101,7 @@ function TextProcessForm(props) {
             <Button
               style={buttons2Style}
               type="primary"
-              disabled={text.length == 0}
+              disabled={text.length === 0}
               icon={<DeleteOutlined />}
               onClick={() => setText("")}
               danger

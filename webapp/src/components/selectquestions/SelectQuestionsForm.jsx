@@ -1,4 +1,4 @@
-import { Button, Row, Col } from "antd";
+import { Button, Row, Col, Alert } from "antd";
 import { DownloadOutlined, LeftOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import QuestionCardList from "./QuestionCardList";
@@ -23,6 +23,13 @@ const buttonsStyle = {
   marginBottom: "1%",
 };
 
+const alertStyle = {
+  width: "100%",
+  marginLeft: "1.5%",
+  marginRight: "1.5%",
+  marginBottom: "1.5%",
+}
+
 /**
  * A functional component that renders a form for selecting questions.
  * @param {{Object}} props - The props object containing the questions to display and a function to change the step.
@@ -33,16 +40,25 @@ function SelectQuestionsForm(props) {
 
   return (
     <div>
+      <Row span={24}>
+        {
+        props.questions.there_are_repeated ? <Alert
+        style={alertStyle}
+          message={t("repeatedQuestionsWarningTitle")}
+          description={t("repeatedQuestionsWarning")}
+          type="warning"
+          showIcon
+          closable
+        /> : <></>}
+      </Row>
       <Row gutter={[16, 16]} style={questionsListStyle}>
         <Col span={24}>
-          <QuestionCardList questions={props.questions}></QuestionCardList>
+          <QuestionCardList
+            questions={props.questions.questions}
+          ></QuestionCardList>
         </Col>
       </Row>
-      <Row
-        justify={justifyButtonsBottom}
-        gutter={[8, 8]}
-        style={buttonsStyle}
-      >
+      <Row justify={justifyButtonsBottom} gutter={[8, 8]} style={buttonsStyle}>
         <Col>
           <Button
             type="primary"

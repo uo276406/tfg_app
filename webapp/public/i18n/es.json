@@ -70,6 +70,8 @@
     "exportButton": "Exportar...",
     "addOption": "Añadir opción...",
     "optionEmpty": "No puede ser vacío",
+    "repeatedQuestionsWarningTitle": "Preguntas repetidas",
+    "repeatedQuestionsWarning": "Al ser un texto corto, se han generado preguntas repetidas. Revise bien y cambie algunas.",
 
     "docText1": "Aquí podrá encontrar enlaces a la documentación de la API REST de la aplicación." ,
     "docText2": "Disponible en dos tecnologías diferentes que son interactivas: Swagger UI y ReDoc. Ambas siguen la ",

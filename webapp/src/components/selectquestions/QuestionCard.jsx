@@ -13,6 +13,7 @@ const questionCardStyle = {
   width: "100%",
   paddingTop: "1%",
   margin: "1%",
+  backgroundColor: "#e6f7ff"
 };
 
 const questionTextStyle = {

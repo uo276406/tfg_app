@@ -34,7 +34,6 @@ const buttonsStyle = {
   marginBottom: "1%",
 };
 
-
 /**
  * A form component that allows users to select keywords and generate questions based on them.
  * @param {{object}} props - The props object containing the necessary data for the component.
@@ -48,13 +47,14 @@ function SelectKeywordsForm(props) {
   const { t } = useTranslation();
 
   // Botón de generar preguntas -----------------------------------------------
-  const [enabledGenerateButton, setEnabledGenerateButton] = useState(false);
+  const [enabledGenerateButton, setEnabledGenerateButton] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   // Envía la petición para que la restapi genere preguntas -------------------
   const sendApiMessage = async () => {
     setIsLoading(true);
     let connector = new QuestionsConnector(props.text, selectedKeywords);
+    console.log(selectedKeywords)
     await connector.getQuestions().then((questionsFetched) => {
       props.handleQuestions(questionsFetched);
       setIsLoading(false);
@@ -63,14 +63,17 @@ function SelectKeywordsForm(props) {
   };
 
   // Almacena palabras seleccionadas ----------------------------------------------
-  const [selectedKeywords, setSelectedKeywords] = useState([]);
+
+  const percentageOfSelected = 0.75;
+  let [selectedKeywords, setSelectedKeywords] = useState([]);
+
   const handleKeywordsSelected = (selectedKeywords) => {
     setSelectedKeywords([
       ...selectedKeywords.map((k) => {
         return { value: k.value };
       }),
     ]);
-  }
+  };
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Row, Col, Input, Checkbox, message, Tooltip } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import KeywordCard from "./KeywordCard";
@@ -75,7 +75,6 @@ function KeywordCardList(props) {
   ]);
 
   // Lista de palabras clave seleccionadas ---------------------------------------------
-
   let selectedKeywords = keywordsList.filter((k) => k.selected);
   let [countSelected, setCountSelected] = useState(Math.trunc(props.keywordsFound.length*percentageOfSelected)+1);
 
@@ -90,6 +89,8 @@ function KeywordCardList(props) {
     updateCheckAllButton();
     handleActivateButtons(selectedKeywords.length);
   }
+  
+  useEffect(() => props.handleKeywordsSelected(keywordsList.filter((k) => k.selected)), [keywordsList]);
 
   // Botón de eliminar ---------------------------------------------------------
   let [enabledDeleteButton, setEnabledDeleteButton] = useState(false);
@@ -201,7 +202,6 @@ function KeywordCardList(props) {
     setEnabledAddButton(false);
     updateCheckAllButton()
   }
-
 
   const showMessages = (text, type) => {
     messageApi.open({

@@ -28,6 +28,11 @@ class Question(BaseModel):
     question: str
     options: list[Answer]
 
+
+class QuestionsInfo(BaseModel):
+    questions: list[Question]
+    there_are_repeated: bool
+
 # ---------------------------------------------------------
 
 
@@ -39,6 +44,6 @@ class Question(BaseModel):
 
 
 @router.post("/generate", status_code=status.HTTP_200_OK, description="Generate questions", response_description="Generated questions form the text using the selected keywords")
-async def generate_questions(text_keywords: TextKeywords) -> list[Question]:
+async def generate_questions(text_keywords: TextKeywords) -> QuestionsInfo:
     generator = FillInGapsGenerator()
     return generator.generate_questions(text_keywords.text_body, text_keywords.keywords_selected)
