@@ -53,25 +53,26 @@ function SelectKeywordsForm(props) {
   // Envía la petición para que la restapi genere preguntas -------------------
   const sendApiMessage = async () => {
     setIsLoading(true);
-    let connector = new QuestionsConnector(props.text, selectedKeywords);
-    console.log(selectedKeywords)
-    await connector.getQuestions().then((questionsFetched) => {
+    let connector = new QuestionsConnector();
+    props.handleTotalKeywords(totalKeywords);
+    await connector.getQuestions(props.text, selectedKeywords).then((questionsFetched) => {
       props.handleQuestions(questionsFetched);
       setIsLoading(false);
       props.changeStep(2);
     });
   };
 
-  // Almacena palabras seleccionadas ----------------------------------------------
-
+  // Almacena palabras seleccionadas y no seleccionadas ----------------------------------------------
   let [selectedKeywords, setSelectedKeywords] = useState([]);
+  let [totalKeywords, setTotalKeywords] = useState([]);
 
-  const handleKeywordsSelected = (selectedKeywords) => {
+  const handleKeywordsSelected = (totalKeywords) => {
     setSelectedKeywords([
-      ...selectedKeywords.map((k) => {
-        return { value: k.value };
+      ...totalKeywords.filter((k) => {
+        return k.selected;
       }),
     ]);
+    setTotalKeywords([...totalKeywords]);
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Row, Col, Input, Checkbox, message, Tooltip } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import KeywordCard from "./KeywordCard";
@@ -16,9 +16,8 @@ const justifyAddButtons = {
 const listStyle = {
   padding: "1%",
   backgroundColor: "white",
-  overflow: 'scroll',
-  maxHeight: 275
-  
+  overflow: "scroll",
+  maxHeight: 275,
 };
 
 const addButtonStyle = { paddingTop: "1%" };
@@ -37,20 +36,22 @@ function KeywordCardList(props) {
   // Compara palabras clave ----------------------------------------------------
   const sameKeywordIndex = (i1, i2) => {
     return i1 === i2;
-  }
+  };
 
   const isRepeated = (keyword) => {
     for (const k of keywordsList) {
       if (k.value.toLowerCase() === keyword.toLowerCase()) {
-        return true
+        return true;
       }
     }
-    return false
-  }
+    return false;
+  };
 
   const isInText = (keyword) => {
-    return RegExp('\\b'+ keyword.toLowerCase() +'\\b').test(props.text.toLowerCase())
-  }
+    return RegExp("\\b" + keyword.toLowerCase() + "\\b").test(
+      props.text.toLowerCase()
+    );
+  };
 
   const validateKeyword = (keyword) => {
     if (isRepeated(keyword)) {
@@ -58,25 +59,19 @@ function KeywordCardList(props) {
       return false;
     }
 
-    if (!isInText(keyword)){
+    if (!isInText(keyword)) {
       showMessages("inTextMessage", "error");
       return false;
     }
     return true;
-  }
+  };
 
   // Lista de palabras clave totales ---------------------------------------------------
-  const percentageOfSelected = 0.75
-  let [keywordsList, setKeywordsList] = useState([
-    ...props.keywordsFound.map((k, index) => {
-      let toSelect = index < props.keywordsFound.length*percentageOfSelected ? true : false
-      return { index: k.index, value: k.value, selected: toSelect};
-    }),
-  ]);
+  let [keywordsList, setKeywordsList] = useState([...props.keywordsFound]);
 
   // Lista de palabras clave seleccionadas ---------------------------------------------
   let selectedKeywords = keywordsList.filter((k) => k.selected);
-  let [countSelected, setCountSelected] = useState(Math.trunc(props.keywordsFound.length*percentageOfSelected)+1);
+  let [countSelected, setCountSelected] = useState(props.keywordsFound.filter((k) => k.selected).length);
 
   const updateSelectedKeywords = (keyword) => {
     for (let elem of keywordsList) {
@@ -85,15 +80,14 @@ function KeywordCardList(props) {
         elem.value = keyword.value;
       }
     }
-    props.handleKeywordsSelected(keywordsList.filter((k) => k.selected));
+    props.handleKeywordsSelected(keywordsList);
     updateCheckAllButton();
     handleActivateButtons(selectedKeywords.length);
-  }
-  
-  useEffect(() => props.handleKeywordsSelected(keywordsList.filter((k) => k.selected)), [keywordsList]);
+  };
+
 
   // Botón de eliminar ---------------------------------------------------------
-  let [enabledDeleteButton, setEnabledDeleteButton] = useState(false);
+  let [enabledDeleteButton, setEnabledDeleteButton] = useState(true);
 
   const deleteKeywordsSelected = () => {
     setKeywordsList((prevKeywordsList) => {
@@ -109,7 +103,7 @@ function KeywordCardList(props) {
     updateCheckAllButton();
     handleActivateButtons(0);
     selectedKeywords = [];
-  }
+  };
 
   // Activa botones ------------------------------------------------------------
   const handleActivateButtons = (count) => {
@@ -121,7 +115,7 @@ function KeywordCardList(props) {
       setEnabledDeleteButton(false);
       props.enableGenerateQuestionButton(false);
     }
-  }
+  };
 
   // Botón de seleccionar todas ------------------------------------------------
   const [indeterminate, setIndeterminate] = useState(true);
@@ -139,7 +133,7 @@ function KeywordCardList(props) {
     value
       ? handleActivateButtons(keywordsList.length)
       : handleActivateButtons(0);
-  }
+  };
 
   const updateCheckAllButton = () => {
     selectedKeywords = keywordsList.filter((k) => k.selected);
@@ -156,7 +150,7 @@ function KeywordCardList(props) {
       setIndeterminate(false);
       setCheckAll(true);
     }
-  }
+  };
 
   // Buscador ------------------------------------------------------------------
   const searchedElements = keywordsList;
@@ -164,13 +158,13 @@ function KeywordCardList(props) {
 
   const editSearchField = (event) => {
     setSearchTerm(event.target.value);
-  }
+  };
 
   const getSearchedTerms = () => {
     return searchedElements.filter((keyword) =>
       keyword.value.toLowerCase().includes(searchTerm.toLocaleLowerCase())
     );
-  }
+  };
 
   // Botón de añadir -----------------------------------------------------------
   const [enabledAddButton, setEnabledAddButton] = useState(false);
@@ -182,7 +176,7 @@ function KeywordCardList(props) {
     event.target.value !== ""
       ? setEnabledAddButton(true)
       : setEnabledAddButton(false);
-  }
+  };
   const addNewKeyword = () => {
     setKeywordsList((prevKeywordsList) => {
       let toAdd = {
@@ -191,17 +185,17 @@ function KeywordCardList(props) {
         selected: true,
       };
 
-      if(validateKeyword(toAdd.value)){
+      if (validateKeyword(toAdd.value)) {
         prevKeywordsList.push(toAdd);
-        setCountSelected(countSelected+1)
+        setCountSelected(countSelected + 1);
         showMessages("addMessage", "success");
       }
       return prevKeywordsList;
     });
     setKeywordToAdd("");
     setEnabledAddButton(false);
-    updateCheckAllButton()
-  }
+    updateCheckAllButton();
+  };
 
   const showMessages = (text, type) => {
     messageApi.open({
@@ -209,7 +203,7 @@ function KeywordCardList(props) {
       content: t(text),
       duration: 5,
     });
-  }
+  };
 
   return (
     <div>

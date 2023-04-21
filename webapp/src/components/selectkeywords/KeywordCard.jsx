@@ -1,19 +1,30 @@
 import React, { useState } from "react";
 import { Card, Input } from "antd";
 
-const { Meta } = Card;
-
 const cardStyleNotSelected = {
   margin: "0.5%",
   textAlign: "center",
-  height: "auto",
+  width: "250px",
+
 };
 const cardStyleSelected = {
   margin: "0.5%",
   textAlign: "center",
-  height: "auto",
   backgroundColor: "#e6f7ff",
+  width: "250px",
 };
+
+const textStyle = {
+  textAlign: "center",
+  fontSize: "1.2em",
+  fontWeight: "bold",
+}
+
+const inputStyle = {
+  textAlign: "center",
+  fontSize: "1em",
+  fontWeight: "bold",
+}
 
 /**
  * A component that displays a keyword card with options to edit and select the keyword.
@@ -34,7 +45,7 @@ function KeywordCard(props) {
   // Editar ---------------------------------------------------------
   const [editable, setEditable] = useState(false);
   const [keyword, setKeyword] = useState(props.value);
-  let prevKeyword = props.value
+  let prevKeyword = props.value;
 
   const handleDoubleClick = (event) => {
     event.target.focus();
@@ -42,27 +53,22 @@ function KeywordCard(props) {
   };
 
   const handleEditConfirm = () => {
-    if (!props.isInText(keyword)){
+    if (!props.isInText(keyword)) {
       props.showMessages("inTextMessage", "error");
-      setKeyword(prevKeyword)
+      setKeyword(prevKeyword);
       setEditable(true);
-    } 
-    else if (props.isRepeated(keyword) && keyword !== prevKeyword) {
+    } else if (props.isRepeated(keyword) && keyword !== prevKeyword) {
       props.showMessages("repeatMessage", "error");
-      setKeyword(prevKeyword)
+      setKeyword(prevKeyword);
       setEditable(true);
-    }
-    else if(keyword.length === 0){
+    } else if (keyword.length === 0) {
       props.showMessages("noEmptyEditForm", "error");
-      setKeyword(prevKeyword)
+      setKeyword(prevKeyword);
       setEditable(true);
-    }
-    else{
+    } else {
       setEditable(false);
     }
     prevKeyword = keyword;
-
-    
   };
 
   const handleEdit = (e) => {
@@ -77,28 +83,32 @@ function KeywordCard(props) {
       }}
     >
       {editable ? (
-        <Meta
+        <p
           onClick={(event) => {
             handleSelect();
             event.stopPropagation();
           }}
-          title={
-            <Input
-              autoFocus
-              onChange={(event) => handleEdit(event)}
-              onBlur={() => handleEditConfirm()}
-              onPressEnter={() => handleEditConfirm()}
-              value={keyword}
-            ></Input>
-          }
-        />
+          style={textStyle}
+        >
+          <Input
+            autoFocus
+            onChange={(event) => handleEdit(event)}
+            onBlur={() => handleEditConfirm()}
+            onPressEnter={() => handleEditConfirm()}
+            value={keyword}
+            style={inputStyle}
+            size="small"
+          ></Input>
+        </p>
       ) : (
-        <Meta
+        <p
           onDoubleClick={(event) => {
             handleDoubleClick(event);
           }}
-          title={keyword}
-        />
+          style={textStyle}
+        >
+          {keyword}
+        </p>
       )}
     </Card>
   );

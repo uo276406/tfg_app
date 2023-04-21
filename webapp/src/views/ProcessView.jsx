@@ -25,8 +25,11 @@ function ProcessView() {
         <SelectKeywordsForm
           changeStep={handleStep}
           text={text}
-          keywordsFound={keywordsFound}
+          keywordsFound={
+            totalKeywords.length === 0 ? keywordsFound : totalKeywords
+          }
           handleQuestions={handleQuestions}
+          handleTotalKeywords={handleTotalKeywords}
         />
       ),
       2: <SelectQuestionsForm changeStep={handleStep} questions={questions} />,
@@ -39,11 +42,21 @@ function ProcessView() {
 
   //Maneja el texto introducido por el usuario y lo envía a la api ---------------------------------
   const [text, setText] = useState("");
-  //Recoge las palabras clave devueltas ------------------------------------------------------------
+  //Recoge las palabras clave devueltas y selecciona por defecto ------------------------------------------------------------
   const [keywordsFound, setKeywordsFound] = useState([]);
+  const percentageOfSelected = 0.5;
   const handleKeywordsFound = (textSent, keywordsFound) => {
     setText(textSent);
-    setKeywordsFound(keywordsFound);
+    setKeywordsFound([
+      ...keywordsFound.map((k, index) => {
+        let toSelect =
+          index < keywordsFound.length * percentageOfSelected
+            ? true
+            : false;
+        return { index: k.index, value: k.value, selected: toSelect };
+      }),
+    ]);
+    setTotalKeywords([])
     console.log(keywordsFound);
   };
 
@@ -52,6 +65,12 @@ function ProcessView() {
   const handleQuestions = (questionsGenerated) => {
     setQuestions(questionsGenerated);
     console.log(questionsGenerated);
+  };
+
+  // Guarda lista de palabars totales
+  const [totalKeywords, setTotalKeywords] = useState([]);
+  const handleTotalKeywords = (totalKeywords) => {
+    setTotalKeywords(totalKeywords);
   };
 
   return (

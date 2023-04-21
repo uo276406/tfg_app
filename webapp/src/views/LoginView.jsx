@@ -14,7 +14,7 @@ const loginStyle = {
 function LoginView(props) {
   const { t } = useTranslation();
 
-  async function sendLogin(values) {
+  async function sendLoginToApi(values) {
     props.sendLoginToConsole({
       email: values.email,
       password: values.email,
@@ -30,7 +30,7 @@ function LoginView(props) {
             labelCol={{ span: 24 / 3 }}
             wrapperCol={{ span: 24 / 3 }}
             initialValues={{ remember: true }}
-            onFinish={sendLogin}
+            onFinish={sendLoginToApi}
             autoComplete="off"
           >
             <Form.Item
@@ -57,7 +57,7 @@ function LoginView(props) {
                 sm: { offset: 8, span: 24 / 3 },
               }}
             >
-              <Button type="primary" htmlType="submit" block>
+              <Button type="primary" htmlType="submit" block >
                 {t("login")}
               </Button>
             </Form.Item>
