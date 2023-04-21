@@ -54,7 +54,7 @@ function QuestionCard(props) {
     }
     else{
       setQuestionText(newText);
-      props.upateQuestion(props.key, newText, options); //Actualiza la pregunta 
+      props.updateQuestion(props.index, newText, options); //Actualiza la pregunta 
     }
   }
 
@@ -81,7 +81,7 @@ function QuestionCard(props) {
   const handleClose = (removedOption) => {
     const newOptions = options.filter((option) => option !== removedOption);
     setOptions(newOptions);
-    props.upateQuestion(props.key, questionText, options); //Actualiza la pregunta 
+    props.updateQuestion(props.index, questionText, newOptions); //Actualiza la pregunta 
   };
 
   const showInput = () => {
@@ -124,7 +124,7 @@ function QuestionCard(props) {
     setOptions(newOptions);
     setEditInputIndex(-1);
     setInputValue("");
-    props.upateQuestion(props.key, questionText, newOptions); //Actualiza la pregunta 
+    props.updateQuestion(props.index, questionText, newOptions); //Actualiza la pregunta 
 
   };
 

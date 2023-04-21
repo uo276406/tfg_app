@@ -19,12 +19,10 @@ function QuestionCardList(props) {
   let [questions, setQuestions] = useState([...props.questions])
 
   const updateQuestion = (index, questionText, options) => {
-    setQuestions(questions.forEach((q, i) => {
-      if (i === index) {
-        q.question = questionText;
-        q.options = options;
-      }
-    }));
+    const newQuestions = [...questions];
+    newQuestions[index].question = questionText;
+    newQuestions[index].options = options;
+    setQuestions(newQuestions);
   }
 
   return (
@@ -35,6 +33,7 @@ function QuestionCardList(props) {
             return (
               <QuestionCard
                 key={index}
+                index = {index}
                 questionText={q.question}
                 options={q.options}
                 updateQuestion={updateQuestion}
