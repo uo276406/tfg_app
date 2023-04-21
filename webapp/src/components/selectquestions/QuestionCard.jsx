@@ -94,7 +94,9 @@ function QuestionCard(props) {
 
   const handleInputConfirm = () => {
     if (inputValue && options.indexOf(inputValue) === -1) {
-      setOptions([...options, inputValue]);
+      let newOptions = options;
+      newOptions.push({ value: inputValue, correct: false });
+      setOptions(newOptions);
     }
     setInputVisible(false);
     setInputValue("");
