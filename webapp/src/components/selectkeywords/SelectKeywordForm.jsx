@@ -1,18 +1,8 @@
 import { useState } from "react";
-import { Button, Row, Col } from "antd";
+import { Button, Row, Col, Spin } from "antd";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import KeywordCardList from "./KeywordCardList";
 import { useTranslation } from "react-i18next";
-/**
- * A form component for editing a keyword. Displays a modal with a form that allows the user to modify the keyword.
- * @param {{object}} props - The props object containing the following properties:
- *   - visible: A boolean indicating whether the modal is visible or not.
- *   - onCancel: A function to be called when the user cancels the form.
- *   - onModify: A function to be called when the user modifies the keyword.
- *   - fields: An array of objects representing the fields in the form.
- *   - form: The antd form object used to manage the form state.
- * @returns A modal containing a form for editing a keyword.
- */
 import QuestionsConnector from "../../api/questionsconnector";
 
 const justifyButtonsBottom = {
@@ -53,18 +43,26 @@ function SelectKeywordsForm(props) {
   // Envía la petición para que la restapi genere preguntas -------------------
   const sendApiMessage = async () => {
     setIsLoading(true);
+    console.log(selectedKeywords);
+    console.log(totalKeywords);
     let connector = new QuestionsConnector();
     props.handleTotalKeywords(totalKeywords);
-    await connector.getQuestions(props.text, selectedKeywords).then((questionsFetched) => {
-      props.handleQuestions(questionsFetched);
-      setIsLoading(false);
-      props.changeStep(2);
-    });
+    await connector
+      .getQuestions(props.text, selectedKeywords)
+      .then((questionsFetched) => {
+        props.handleQuestions(questionsFetched);
+        setIsLoading(false);
+        props.changeStep(2);
+      });
   };
 
   // Almacena palabras seleccionadas y no seleccionadas ----------------------------------------------
-  let [selectedKeywords, setSelectedKeywords] = useState([]);
-  let [totalKeywords, setTotalKeywords] = useState([]);
+  let [selectedKeywords, setSelectedKeywords] = useState([
+    ...props.keywordsFound.filter((k) => {
+      return k.selected;
+    }),
+  ]);
+  let [totalKeywords, setTotalKeywords] = useState([...props.keywordsFound]);
 
   const handleKeywordsSelected = (totalKeywords) => {
     setSelectedKeywords([
@@ -77,40 +75,45 @@ function SelectKeywordsForm(props) {
 
   return (
     <div>
-      <Row gutter={[16, 16]} style={keywordsListStyle}>
-        <Col span={24}>
-          <KeywordCardList
-            keywordsFound={props.keywordsFound}
-            enableGenerateQuestionButton={setEnabledGenerateButton}
-            handleKeywordsSelected={handleKeywordsSelected}
-            text={props.text}
-          />
-        </Col>
-      </Row>
-      <Row justify={justifyButtonsBottom} gutter={[8, 8]} style={buttonsStyle}>
-        <Col>
-          <Button
-            type="primary"
-            onClick={() => {
-              props.changeStep(0);
-            }}
-            icon={<LeftOutlined />}
-          >
-            {t("backButton")}
-          </Button>
-        </Col>
-        <Col>
-          <Button
-            type="primary"
-            icon={<RightOutlined />}
-            loading={isLoading}
-            disabled={!enabledGenerateButton}
-            onClick={sendApiMessage}
-          >
-            {t("generateQuestionsButton")}
-          </Button>
-        </Col>
-      </Row>
+      <Spin spinning={isLoading ? true : false}>
+        <Row gutter={[16, 16]} style={keywordsListStyle}>
+          <Col span={24}>
+            <KeywordCardList
+              keywordsFound={props.keywordsFound}
+              enableGenerateQuestionButton={setEnabledGenerateButton}
+              handleKeywordsSelected={handleKeywordsSelected}
+              text={props.text}
+            />
+          </Col>
+        </Row>
+        <Row
+          justify={justifyButtonsBottom}
+          gutter={[8, 8]}
+          style={buttonsStyle}
+        >
+          <Col>
+            <Button
+              type="primary"
+              onClick={() => {
+                props.changeStep(0);
+              }}
+              icon={<LeftOutlined />}
+            >
+              {t("backButton")}
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              type="primary"
+              icon={<RightOutlined />}
+              disabled={!enabledGenerateButton}
+              onClick={sendApiMessage}
+            >
+              {t("generateQuestionsButton")}
+            </Button>
+          </Col>
+        </Row>
+      </Spin>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
-from routers import keywords, questions
+from routers import keywords, questions, users
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="KeywordExtractorAPI", version="v1.0")
@@ -10,6 +9,8 @@ app.include_router(keywords.router, prefix="/api/v1.0/keywords",
                    tags=["keywords"])
 app.include_router(questions.router, prefix="/api/v1.0/questions",
                    tags=["questions"])
+app.include_router(users.router, prefix="/api/v1.0/users",
+                   tags=["users"])
 
 # Ajustes de CORS -----------------------------------------
 # Se permiten todos los orígenes

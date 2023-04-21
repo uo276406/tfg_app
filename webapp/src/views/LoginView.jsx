@@ -1,6 +1,8 @@
 import React from "react";
 import { Button, Form, Input, Card, Col, Row } from "antd";
 import { useTranslation } from "react-i18next";
+import UsersConnector from "../api/usersconnector";
+
 
 const loginStyle = {
   margin: "2%",
@@ -15,9 +17,9 @@ function LoginView(props) {
   const { t } = useTranslation();
 
   async function sendLoginToApi(values) {
-    props.sendLoginToConsole({
-      email: values.email,
-      password: values.email,
+    let connector = new UsersConnector();
+    await connector.loginUser(values.email, values.password).then((responseLogin) => {
+      console.log(responseLogin);
     });
   }
 

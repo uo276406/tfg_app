@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button, Row, Col, Input, Upload, message } from "antd";
-import { RightOutlined, UploadOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Button, Row, Col, Input, Upload, message, Spin } from "antd";
+import {
+  RightOutlined,
+  UploadOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import KeywordsConnector from "../../api/keywordsconnector";
 import { useTranslation } from "react-i18next";
 
@@ -26,8 +30,7 @@ const buttonsStyle = {
 };
 const buttons2Style = {
   marginLeft: "3%",
-}
-
+};
 
 /**
 """
@@ -77,55 +80,60 @@ function TextProcessForm(props) {
 
   return (
     <div>
-      <Row justify={"end"} gutter={[16, 16]}>
-        <Col span={24}>
-          <TextArea
-            showCount
-            style={textAreaStyle}
-            placeholder={t("textAreaPlaceHolder")}
-            name="TextToProcess"
-            value={text}
-            onChange={(event) => {
-              setText(event.target.value);
-            }}
-          />
-        </Col>
-        <Col span={12} style={buttonsStyle}>
-          <Row >
-            <Upload  {...uploadProps}>
-              <Button icon={<UploadOutlined />}>{t("uploadButton")}</Button> 
-            </Upload>
-            <Button type="primary" style={buttons2Style} onClick={() => setText(exampleText)}>
-              {t("testText")}
-            </Button>
-            <Button
-              style={buttons2Style}
-              type="primary"
-              disabled={text.length === 0}
-              icon={<DeleteOutlined />}
-              onClick={() => setText("")}
-              danger
-            >
-              {t("deleteSelected")}
-            </Button>
-          </Row>
-        </Col>
-        <Col span={12} style={buttonsStyle}>
-          <Row justify={"end"} gutter={[32, 32]}>
-            <Col>
+      <Spin spinning={isLoading ? true : false}>
+        <Row justify={"end"} gutter={[16, 16]}>
+          <Col span={24}>
+            <TextArea
+              showCount
+              style={textAreaStyle}
+              placeholder={t("textAreaPlaceHolder")}
+              name="TextToProcess"
+              value={text}
+              onChange={(event) => {
+                setText(event.target.value);
+              }}
+            />
+          </Col>
+          <Col span={12} style={buttonsStyle}>
+            <Row>
+              <Upload {...uploadProps}>
+                <Button icon={<UploadOutlined />}>{t("uploadButton")}</Button>
+              </Upload>
               <Button
                 type="primary"
-                icon={<RightOutlined />}
-                loading={isLoading}
-                disabled={!text}
-                onClick={sendApiMessage}
+                style={buttons2Style}
+                onClick={() => setText(exampleText)}
               >
-                {t("processTextButton")}
+                {t("testText")}
               </Button>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+              <Button
+                style={buttons2Style}
+                type="primary"
+                disabled={text.length === 0}
+                icon={<DeleteOutlined />}
+                onClick={() => setText("")}
+                danger
+              >
+                {t("deleteSelected")}
+              </Button>
+            </Row>
+          </Col>
+          <Col span={12} style={buttonsStyle}>
+            <Row justify={"end"} gutter={[32, 32]}>
+              <Col>
+                <Button
+                  type="primary"
+                  icon={<RightOutlined />}
+                  disabled={!text}
+                  onClick={sendApiMessage}
+                >
+                  {t("processTextButton")}
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Spin>
     </div>
   );
 }
