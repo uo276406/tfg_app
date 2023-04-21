@@ -64,7 +64,6 @@ function ProcessView() {
   const [questions, setQuestions] = useState();
   const handleQuestions = (questionsGenerated) => {
     setQuestions(questionsGenerated);
-    console.log(questionsGenerated);
   };
 
   // Guarda lista de palabars totales

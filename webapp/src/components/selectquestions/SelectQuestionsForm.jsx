@@ -2,6 +2,7 @@ import { Button, Row, Col, Alert } from "antd";
 import { DownloadOutlined, LeftOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import QuestionCardList from "./QuestionCardList";
+import { useState } from "react";
 
 const justifyButtonsBottom = {
   xs: "center",
@@ -36,6 +37,32 @@ const alertStyle = {
  * @returns A JSX element that displays the questions and buttons for navigating the form.
  */
 function SelectQuestionsForm(props) {
+
+  // Almacena las preguntas por si se editan ---------------------------------------
+  let [questions, setQuestions] = useState([...props.questions.questions])
+
+  const updateQuestions = (newQuestions) => {
+    setQuestions(newQuestions);
+  }
+
+  // Exportación a fichero de texto -------------------------------------------------
+  const exportToTxt = () => {
+    let text = "";
+    questions.forEach((question) => {
+      if (question.question) {
+        text += question.question + "\r\n";
+        question.options.forEach((option) => { text += option.value +  (option.correct ? " T " : " F ") + "\r\n"; });
+      }
+      text += "\r\n";
+    });
+    const element = document.createElement("a");
+    const file = new Blob([text], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "questions.txt";
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  }
+
   const { t } = useTranslation();
 
   return (
@@ -54,7 +81,8 @@ function SelectQuestionsForm(props) {
       <Row gutter={[16, 16]} style={questionsListStyle}>
         <Col span={24}>
           <QuestionCardList
-            questions={props.questions.questions}
+            questions={questions}
+            updateQuestions={updateQuestions}
           ></QuestionCardList>
         </Col>
       </Row>
@@ -71,8 +99,8 @@ function SelectQuestionsForm(props) {
           </Button>
         </Col>
         <Col>
-          <Button type="primary" icon={<DownloadOutlined />}>
-            {t("exportButton")}
+          <Button type="primary" icon={<DownloadOutlined />} onClick={exportToTxt}>
+            {t("exportTxtButton")}
           </Button>
         </Col>
       </Row>

@@ -68,7 +68,7 @@
     "deleteSelected": "Delete",
     "searchPlaceholder": "Search...",
 
-    "exportButton": "Export...",
+    "exportTxtButton": "Export to txt...",
     "addOption": "Add option...",
     "optionEmpty": "It can't be empty",
     "repeatedQuestionsWarningTitle": "Repeated questions",

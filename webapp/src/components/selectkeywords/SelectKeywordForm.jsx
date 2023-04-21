@@ -51,6 +51,7 @@ function SelectKeywordsForm(props) {
       .getQuestions(props.text, selectedKeywords)
       .then((questionsFetched) => {
         props.handleQuestions(questionsFetched);
+        console.log(questionsFetched)
         setIsLoading(false);
         props.changeStep(2);
       });

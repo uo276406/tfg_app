@@ -1,4 +1,5 @@
 import QuestionCard from "./QuestionCard";
+import { useState } from "react";
 import { Row, Col } from "antd";
 
 const listStyle = {
@@ -14,16 +15,29 @@ const listStyle = {
  * @returns A div containing a list of QuestionCard components.
  */
 function QuestionCardList(props) {
+
+  let [questions, setQuestions] = useState([...props.questions])
+
+  const updateQuestion = (index, questionText, options) => {
+    setQuestions(questions.forEach((q, i) => {
+      if (i === index) {
+        q.question = questionText;
+        q.options = options;
+      }
+    }));
+  }
+
   return (
     <div>
       <Col span={24}>
         <Row style={listStyle}>
-          {props.questions.map((q, index) => {
+          {questions.map((q, index) => {
             return (
               <QuestionCard
                 key={index}
                 questionText={q.question}
                 options={q.options}
+                updateQuestion={updateQuestion}
               />
             );
           })}
