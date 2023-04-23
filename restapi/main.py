@@ -1,52 +1,29 @@
 from fastapi import Depends, FastAPI
-from routers import keywordsrouter, questionsrouter
+from routers import keywordsrouter, questionsrouter, usersrouter, authrouter
 from fastapi.middleware.cors import CORSMiddleware
-from repository.usersrepository import User, create_db_and_tables
-from users.usersmanager import UserCreate, UserRead, UserUpdate, auth_backend, current_active_user, fastapi_users
 
 
-app = FastAPI(title="KeywordExtractorAPI", version="v1.0")
+app = FastAPI(
+    title="Keyword APP API",
+    description="API REST to found keywords in a text and generate questions about it",
+    version="v1.0",
+    contact={
+        "name": "Diego González Suárez",
+        "email": "uo276406@uniovi.es",
+    }
+)
+version = "/api/v1.0"
 
 # Adición de routers ----------------------------------------
-app.include_router(keywordsrouter.router, prefix="/api/v1.0/keywords",
+app.include_router(keywordsrouter.router, prefix=version + "/keywords",
                    tags=["keywords"])
-app.include_router(questionsrouter.router, prefix="/api/v1.0/questions",
+app.include_router(questionsrouter.router, prefix=version + "/questions",
                    tags=["questions"])
-app.include_router(
-    fastapi_users.get_auth_router(auth_backend), prefix="/auth/jwt", tags=["auth"]
-)
+app.include_router(usersrouter.router, prefix=version + "/users",
+                   tags=["users"])
+app.include_router(authrouter.router, prefix=version + "/auth",
+                   tags=["auth"])
 
-# Gestión de usuarios ---------------------------------------
-app.include_router(
-    fastapi_users.get_register_router(UserRead, UserCreate),
-    prefix="/auth",
-    tags=["auth"],
-)
-app.include_router(
-    fastapi_users.get_reset_password_router(),
-    prefix="/auth",
-    tags=["auth"],
-)
-app.include_router(
-    fastapi_users.get_verify_router(UserRead),
-    prefix="/auth",
-    tags=["auth"],
-)
-app.include_router(
-    fastapi_users.get_users_router(UserRead, UserUpdate),
-    prefix="/users",
-    tags=["users"],
-)
-@app.on_event("startup")
-async def on_startup():
-    # Not needed if you setup a migration system like Alembic
-    await create_db_and_tables()
-
-@app.get("/authenticated-route")
-async def authenticated_route(user: User = Depends(current_active_user)):
-    return {"message": f"Hello {user.email}!"}
-
-# -----------------------------------------------------------
 
 # Ajustes de CORS -----------------------------------------
 # Se permiten todos los orígenes

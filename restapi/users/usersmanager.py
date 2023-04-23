@@ -1,6 +1,5 @@
 import uuid
 from typing import Optional
-
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin, schemas
 from fastapi_users.authentication import (
@@ -12,6 +11,8 @@ from fastapi_users.db import SQLAlchemyUserDatabase
 from repository.usersrepository import User, get_user_db
 
 # Esquemas de usuarios --------------------------------------------
+
+
 class UserRead(schemas.BaseUser[uuid.UUID]):
     pass
 
@@ -22,8 +23,12 @@ class UserCreate(schemas.BaseUserCreate):
 
 class UserUpdate(schemas.BaseUserUpdate):
     pass
+# ------------------------------------------------------------------
+
 
 SECRET = "SECRET"
+SECONDS = 3600
+
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     reset_password_token_secret = SECRET
@@ -40,18 +45,19 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     async def on_after_request_verify(
         self, user: User, token: str, request: Optional[Request] = None
     ):
-        print(f"Verification requested for user {user.id}. Verification token: {token}")
+        print(
+            f"Verification requested for user {user.id}. Verification token: {token}")
 
 
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
     yield UserManager(user_db)
 
 
-bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
+bearer_transport = BearerTransport(tokenUrl="/api/v1.0/auth/jwt/login")
 
 
 def get_jwt_strategy() -> JWTStrategy:
-    return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
+    return JWTStrategy(secret=SECRET, lifetime_seconds=SECONDS)
 
 
 auth_backend = AuthenticationBackend(
