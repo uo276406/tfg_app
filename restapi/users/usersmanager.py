@@ -10,6 +10,13 @@ from fastapi_users.authentication import (
 from fastapi_users.db import SQLAlchemyUserDatabase
 from repository.usersrepository import User, get_user_db
 
+from dotenv import load_dotenv
+from pathlib import Path
+import os
+
+dotenv_path = Path('../.env.development')
+load_dotenv(dotenv_path=dotenv_path)
+
 # Esquemas de usuarios --------------------------------------------
 
 
@@ -26,8 +33,8 @@ class UserUpdate(schemas.BaseUserUpdate):
 # ------------------------------------------------------------------
 
 
-SECRET = "SECRET"
-SECONDS = 3600
+SECRET = os.getenv("SECRET")
+SECONDS = os.getenv("SECONDS")
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
