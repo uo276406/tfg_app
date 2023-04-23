@@ -1,7 +1,11 @@
 from fastapi import Depends, FastAPI
 from routers import keywordsrouter, questionsrouter, usersrouter, authrouter
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+from pathlib import Path
 
+dotenv_path = Path('../.env.development')
+load_dotenv(dotenv_path=dotenv_path)
 
 app = FastAPI(
     title="Keyword APP API",
@@ -36,7 +40,6 @@ app.add_middleware(
 )
 
 # -------------------------------------------------------------------------------------------------------------------
-
 
 @app.get("/api/v1.0/")
 async def root():
