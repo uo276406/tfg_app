@@ -18,8 +18,7 @@ version = "/api/v1.0"
 app.include_router(keywordsrouter.router, prefix=version + "/keywords",
                    tags=["keywords"])
 app.include_router(questionsrouter.router, prefix=version + "/questions",
-                   tags=["questions"] 
-)
+                   tags=["questions"])
 app.include_router(usersrouter.router, prefix=version + "/users",
                    tags=["users"])
 app.include_router(authrouter.router, prefix=version + "/auth",

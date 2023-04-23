@@ -21,15 +21,21 @@ load_dotenv(dotenv_path=dotenv_path)
 
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
-    pass
+    name: str
+    surname1: str
+    surname2: str
 
 
 class UserCreate(schemas.BaseUserCreate):
-    pass
+    name: str
+    surname1: str
+    surname2: Optional[str]
 
 
 class UserUpdate(schemas.BaseUserUpdate):
-    pass
+    name: Optional[str]
+    surname1: Optional[str]
+    surname2: Optional[str]
 # ------------------------------------------------------------------
 
 

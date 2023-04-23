@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Form, Input, Card, Col, Row } from "antd";
 import { useTranslation } from "react-i18next";
+import UsersConnector from "../api/usersconnector";
 
 const signinStyle = {
   margin: "2%",
@@ -13,6 +14,13 @@ const signinStyle = {
 function SigninView() {
   const { t } = useTranslation();
 
+  async function sendSignInToApi(values) {
+    let connector = new UsersConnector();
+    await connector.signinUser(values.name, values.surname1, values.surname2, values.email, values.password).then((responseSignin) => {
+      console.log(responseSignin);
+    });
+  }
+
   return (
     <Row style={signinStyle}>
       <Col span={24} style={{ height: "100%" }}>
@@ -22,6 +30,7 @@ function SigninView() {
             labelCol={{ span: 24 / 3 }}
             wrapperCol={{ span: 24 / 3 }}
             initialValues={{ remember: true }}
+            onFinish={sendSignInToApi}
             autoComplete="off"
           >
             <Form.Item
