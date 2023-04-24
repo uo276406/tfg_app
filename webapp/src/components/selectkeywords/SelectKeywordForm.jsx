@@ -6,8 +6,8 @@ import { useTranslation } from "react-i18next";
 import QuestionsConnector from "../../api/questionsconnector";
 
 const justifyButtonsBottom = {
-  xs: "center",
-  sm: "center",
+  xs: "end",
+  sm: "end",
   md: "end",
   lg: "end",
   xl: "end",

@@ -49,14 +49,12 @@ function ProcessView() {
     setText(textSent);
     setKeywordsFound([
       ...keywordsFound.map((k, index) => {
-        let toSelect =
-          index < keywordsFound.length * percentageOfSelected
-            ? true
-            : false;
-        return { index: k.index, value: k.value, selected: toSelect };
+        let toSelect = index < keywordsFound.length * percentageOfSelected ? true : false;
+        let numberOfQuestions = toSelect ? 1 : 0;
+        return { index: k.index, value: k.value, selected: toSelect, numberOfQuestions: numberOfQuestions };
       }),
     ]);
-    setTotalKeywords([])
+    setTotalKeywords([]);
     console.log(keywordsFound);
   };
 

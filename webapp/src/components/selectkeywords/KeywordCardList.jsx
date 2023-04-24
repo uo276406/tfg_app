@@ -1,17 +1,18 @@
 import { useState } from "react";
-import { Button, Row, Col, Input, Checkbox, message, Tooltip } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  Input,
+  Checkbox,
+  message,
+  Tooltip,
+  Space,
+  InputNumber,
+} from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import KeywordCard from "./KeywordCard";
 import { useTranslation } from "react-i18next";
-
-const justifyAddButtons = {
-  xs: "center",
-  sm: "center",
-  md: "start",
-  lg: "start",
-  xl: "start",
-  xxxl: "start",
-};
 
 const listStyle = {
   padding: "1%",
@@ -20,7 +21,9 @@ const listStyle = {
   maxHeight: 275,
 };
 
-const addButtonStyle = { paddingTop: "1%" };
+const spaceStyle = { justifyContent: "center" };
+
+const addButtonStyle = { paddingTop: "1%", paddingBottom: "1%" };
 
 /**
  * A component that displays a list of keywords and allows the user to select, delete, and add new keywords.
@@ -71,20 +74,24 @@ function KeywordCardList(props) {
 
   // Lista de palabras clave seleccionadas ---------------------------------------------
   let selectedKeywords = keywordsList.filter((k) => k.selected);
-  let [countSelected, setCountSelected] = useState(props.keywordsFound.filter((k) => k.selected).length);
+  let [countSelected, setCountSelected] = useState(
+    props.keywordsFound.filter((k) => k.selected).length
+  );
 
   const updateSelectedKeywords = (keyword) => {
     for (let elem of keywordsList) {
       if (sameKeywordIndex(elem.index, keyword.index)) {
         elem.selected = keyword.selected;
         elem.value = keyword.value;
+        elem.numberOfQuestions = keyword.numberOfQuestions;
       }
     }
+    console.log(keywordsList);
     props.handleKeywordsSelected(keywordsList);
     updateCheckAllButton();
     handleActivateButtons(selectedKeywords.length);
+    setCountQuestionsToGenerate(countQuestions());
   };
-
 
   // Botón de eliminar ---------------------------------------------------------
   let [enabledDeleteButton, setEnabledDeleteButton] = useState(true);
@@ -103,6 +110,7 @@ function KeywordCardList(props) {
     updateCheckAllButton();
     handleActivateButtons(0);
     selectedKeywords = [];
+    setCountQuestionsToGenerate(0);
   };
 
   // Activa botones ------------------------------------------------------------
@@ -124,7 +132,17 @@ function KeywordCardList(props) {
   const activateAll = (value) => {
     setKeywordsList((prevKeywordsList) => {
       for (const k of prevKeywordsList) {
+        let newNumberOfQuestions = k.numberOfQuestions;
+        if (!value) {
+          newNumberOfQuestions = 0;
+        } else {
+          if (k.numberOfQuestions === 0) {
+            newNumberOfQuestions = 1;
+          }
+        }
+        k.numberOfQuestions = newNumberOfQuestions;
         k.selected = value;
+        console.log(k);
       }
       return prevKeywordsList;
     });
@@ -133,6 +151,8 @@ function KeywordCardList(props) {
     value
       ? handleActivateButtons(keywordsList.length)
       : handleActivateButtons(0);
+    props.handleKeywordsSelected(keywordsList);
+    setCountQuestionsToGenerate(countQuestions());
   };
 
   const updateCheckAllButton = () => {
@@ -183,6 +203,7 @@ function KeywordCardList(props) {
         index: Math.max(...prevKeywordsList.map((k) => k.index)) + 1,
         value: keywordToAdd,
         selected: true,
+        numberOfQuestions: 1,
       };
 
       if (validateKeyword(toAdd.value)) {
@@ -195,6 +216,20 @@ function KeywordCardList(props) {
     setKeywordToAdd("");
     setEnabledAddButton(false);
     updateCheckAllButton();
+    setCountQuestionsToGenerate(countQuestions());
+  };
+
+  // Contador de preguntas -----------------------------------------------------
+  const countQuestions = () =>
+    keywordsList.map((k) => k.numberOfQuestions).reduce((a, b) => a + b, 0);
+  const [countQuestionsToGenerate, setCountQuestionsToGenerate] = useState(
+    countQuestions()
+  );
+
+  const questionCounterStyle = {
+    marginLeft: "auto",
+    marginRight: "1%",
+    width: "250px",
   };
 
   const showMessages = (text, type) => {
@@ -241,29 +276,32 @@ function KeywordCardList(props) {
         </Col>
         <Col span={24}>
           <Row justify={"center"} style={listStyle}>
-            {getSearchedTerms().length > 0 ? (
-              getSearchedTerms().map((keyword) => {
-                return (
-                  <KeywordCard
-                    updateSelectedKeywords={updateSelectedKeywords}
-                    key={keyword.index}
-                    index={keyword.index}
-                    value={keyword.value}
-                    selected={keyword.selected}
-                    isInText={isInText}
-                    isRepeated={isRepeated}
-                    showMessages={showMessages}
-                  />
-                );
-              })
-            ) : (
-              <h1>No se han encontrado palabras</h1>
-            )}
+            <Space style={spaceStyle} size={"large"} wrap>
+              {getSearchedTerms().length > 0 ? (
+                getSearchedTerms().map((keyword) => {
+                  return (
+                    <KeywordCard
+                      updateSelectedKeywords={updateSelectedKeywords}
+                      key={keyword.index}
+                      index={keyword.index}
+                      value={keyword.value}
+                      selected={keyword.selected}
+                      numberOfQuestions={keyword.numberOfQuestions}
+                      isInText={isInText}
+                      isRepeated={isRepeated}
+                      showMessages={showMessages}
+                    />
+                  );
+                })
+              ) : (
+                <h2>No se han encontrado palabras</h2>
+              )}
+            </Space>
           </Row>
         </Col>
       </Row>
-      <Row justify={justifyAddButtons} gutter={[8, 8]} style={addButtonStyle}>
-        <Col>
+      <Row gutter={[8, 8]} style={addButtonStyle}>
+        <Col xs={16} sm={16} md={8} lg={8} xl={6} xxl={6}>
           <Input
             onChange={(event) => activateButtonAdd(event)}
             value={keywordToAdd}
@@ -272,7 +310,7 @@ function KeywordCardList(props) {
           ></Input>
         </Col>
         {contextHolder}
-        <Col>
+        <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}>
           <Tooltip title={t("newWordTooltip")}>
             <Button
               type="primary"
@@ -281,6 +319,22 @@ function KeywordCardList(props) {
               icon={<PlusOutlined />}
             ></Button>
           </Tooltip>
+        </Col>
+        <Col
+          style={questionCounterStyle}
+          xs={24}
+          sm={24}
+          md={24}
+          lg={7}
+          xl={5}
+          xxl={5}
+        >
+          <InputNumber
+            min={0}
+            defaultValue={countQuestionsToGenerate}
+            value={countQuestionsToGenerate}
+            addonAfter="preguntas se generarán"
+          />
         </Col>
       </Row>
     </div>
