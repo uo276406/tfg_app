@@ -41,8 +41,6 @@ function App() {
           />
         </Header>
 
-        <p>{accessToken}</p>
-
         <Content style={contentStyle}>
           <Routes>
             <Route path="/" element={<HomeView accessToken={accessToken} />} />
