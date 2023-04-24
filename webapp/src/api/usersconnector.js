@@ -2,6 +2,7 @@ const apiendpoint = process.env.REACT_APP_API_URL;
 
 class UsersConnector {
   async loginUser(username, password) {
+    console.log(apiendpoint)
     let details = {
       username: username,
       password: password,

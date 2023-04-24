@@ -1,16 +1,13 @@
 import { Menu } from "antd";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import {
-  SnippetsOutlined,
-  LoginOutlined,
-} from "@ant-design/icons";
+import { SnippetsOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/icons";
 
 /**
  * A functional component that renders a navigation bar with links to various pages and language options.
  * @returns The rendered navigation bar.
  */
-function NavBarApp() {
+function NavBarApp(props) {
   const { i18n, t } = useTranslation();
 
   // Menu items
@@ -33,16 +30,19 @@ function NavBarApp() {
         {
           label: t("spanish"),
           key: "ES",
-          onClick: () => onClickChangeLang("es")
+          onClick: () => onClickChangeLang("es"),
         },
         {
           label: t("english"),
           key: "EN",
-          onClick: () => onClickChangeLang("en")
-          
+          onClick: () => onClickChangeLang("en"),
         },
       ],
     },
+    
+  ];
+
+  const itemsLogin = [
     {
       label: <Link to="/login">{t("login")}</Link>,
       key: "login",
@@ -52,8 +52,16 @@ function NavBarApp() {
       label: <Link to="/signin">{t("signin")}</Link>,
       key: "signin",
       icon: <LoginOutlined />,
-    },
+    }
   ];
+
+  const itemsLogout = [
+    {
+      label: <Link to="/logout">{t("logout")}</Link>,
+      key: "logout",
+      icon: <LogoutOutlined />,
+    }
+  ]
 
   // Cambia idioma ----------------------------------------------------
   const onClickChangeLang = (code) => {
@@ -61,7 +69,8 @@ function NavBarApp() {
   };
 
   return (
-    <Menu theme="dark" selectable={false} mode="horizontal" items={items} />
+    <Menu theme="dark" selectable={false} mode="horizontal" items={props.accessToken === "" ? items.concat(itemsLogin): items.concat(itemsLogout)}>
+    </Menu>
   );
 }
 

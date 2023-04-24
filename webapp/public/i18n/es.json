@@ -17,11 +17,14 @@
     "english": "Inglés 🇬🇧",
     "signin": "Registrarse",
     "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
 
     "inputEmailCompulsory": "Introduzca su email",
     "inputPasswordCompulsory": "Introduzca su contraseña",
     "password": "Contraseña",
     "loginTitle": "Inicie sesión para disfrutar de todas las carcaterísticas. 😀",
+    "existUser": "Usuario con correo existente",
+    "existUserDescription": "Ya existe en la base de datos un usuario con ese correo electrónico.",
 
     "name": "Nombre",
     "inputName": "Introduzca su nombre",
@@ -31,7 +34,7 @@
     "inputSecondSurname": "Introduzca su segundo apellido",
     "confirmPassword": "Confirme su constraseña",
     "repeatPassword": "Repita su contraseña",
-    "signinTitle": "Registrese, si no tiene cuenta, para disfrutar de todas las carcaterísticas. 😀",
+    "signinTitle": "Registrese, si no tiene cuenta, para disfrutar de todas las características. 😀",
 
     "personalinfo": "Información personal:",
     "email": "Correo electrónico",

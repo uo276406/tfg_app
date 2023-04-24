@@ -17,11 +17,14 @@
     "english": "English 🇬🇧",
     "signin": "Sign in",
     "login": "Log in",
+    "logout": "Log out",
 
     "inputEmailCompulsory": "Input your email",
     "inputPasswordCompulsory": "Input your password",
     "password": "Password",
     "loginTitle": "Log in with your account to enjoy all the features. 😀",
+    "existUser": "Existing user email",
+    "existUserDescription": "There is a user with the same email. Please, try again.",
 
     "name": "name",
     "inputName": "Input your name",

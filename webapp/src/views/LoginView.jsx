@@ -19,7 +19,7 @@ function LoginView(props) {
   async function sendLoginToApi(values) {
     let connector = new UsersConnector();
     await connector.loginUser(values.email, values.password).then((responseLogin) => {
-      console.log(responseLogin);
+      props.updateAccessToken(responseLogin.access_token);
     });
   }
 

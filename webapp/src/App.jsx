@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Layout } from "antd";
 import FooterApp from "./components/footer/FooterApp";
 import NavBarApp from "./components/navbar/NavBarApp";
@@ -17,6 +18,11 @@ function App() {
   // for not using Layout.Header, Layout.Footer, etc...
   const { Header, Content } = Layout;
 
+  const [accessToken, setAccessToken] = useState("");
+  const updateAccessToken = (token) => {
+    setAccessToken(token);
+  }
+
   const contentStyle = {
     backgroundColor: "lightGrey",
   };
@@ -25,16 +31,18 @@ function App() {
     <Router>
       <Layout className="layout">
         <Header>
-          <NavBarApp />
+          <NavBarApp accessToken={accessToken}/>
         </Header>
 
         <Content style={contentStyle}>
           <Routes>
             <Route path="/" element={<HomeView />} />
 
-            <Route path="/login" element={<LoginView />} />
+            <Route path="/login" element={<LoginView updateAccessToken={updateAccessToken}/>} />
 
-            <Route path="/signin" element={<SigninView />} />
+            <Route path="/signin" element={<SigninView updateAccessToken={updateAccessToken}/>} />
+
+            <Route path="/logout" />
 
             <Route path="/process" element={<ProcessView />} />
 

@@ -9,7 +9,6 @@ from fastapi_users.authentication import (
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
 from repository.usersrepository import User, get_user_db
-import os
 
 # Esquemas de usuarios --------------------------------------------
 
@@ -33,15 +32,16 @@ class UserUpdate(schemas.BaseUserUpdate):
 # ------------------------------------------------------------------
 
 
-SECRET = os.getenv("SECRET")
-SECONDS = os.getenv("SECONDS")
+SECRET = "SECRET_KEY"
+SECONDS = 3600
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET
 
-    async def on_after_register(self, user: User, request: Optional[Request] = None):
+    async def on_after_register(self, user: User, token:str, request: Optional[Request] = None):
         print(f"User {user.id} has registered.")
+        print(token)
 
     async def on_after_forgot_password(
         self, user: User, token: str, request: Optional[Request] = None
