@@ -18,10 +18,14 @@ function App() {
   // for not using Layout.Header, Layout.Footer, etc...
   const { Header, Content } = Layout;
 
-  const [accessToken, setAccessToken] = useState("");
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem("accessToken") || ""
+  );
+
   const updateAccessToken = (token) => {
+    localStorage.setItem("accessToken", token);
     setAccessToken(token);
-  }
+  };
 
   const contentStyle = {
     backgroundColor: "lightGrey",
@@ -31,22 +35,52 @@ function App() {
     <Router>
       <Layout className="layout">
         <Header>
-          <NavBarApp accessToken={accessToken}/>
+          <NavBarApp
+            accessToken={accessToken}
+            updateAccessToken={updateAccessToken}
+          />
         </Header>
+
+        <p>{accessToken}</p>
 
         <Content style={contentStyle}>
           <Routes>
-            <Route path="/" element={<HomeView />} />
-
-            <Route path="/login" element={<LoginView updateAccessToken={updateAccessToken}/>} />
-
-            <Route path="/signin" element={<SigninView updateAccessToken={updateAccessToken}/>} />
-
-            <Route path="/logout" />
-
-            <Route path="/process" element={<ProcessView />} />
+            <Route path="/" element={<HomeView accessToken={accessToken} />} />
 
             <Route path="/doc" element={<DocView />} />
+
+            {accessToken !== "" ? (
+              <>
+                <Route
+                  path="/logout"
+                  element={<HomeView accessToken={accessToken} />}
+                />
+                <Route
+                  path="/process"
+                  accessToken={accessToken}
+                  element={<ProcessView />}
+                />
+                <Route
+                  path="*"
+                  element={<HomeView accessToken={accessToken} />}
+                />
+              </>
+            ) : (
+              <>
+                <Route
+                  path="/login"
+                  element={<LoginView updateAccessToken={updateAccessToken} />}
+                />
+                <Route
+                  path="/signin"
+                  element={<SigninView updateAccessToken={updateAccessToken} />}
+                />
+                <Route
+                  path="*"
+                  element={<HomeView accessToken={accessToken} />}
+                />
+              </>
+            )}
           </Routes>
         </Content>
 

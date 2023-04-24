@@ -2,7 +2,6 @@ const apiendpoint = process.env.REACT_APP_API_URL;
 
 class UsersConnector {
   async loginUser(username, password) {
-    console.log(apiendpoint)
     let details = {
       username: username,
       password: password,
@@ -39,6 +38,18 @@ class UsersConnector {
       body: JSON.stringify(details),
     }).then((response) => response.json());
   }
+
+  async logoutUser(accessToken) {
+    console.log(accessToken)
+    return await fetch(apiendpoint + "/api/v1.0/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    }).then((response) => response.json());
+  }
 }
+
 
 export default UsersConnector;

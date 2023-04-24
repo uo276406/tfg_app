@@ -47,12 +47,12 @@ const { Meta } = Card;
  * The HomeView component displays a carousel of images and a card with text and a button.
  * @returns A React component that displays a carousel of images and a card with text and a button.
  */
-function HomeView() {
+function HomeView(props) {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
   const navigateToStartProcess = () => {
-    navigate("/process");
+    props.accessToken !== "" ? navigate("/process") : navigate("/login");
   }
 
   return (

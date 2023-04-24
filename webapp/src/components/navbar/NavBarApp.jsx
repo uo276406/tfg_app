@@ -1,7 +1,13 @@
 import { Menu } from "antd";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { SnippetsOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  SnippetsOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+} from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import UsersConnector from "../../api/usersconnector";
 
 /**
  * A functional component that renders a navigation bar with links to various pages and language options.
@@ -9,6 +15,14 @@ import { SnippetsOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/ico
  */
 function NavBarApp(props) {
   const { i18n, t } = useTranslation();
+
+  const navigate = useNavigate();
+  const logout = async () => {
+    let connector = new UsersConnector();
+    await connector.logoutUser(props.accessToken).then((responseLogout) => {
+      props.updateAccessToken("");
+    });
+  };
 
   // Menu items
   const items = [
@@ -39,10 +53,10 @@ function NavBarApp(props) {
         },
       ],
     },
-    
   ];
 
   const itemsLogin = [
+    ...items,
     {
       label: <Link to="/login">{t("login")}</Link>,
       key: "login",
@@ -52,16 +66,18 @@ function NavBarApp(props) {
       label: <Link to="/signin">{t("signin")}</Link>,
       key: "signin",
       icon: <LoginOutlined />,
-    }
+    },
   ];
 
   const itemsLogout = [
+    ...items,
     {
       label: <Link to="/logout">{t("logout")}</Link>,
       key: "logout",
       icon: <LogoutOutlined />,
-    }
-  ]
+      onClick: logout,
+    },
+  ];
 
   // Cambia idioma ----------------------------------------------------
   const onClickChangeLang = (code) => {
@@ -69,8 +85,12 @@ function NavBarApp(props) {
   };
 
   return (
-    <Menu theme="dark" selectable={false} mode="horizontal" items={props.accessToken === "" ? items.concat(itemsLogin): items.concat(itemsLogout)}>
-    </Menu>
+    <Menu
+      theme="dark"
+      selectable={false}
+      mode="horizontal"
+      items={props.accessToken === "" ? itemsLogin : itemsLogout}
+    ></Menu>
   );
 }
 
