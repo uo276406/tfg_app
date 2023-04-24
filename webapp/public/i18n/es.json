@@ -25,6 +25,11 @@
     "loginTitle": "Inicie sesión para disfrutar de todas las carcaterísticas. 😀",
     "existUser": "Usuario con correo existente",
     "existUserDescription": "Ya existe en la base de datos un usuario con ese correo electrónico.",
+    "registerIfNoAccount": "Si no tiene cuenta, ¡regístrese ya!",
+    "credentialsError": "Credenciales incorrectas",
+    "credentialsErrorDescription": "El correo electrónico o la contraseña son incorrectos.",
+    "userNotVerifiedError": "Usuario no verificado",
+    "userNotVerifiedErrorDescription": "Usuario no verificado, verifique su cuenta.",
 
     "name": "Nombre",
     "inputName": "Introduzca su nombre",

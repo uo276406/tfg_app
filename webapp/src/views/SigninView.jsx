@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, Input, Card, Col, Row, Alert} from "antd";
 import { useTranslation } from "react-i18next";
 import UsersConnector from "../api/usersconnector";
+import {useNavigate} from "react-router-dom";
 
 const signinStyle = {
   margin: "2%",
@@ -20,6 +21,7 @@ const alertStyle = {
 function SigninView(props) {
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [userExists, setUserExists] = useState(false);
 
@@ -45,6 +47,7 @@ function SigninView(props) {
           //Inicia sesión y actualiza el token de acceso
           connector.loginUser(values.email, values.password).then((responseLogin) => {
             props.updateAccessToken(responseLogin.access_token);
+            navigate("/");
           });
         }
       })
@@ -59,7 +62,6 @@ function SigninView(props) {
           description={t("existUserDescription")}
           type="error"
           showIcon
-          closable
         /> : <></>}
         <Card title={t("signinTitle")} headStyle={{ textAlign: "center" }}>
           <Form

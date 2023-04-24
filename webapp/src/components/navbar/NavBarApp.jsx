@@ -6,7 +6,6 @@ import {
   LoginOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import UsersConnector from "../../api/usersconnector";
 
 /**
@@ -16,7 +15,6 @@ import UsersConnector from "../../api/usersconnector";
 function NavBarApp(props) {
   const { i18n, t } = useTranslation();
 
-  const navigate = useNavigate();
   const logout = async () => {
     let connector = new UsersConnector();
     await connector.logoutUser(props.accessToken).then((responseLogout) => {
