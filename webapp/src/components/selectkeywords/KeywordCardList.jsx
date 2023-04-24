@@ -86,7 +86,6 @@ function KeywordCardList(props) {
         elem.numberOfQuestions = keyword.numberOfQuestions;
       }
     }
-    console.log(keywordsList);
     props.handleKeywordsSelected(keywordsList);
     updateCheckAllButton();
     handleActivateButtons(selectedKeywords.length);
@@ -142,7 +141,6 @@ function KeywordCardList(props) {
         }
         k.numberOfQuestions = newNumberOfQuestions;
         k.selected = value;
-        console.log(k);
       }
       return prevKeywordsList;
     });

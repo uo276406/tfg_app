@@ -1,12 +1,13 @@
 import QuestionCard from "./QuestionCard";
 import { useState } from "react";
 import { Row, Col } from "antd";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const listStyle = {
   padding: "1%",
   backgroundColor: "white",
-  overflow: 'scroll',
-  maxHeight: 275
+  overflow: "scroll",
+  maxHeight: 275,
 };
 
 /**
@@ -15,31 +16,94 @@ const listStyle = {
  * @returns A div containing a list of QuestionCard components.
  */
 function QuestionCardList(props) {
-
-  let [questions, setQuestions] = useState([...props.questions])
+  let [questions, setQuestions] = useState([
+    ...props.questions.map((q, index) => {
+      return { id: index, question: q.question, options: q.options };
+    }),
+  ]);
 
   const updateQuestion = (index, questionText, options) => {
     const newQuestions = [...questions];
     newQuestions[index].question = questionText;
     newQuestions[index].options = options;
     setQuestions(newQuestions);
-  }
+  };
+
+  // Elimina la pregunta ----------------------------------------------------------
+  const deleteQuestion = (index) => {
+    const newQuestions = [...questions];
+    newQuestions.splice(index, 1);
+    setQuestions(newQuestions);
+  };
+
+  // Drag and Drop ----------------------------------------------------------------
+
+
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+  };
+
+  const onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const questionsList = reorder(
+      questions,
+      result.source.index,
+      result.destination.index
+    );
+
+    setQuestions(questionsList);
+
+    console.log(questionsList);
+  };
 
   return (
     <div>
       <Col span={24}>
         <Row style={listStyle}>
-          {questions.map((q, index) => {
-            return (
-              <QuestionCard
-                key={index}
-                index = {index}
-                questionText={q.question}
-                options={q.options}
-                updateQuestion={updateQuestion}
-              />
-            );
-          })}
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="id">
+              {(provided, snapshot) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {questions.map((q, index) => {
+                    return (
+                      <Draggable
+                        key={q.id}
+                        draggableId={q.id + ""}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <QuestionCard
+                              key={index}
+                              index={index}
+                              id={index}
+                              questionText={q.question}
+                              options={q.options}
+                              updateQuestion={updateQuestion}
+                              deleteQuestion={deleteQuestion}
+                            />
+                          </div>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
         </Row>
       </Col>
     </div>
