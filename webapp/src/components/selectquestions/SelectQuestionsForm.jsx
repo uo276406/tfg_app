@@ -10,6 +10,7 @@ import QuestionCardList from "./QuestionCardList";
 import { useState } from "react";
 import TxtExporter from "./export/txtexporter";
 import PdfExporter from "./export/pdfexporter";
+import DocxExporter from "./export/docxexporter";
 
 const justifyButtonsBottom = {
   xs: "center",
@@ -135,6 +136,7 @@ function SelectQuestionsForm(props) {
             <Button
               type="primary"
               icon={<FileTextOutlined />}
+              onClick={() => exportTo(new DocxExporter())}
             >
               docx
             </Button>
