@@ -75,6 +75,7 @@
     "editFormTitle": "Edit keyword",
     "deleteSelected": "Delete",
     "searchPlaceholder": "Search...",
+    "numberQuestionsGenerate": " maximum questions to generate",
 
     "exportTxtButton": "Export to txt...",
     "addOption": "Add option...",

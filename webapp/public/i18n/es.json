@@ -74,6 +74,7 @@
     "editFormTitle": "Edite la palabra clave",
     "deleteSelected": "Eliminar",
     "searchPlaceholder": "Buscar...",
+    "numberQuestionsGenerate": " preguntas se generarán como máximo",
 
     "exportTxtButton": "Exportar a txt...",
     "addOption": "Añadir opción...",

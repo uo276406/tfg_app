@@ -18,7 +18,7 @@ const listStyle = {
   padding: "1%",
   backgroundColor: "white",
   overflow: "scroll",
-  maxHeight: 450
+  maxHeight: 450,
 };
 
 const spaceStyle = { justifyContent: "center" };
@@ -168,6 +168,7 @@ function KeywordCardList(props) {
       setIndeterminate(false);
       setCheckAll(true);
     }
+    setCountSelected(selectedKeywords.length);
   };
 
   // Buscador ------------------------------------------------------------------
@@ -214,6 +215,7 @@ function KeywordCardList(props) {
     setKeywordToAdd("");
     setEnabledAddButton(false);
     updateCheckAllButton();
+    handleActivateButtons(selectedKeywords.length);
     setCountQuestionsToGenerate(countQuestions());
   };
 
@@ -223,6 +225,32 @@ function KeywordCardList(props) {
   const [countQuestionsToGenerate, setCountQuestionsToGenerate] = useState(
     countQuestions()
   );
+
+  const handleUpdateNumberOfQuestions = (value) => {
+    if (value === null) value = 0;
+    setKeywordsList((prevKeywordsList) => {
+      let numberToAdd = value;
+      if (numberToAdd < prevKeywordsList.length) {
+        for (let i = 0; i < prevKeywordsList.length; i++) {
+          prevKeywordsList[i].numberOfQuestions = 0;
+          prevKeywordsList[i].selected = false;
+          if (i < numberToAdd) {
+            prevKeywordsList[i].numberOfQuestions += 1;
+            prevKeywordsList[i].selected = true;
+          }
+        }
+      } else if (numberToAdd >= prevKeywordsList.length){
+        for (let elem of prevKeywordsList) {
+          elem.numberOfQuestions = 1;
+          elem.selected = true;
+        }
+      }
+      return prevKeywordsList;
+    });
+    setCountQuestionsToGenerate(value);
+    updateCheckAllButton();
+    handleActivateButtons(selectedKeywords.length);
+  };
 
   const questionCounterStyle = {
     marginLeft: "auto",
@@ -323,15 +351,16 @@ function KeywordCardList(props) {
           xs={24}
           sm={24}
           md={24}
-          lg={7}
-          xl={5}
+          lg={10}
+          xl={7}
           xxl={5}
         >
           <InputNumber
             min={0}
             defaultValue={countQuestionsToGenerate}
             value={countQuestionsToGenerate}
-            addonAfter="preguntas se generarán"
+            addonAfter={t("numberQuestionsGenerate")}
+            onChange={(value) => handleUpdateNumberOfQuestions(value)}
           />
         </Col>
       </Row>
