@@ -1,9 +1,15 @@
-import { Button, Row, Col, Alert } from "antd";
-import { DownloadOutlined, LeftOutlined } from "@ant-design/icons";
+import { Button, Row, Col, Alert, Space } from "antd";
+import {
+  DownloadOutlined,
+  LeftOutlined,
+  FileTextOutlined,
+  FilePdfOutlined,
+} from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import QuestionCardList from "./QuestionCardList";
 import { useState } from "react";
 import TxtExporter from "./export/txtexporter";
+import PdfExporter from "./export/pdfexporter";
 
 const justifyButtonsBottom = {
   xs: "center",
@@ -30,7 +36,13 @@ const alertStyle = {
   marginLeft: "1.5%",
   marginRight: "1.5%",
   marginBottom: "1.5%",
-}
+};
+
+const buttonTxtStyle = {
+  background: "darkgrey",
+  color: "black",
+  border: "black",
+};
 
 /**
  * A functional component that renders a form for selecting questions.
@@ -38,43 +50,54 @@ const alertStyle = {
  * @returns A JSX element that displays the questions and buttons for navigating the form.
  */
 function SelectQuestionsForm(props) {
-
   // Almacena las preguntas por si se editan ---------------------------------------
-  let [questions, setQuestions] = useState([...props.questions.questions])
+  let [questions, setQuestions] = useState([...props.questions.questions]);
 
   const updateQuestions = (newQuestions) => {
     setQuestions(newQuestions);
-  }
+  };
 
   // Exportación a fichero de texto -------------------------------------------------
-  const exportToTxt = () => {
-    let txtExporter = new TxtExporter();
-    txtExporter.export(questions);
-  }
+  const exportTo = (exporter) => {
+    exporter.export(questions);
+  };
 
   const { t } = useTranslation();
 
   return (
     <div>
       <Row span={24}>
-      {
-        props.questions.not_enough_questions_for.length > 0 ? <Alert
-        style={alertStyle}
-          message={t("notEnoughQuestionsError")}
-          description={t("notEnoughQuestionsErrorDescription") + " " + props.questions.not_enough_questions_for.map((keyword) => " " + keyword) + "."}
-          type="error"
-          showIcon
-          closable
-        /> : <></>}
-        {
-        props.questions.there_are_repeated ? <Alert
-        style={alertStyle}
-          message={t("repeatedQuestionsWarningTitle")}
-          description={t("repeatedQuestionsWarning")}
-          type="warning"
-          showIcon
-          closable
-        /> : <></>}
+        {props.questions.not_enough_questions_for.length > 0 ? (
+          <Alert
+            style={alertStyle}
+            message={t("notEnoughQuestionsError")}
+            description={
+              t("notEnoughQuestionsErrorDescription") +
+              " " +
+              props.questions.not_enough_questions_for.map(
+                (keyword) => " " + keyword
+              ) +
+              "."
+            }
+            type="error"
+            showIcon
+            closable
+          />
+        ) : (
+          <></>
+        )}
+        {props.questions.there_are_repeated ? (
+          <Alert
+            style={alertStyle}
+            message={t("repeatedQuestionsWarningTitle")}
+            description={t("repeatedQuestionsWarning")}
+            type="warning"
+            showIcon
+            closable
+          />
+        ) : (
+          <></>
+        )}
       </Row>
       <Row gutter={[16, 16]} style={questionsListStyle}>
         <Col span={24}>
@@ -97,9 +120,25 @@ function SelectQuestionsForm(props) {
           </Button>
         </Col>
         <Col>
-          <Button type="primary" icon={<DownloadOutlined />} onClick={exportToTxt}>
-            {t("exportTxtButton")}
-          </Button>
+          <Space>
+            <Button
+              ghost
+              style={buttonTxtStyle}
+              icon={<DownloadOutlined />}
+              onClick={() => exportTo(new TxtExporter())}
+            >
+              txt
+            </Button>
+            <Button type="primary" danger icon={<FilePdfOutlined />} onClick={() => exportTo(new PdfExporter())}>
+              pdf
+            </Button>
+            <Button
+              type="primary"
+              icon={<FileTextOutlined />}
+            >
+              docx
+            </Button>
+          </Space>
         </Col>
       </Row>
     </div>
