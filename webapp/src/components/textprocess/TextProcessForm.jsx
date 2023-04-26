@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import KeywordsConnector from "../../api/keywordsconnector";
 import { useTranslation } from "react-i18next";
+import TxtImporter from "./import/txtimporter";
 
 const { TextArea } = Input;
 
@@ -42,24 +43,25 @@ function TextProcessForm(props) {
 
   // Botón upload --------------------------------------------------
   const loadFile = (file) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setText(e.target.result);
-    };
-    reader.readAsText(file);
-    message.success(`${file.name}` + t("sucessfulUpload"));
+    let importer = null;
+    if (file.type === "text/plain") {
+      importer = new TxtImporter();
+    }
+    importer.import(file, (text) => {
+      setText(text);
+      message.success(`${file.name}` + t("sucessfulUpload"));
+    });
     return false;
   };
 
   const uploadProps = {
     name: "file",
-    headers: {
-      authorization: "authorization-text",
-    },
     maxCount: 1,
-    accept: ".txt",
-    listType: "text",
+    accept: [".txt", ".docx", ".pptx"],
     beforeUpload: loadFile,
+    onRemove: () => {
+      setText("");
+    },
   };
 
   useEffect(() => {

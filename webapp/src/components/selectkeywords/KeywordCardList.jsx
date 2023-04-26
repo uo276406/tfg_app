@@ -69,6 +69,12 @@ function KeywordCardList(props) {
     return true;
   };
 
+  const updateScreenButtons = (count) => {
+    updateCheckAllButton(count);
+    handleActivateButtons(count);
+  }
+
+
   // Lista de palabras clave totales ---------------------------------------------------
   let [keywordsList, setKeywordsList] = useState([...props.keywordsFound]);
 
@@ -79,6 +85,7 @@ function KeywordCardList(props) {
   );
 
   const updateSelectedKeywords = (keyword) => {
+    console.log(keyword)
     for (let elem of keywordsList) {
       if (sameKeywordIndex(elem.index, keyword.index)) {
         elem.selected = keyword.selected;
@@ -87,8 +94,8 @@ function KeywordCardList(props) {
       }
     }
     props.handleKeywordsSelected(keywordsList);
-    updateCheckAllButton();
-    handleActivateButtons(selectedKeywords.length);
+    selectedKeywords = keywordsList.filter((k) => k.selected);    
+    updateScreenButtons(selectedKeywords.length);
     setCountQuestionsToGenerate(countQuestions());
   };
 
@@ -106,8 +113,7 @@ function KeywordCardList(props) {
       return prevKeywordsList;
     });
     showMessages("deleteMessage", "success");
-    updateCheckAllButton();
-    handleActivateButtons(0);
+    updateScreenButtons(0)
     selectedKeywords = [];
     setCountQuestionsToGenerate(0);
   };
@@ -131,15 +137,11 @@ function KeywordCardList(props) {
   const activateAll = (value) => {
     setKeywordsList((prevKeywordsList) => {
       for (const k of prevKeywordsList) {
-        let newNumberOfQuestions = k.numberOfQuestions;
         if (!value) {
-          newNumberOfQuestions = 0;
+          k.numberOfQuestions = 0;
         } else {
-          if (k.numberOfQuestions === 0) {
-            newNumberOfQuestions = 1;
-          }
+          k.numberOfQuestions = 1;
         }
-        k.numberOfQuestions = newNumberOfQuestions;
         k.selected = value;
       }
       return prevKeywordsList;
@@ -151,24 +153,24 @@ function KeywordCardList(props) {
       : handleActivateButtons(0);
     props.handleKeywordsSelected(keywordsList);
     setCountQuestionsToGenerate(countQuestions());
+    console.log(keywordsList);
   };
 
-  const updateCheckAllButton = () => {
-    selectedKeywords = keywordsList.filter((k) => k.selected);
+  const updateCheckAllButton = (count) => {
     if (
-      selectedKeywords.length > 0 &&
-      selectedKeywords.length < keywordsList.length
+      count > 0 &&
+      count < keywordsList.length
     ) {
       setIndeterminate(true);
       setCheckAll(false);
-    } else if (selectedKeywords.length === 0) {
+    } else if (count === 0) {
       setIndeterminate(false);
       setCheckAll(false);
-    } else if (selectedKeywords.length === keywordsList.length) {
+    } else if (count === keywordsList.length) {
       setIndeterminate(false);
       setCheckAll(true);
     }
-    setCountSelected(selectedKeywords.length);
+    setCountSelected(count);
   };
 
   // Buscador ------------------------------------------------------------------
@@ -214,8 +216,8 @@ function KeywordCardList(props) {
     });
     setKeywordToAdd("");
     setEnabledAddButton(false);
-    updateCheckAllButton();
-    handleActivateButtons(selectedKeywords.length);
+    selectedKeywords = keywordsList.filter((k) => k.selected);
+    updateScreenButtons(selectedKeywords.length);
     setCountQuestionsToGenerate(countQuestions());
   };
 
@@ -248,8 +250,8 @@ function KeywordCardList(props) {
       return prevKeywordsList;
     });
     setCountQuestionsToGenerate(value);
-    updateCheckAllButton();
-    handleActivateButtons(selectedKeywords.length);
+    selectedKeywords = keywordsList.filter((k) => k.selected);
+    updateScreenButtons(selectedKeywords.length);
   };
 
   const questionCounterStyle = {

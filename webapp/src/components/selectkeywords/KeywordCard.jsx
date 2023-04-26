@@ -100,26 +100,27 @@ function KeywordCard(props) {
 
   const increase = (event) => {
     event.stopPropagation();
-    setNumberOfQuestions(numberOfQuestions + 1);
+    let newValue = props.numberOfQuestions + 1;
     const keywordSelected = {
       index: props.index,
       value: keyword,
       selected: true,
-      numberOfQuestions: numberOfQuestions + 1,
+      numberOfQuestions: newValue,
     };
+    setNumberOfQuestions(newValue);
     props.updateSelectedKeywords(keywordSelected);
   };
 
   const decrease = (event) => {
     event.stopPropagation();
-    setNumberOfQuestions(numberOfQuestions !== 0 ? numberOfQuestions - 1 : 0);
+    let newValue = props.numberOfQuestions !== 0 ? props.numberOfQuestions - 1 : 0;
     const keywordSelected = {
       index: props.index,
       value: keyword,
-      selected: numberOfQuestions - 1 === 0 ? false : true,
-      numberOfQuestions:
-        numberOfQuestions - 1 !== 0 ? numberOfQuestions - 1 : 0,
+      selected: props.numberOfQuestions - 1 === 0 ? false : true,
+      numberOfQuestions: newValue,
     };
+    setNumberOfQuestions(newValue);
     props.updateSelectedKeywords(keywordSelected);
   };
 
@@ -130,10 +131,10 @@ function KeywordCard(props) {
         onClick={() => {
           handleSelect();
         }}
-        onMouseEnter={(event) => {
+        onMouseEnter={() => {
           setEditableNumQuestions(true);
         }}
-        onMouseLeave={(event) => {
+        onMouseLeave={() => {
           setEditableNumQuestions(false);
         }}
       >
@@ -190,6 +191,7 @@ function KeywordCard(props) {
               />
               <Button.Group>
                 <Button
+                  disabled = {numberOfQuestions === 0}
                   onClick={(event) => decrease(event)}
                   icon={<MinusOutlined />}
                 />
