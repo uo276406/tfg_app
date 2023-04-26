@@ -57,6 +57,15 @@ function SelectQuestionsForm(props) {
   return (
     <div>
       <Row span={24}>
+      {
+        props.questions.not_enough_questions_for.length > 0 ? <Alert
+        style={alertStyle}
+          message={t("notEnoughQuestionsError")}
+          description={t("notEnoughQuestionsErrorDescription") + " " + props.questions.not_enough_questions_for.map((keyword) => " " + keyword) + "."}
+          type="error"
+          showIcon
+          closable
+        /> : <></>}
         {
         props.questions.there_are_repeated ? <Alert
         style={alertStyle}

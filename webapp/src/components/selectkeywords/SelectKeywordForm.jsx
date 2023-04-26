@@ -43,8 +43,6 @@ function SelectKeywordsForm(props) {
   // Envía la petición para que la restapi genere preguntas -------------------
   const sendApiMessage = async () => {
     setIsLoading(true);
-    console.log(selectedKeywords);
-    console.log(totalKeywords);
     let connector = new QuestionsConnector();
     props.handleTotalKeywords(totalKeywords);
     await connector

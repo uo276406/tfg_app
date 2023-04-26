@@ -25,22 +25,30 @@ class FillInGapsGenerator():
         @param keywords_selected - the list of selected keywords
         @return a list of dictionaries containing the generated questions and options
         """
-        sentences_used = []
-        res = {'questions': [], 'there_are_repeated': False}
+        sentences_used_in_total = []
+        res = {'questions': [], 'there_are_repeated': False, 'not_enough_questions_for': []}
+        print(keywords_selected)
         for keyword in keywords_selected:
-            print("value: " + keyword.value)
-            question_text, sentence_used, repeated = self.get_question_text(text, keyword.value, sentences_used) # Obtiene la pregunta
-            options = self.get_options(keyword.value)
-            sentences_used.append(sentence_used) # Guarda la oración de la pregunta
-            if (repeated):
-                res['there_are_repeated'] = True
-            res['questions'].append({
-                'question': question_text.replace("\n", " "),
-                'options': options
-            })
+            questions_used_in_word = []
+            for _ in range(keyword.numberOfQuestions):
+                question_text, sentence_used = self.get_question_text(text, keyword.value, questions_used_in_word) # Obtiene la pregunta
+                if (question_text == ""):
+                    res['not_enough_questions_for'].append(keyword.value)
+                    break
+                if (sentence_used in sentences_used_in_total):
+                    res['there_are_repeated'] = True
+                options = self.get_options(keyword.value)
+                print(keyword.value)
+                print(question_text)
+                res['questions'].append({
+                    'question': question_text.replace("\n", " "),
+                    'options': options,
+                })
+                questions_used_in_word.append(question_text)
+                sentences_used_in_total.append(sentence_used)
         return res
 
-    def get_question_text(self, text, word, sentences_used):
+    def get_question_text(self, text, word, questions_used_in_word):
         """
         Given a text, a word, and a list of actual questions, return a fill-in-the-blank sentence containing the word if the word is in the text and not already in the list of actual questions. If the word is not in the text or is already in the list of actual questions, return an empty string.
         @param self - the object instance
@@ -51,17 +59,10 @@ class FillInGapsGenerator():
         """
         sentences = text.split(".")
         for sentence in sentences:
-            if (re.search(r'\b' + word.lower() + r'\b', sentence.lower()) is not None and sentence not in sentences_used):
-                return self.create_fillin_sentence(sentence, word), sentence, False
-        
-        #Si llega aquí es porque hay alguna pregunta que se va a repetir (Se coge una aleatoria)
-        rand_sentence = self.system_random.randint(0, len(sentences)-1)
-        print(word)
-        print(sentences[rand_sentence])
-        while (re.search(r'\b' + word.lower() + r'\b', sentences[rand_sentence].lower()) is None):
-            rand_sentence = self.system_random.randint(0, len(sentences)-1)
-
-        return self.create_fillin_sentence(sentences[rand_sentence], word), sentences[rand_sentence], True
+            potential_question = self.create_fillin_sentence(sentence, word)
+            if (re.search(r'\b' + word.lower() + r'\b', sentence.lower()) is not None and potential_question not in questions_used_in_word):
+                    return potential_question, sentence
+        return "", ""
 
 
     def create_fillin_sentence(self, sentence, word):

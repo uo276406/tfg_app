@@ -7,7 +7,7 @@ const listStyle = {
   padding: "1%",
   backgroundColor: "white",
   overflow: "scroll",
-  maxHeight: 275,
+  maxHeight: 450,
 };
 
 /**

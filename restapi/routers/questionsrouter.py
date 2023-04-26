@@ -9,6 +9,7 @@ router = APIRouter()
 
 class Keyword(BaseModel):
     value: str
+    numberOfQuestions: int
 
 
 class TextKeywords(BaseModel):
@@ -31,6 +32,7 @@ class Question(BaseModel):
 
 class QuestionsInfo(BaseModel):
     questions: list[Question]
+    not_enough_questions_for: list[str]
     there_are_repeated: bool
 
 # ---------------------------------------------------------
