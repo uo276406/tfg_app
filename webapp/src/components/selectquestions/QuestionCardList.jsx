@@ -36,6 +36,7 @@ function QuestionCardList(props) {
     newQuestions[index].question = questionText;
     newQuestions[index].options = options;
     setQuestions(newQuestions);
+    props.updateQuestions(newQuestions);
   };
 
   // Elimina la pregunta ----------------------------------------------------------
@@ -43,6 +44,7 @@ function QuestionCardList(props) {
     const newQuestions = [...questions];
     newQuestions.splice(index, 1);
     setQuestions(newQuestions);
+    props.updateQuestions(newQuestions);
   };
 
   // Drag and Drop ----------------------------------------------------------------
@@ -51,7 +53,6 @@ function QuestionCardList(props) {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-
     return result;
   };
 
@@ -68,7 +69,7 @@ function QuestionCardList(props) {
     );
 
     setQuestions(questionsList);
-
+    props.updateQuestions(questionsList);
     console.log(questionsList);
   };
 
@@ -87,6 +88,7 @@ function QuestionCardList(props) {
       ],
     });
     setQuestions(newQuestions);
+    props.updateQuestions(newQuestions);
     console.log(newQuestions);
   };
 

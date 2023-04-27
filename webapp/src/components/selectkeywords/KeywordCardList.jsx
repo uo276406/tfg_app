@@ -9,6 +9,7 @@ import {
   Tooltip,
   Space,
   InputNumber,
+  Tag
 } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import KeywordCard from "./KeywordCard";
@@ -24,6 +25,13 @@ const listStyle = {
 const spaceStyle = { justifyContent: "center" };
 
 const addButtonStyle = { paddingTop: "1%", paddingBottom: "1%" };
+
+const checkAllStyle = {
+  color: "darkblue",
+  fontSize: "1.2em",
+}
+
+const tagStyle = {fontSize: "1em"}
 
 /**
  * A component that displays a list of keywords and allows the user to select, delete, and add new keywords.
@@ -292,15 +300,18 @@ function KeywordCardList(props) {
           </Row>
         </Col>
         <Col>
+        <Tag style={tagStyle} color="geekblue">
           <Checkbox
             checked={checkAll}
             indeterminate={indeterminate}
             onChange={(event) => activateAll(event.target.checked)}
+            style={checkAllStyle}
           >
             {countSelected === 0
               ? t("selectAll")
               : countSelected + t("numberSelectAll")}
           </Checkbox>
+          </Tag>
         </Col>
         <Col span={24}>
           <Row justify={"center"} style={listStyle}>

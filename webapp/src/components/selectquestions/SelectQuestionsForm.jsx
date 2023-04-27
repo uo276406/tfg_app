@@ -1,4 +1,4 @@
-import { Button, Row, Col, Alert, Space } from "antd";
+import { Button, Row, Col, Alert, Space, Tag } from "antd";
 import {
   DownloadOutlined,
   LeftOutlined,
@@ -39,6 +39,12 @@ const alertStyle = {
   marginBottom: "1.5%",
 };
 
+const countQuestionsStyle = {
+  marginLeft: "1.5%",
+  marginBottom: "1%",
+  fontSize: "1.2em",
+};
+
 const buttonTxtStyle = {
   background: "darkgrey",
   color: "black",
@@ -56,6 +62,7 @@ function SelectQuestionsForm(props) {
 
   const updateQuestions = (newQuestions) => {
     setQuestions(newQuestions);
+    setCountQuestions(newQuestions.length);
   };
 
   // Exportación a fichero de texto -------------------------------------------------
@@ -64,6 +71,12 @@ function SelectQuestionsForm(props) {
   };
 
   const { t } = useTranslation();
+
+  // Contador de preguntas
+  const [countQuestions, setCountQuestions] = useState(
+    [...props.questions.questions].length
+  );
+
 
   return (
     <div>
@@ -99,6 +112,9 @@ function SelectQuestionsForm(props) {
         ) : (
           <></>
         )}
+        <Tag style={countQuestionsStyle} color="geekblue">
+         {countQuestions + " " + t('numberOfQuestions')}
+        </Tag>
       </Row>
       <Row gutter={[16, 16]} style={questionsListStyle}>
         <Col span={24}>
@@ -130,7 +146,12 @@ function SelectQuestionsForm(props) {
             >
               txt
             </Button>
-            <Button type="primary" danger icon={<FilePdfOutlined />} onClick={() => exportTo(new PdfExporter())}>
+            <Button
+              type="primary"
+              danger
+              icon={<FilePdfOutlined />}
+              onClick={() => exportTo(new PdfExporter())}
+            >
               pdf
             </Button>
             <Button
