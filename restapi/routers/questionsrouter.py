@@ -1,6 +1,7 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, Depends
 from pydantic import BaseModel
 from questiongenerator.fillingapsgenerator import FillInGapsGenerator
+from users.usersmanager import fastapi_users
 
 router = APIRouter()
 
@@ -37,6 +38,7 @@ class QuestionsInfo(BaseModel):
 
 # ---------------------------------------------------------
 
+current_active_user = fastapi_users.current_user(active=True)
 
 """
     This is a FastAPI endpoint that generates questions based on a given text and selected keywords.
@@ -45,7 +47,7 @@ class QuestionsInfo(BaseModel):
     """
 
 
-@router.post("/generate", status_code=status.HTTP_200_OK, description="Generate questions", response_description="Generated questions form the text using the selected keywords")
+@router.post("/generate", status_code=status.HTTP_200_OK, description="Generate questions", response_description="Generated questions form the text using the selected keywords", dependencies=[Depends(current_active_user)])
 async def generate_questions(text_keywords: TextKeywords) -> QuestionsInfo:
     generator = FillInGapsGenerator()
     return generator.generate_questions(text_keywords.text_body, text_keywords.keywords_selected)

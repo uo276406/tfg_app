@@ -72,7 +72,7 @@ function TextProcessForm(props) {
   const sendApiMessage = async () => {
     setIsLoading(true);
     let connector = new KeywordsConnector();
-    await connector.getKeywords(text).then((keywordsFetched) => {
+    await connector.getKeywords(text, props.accessToken).then((keywordsFetched) => {
       props.handleKeywordsFound(text, keywordsFetched.keywords);
       setIsLoading(false);
       props.changeStep(1);

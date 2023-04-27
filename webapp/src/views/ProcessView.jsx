@@ -5,13 +5,13 @@ import TextProcessForm from "../components/textprocess/TextProcessForm";
 import SelectKeywordsForm from "../components/selectkeywords/SelectKeywordForm";
 import SelectQuestionsForm from "../components/selectquestions/SelectQuestionsForm";
 
-const dividerStyle = { border: "1px solid" }
+const dividerStyle = { border: "1px solid" };
 
 /**
  * A component that processes a given text and generates questions based on the keywords found.
  * @returns A React component that displays a form for processing text and generating questions.
  */
-function ProcessView() {
+function ProcessView(props) {
   //Maneja los pasos de la página web ---------------------------------------------------------
   const [step, setStep] = useState(0);
   const getStep = (currentStep) => {
@@ -21,6 +21,7 @@ function ProcessView() {
           changeStep={handleStep}
           handleKeywordsFound={handleKeywordsFound}
           textValue={text}
+          accessToken={props.accessToken}
         />
       ),
       1: (
@@ -32,9 +33,16 @@ function ProcessView() {
           }
           handleQuestions={handleQuestions}
           handleTotalKeywords={handleTotalKeywords}
+          accessToken={props.accessToken}
         />
       ),
-      2: <SelectQuestionsForm changeStep={handleStep} questions={questions} />,
+      2: (
+        <SelectQuestionsForm
+          changeStep={handleStep}
+          questions={questions}
+          accessToken={props.accessToken}
+        />
+      ),
     };
     return steps[currentStep];
   };
@@ -51,9 +59,15 @@ function ProcessView() {
     setText(textSent);
     setKeywordsFound([
       ...keywordsFound.map((k, index) => {
-        let toSelect = index < keywordsFound.length * percentageOfSelected ? true : false;
+        let toSelect =
+          index < keywordsFound.length * percentageOfSelected ? true : false;
         let numberOfQuestions = toSelect ? 1 : 0;
-        return { index: k.index, value: k.value, selected: toSelect, numberOfQuestions: numberOfQuestions };
+        return {
+          index: k.index,
+          value: k.value,
+          selected: toSelect,
+          numberOfQuestions: numberOfQuestions,
+        };
       }),
     ]);
     setTotalKeywords([]);
