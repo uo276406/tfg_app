@@ -75,7 +75,6 @@ function QuestionCardList(props) {
   // Agrega una nueva pregunta ----------------------------------------------------
   const addNewQuestion = () => {
     let random = Math.floor(Math.random() * 4);
-    console.log(random)
     const newQuestions = [...questions];
     newQuestions.push({
       id: newQuestions.length,
@@ -88,7 +87,7 @@ function QuestionCardList(props) {
       ],
     });
     setQuestions(newQuestions);
-    console.log(newQuestions)
+    console.log(newQuestions);
   };
 
   return (
@@ -134,7 +133,6 @@ function QuestionCardList(props) {
           <Button
             type="dashed"
             style={buttonAddQuestionStyle}
-            on
             onClick={addNewQuestion}
           >
             {t("addNewQuestion")}
