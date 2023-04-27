@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Button, Row, Col, Input, Upload, message } from "antd";
-import { RightOutlined, UploadOutlined } from "@ant-design/icons";
+import { Button, Row, Col, Input, Upload, message, Spin } from "antd";
+import {
+  RightOutlined,
+  UploadOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import KeywordsConnector from "../../api/keywordsconnector";
 import { useTranslation } from "react-i18next";
+import TxtImporter from "./import/txtimporter";
 
 const { TextArea } = Input;
-const maxChars = 70000;
 
 const textAreaStyle = {
   height: 250,
@@ -22,6 +26,11 @@ const buttonsStyle = {
   paddingLeft: "2.5%",
   marginBottom: "1%",
 };
+const buttons2Style = {
+  marginLeft: "3%",
+};
+
+const exampleText = "The Americas, Europe, and Africa Before 1492	\nINTRODUCTION \nGlobalization, the ever-increasing interconnectedness, is not a new phenomenon, but it accelerated when western Europeans discovered the riches of the East. During the Crusades (1095–1291), Europeans developed an appetite for spices, silk, porcelain, sugar, and other luxury items from the East, for which they traded fur, timber, and Slavics they captured and sold (hence the word slave). But when the Silk Road, the long overland trading route from China to the Mediterranean, became costlier and more dangerous to travel, Europeans searched for a more efficient and inexpensive trade route over water, initiating the development of what we now call the Atlantic World. In pursuit of commerce in Asia, fifteenth-century traders unexpectedly encountered a “New World” populated by millions. Mistakenly believing they had reached the East Indies, these early explorers called its inhabitants “Indians.” West Africa, a diverse and culturally rich area, soon entered the stage as other nations exploited its slave trade and brought its them to the new continent in chains. Although Europeans would come to dominate the new continent, they could not have done so without Africans and Natives. \nThe Americas\nMost Native American origin stories assert that Native nations have always called the Americas home; however, some scholars believe that between nine and fifteen thousand years ago, a land bridge existed between Asia and North America that we now call  Beringia . The first inhabitants of what would be named the Americas migrated across this bridge in search of food. When the glaciers melted, water engulfed Beringia, and the Bering Strait was formed. Later settlers came by boat across the narrow strait. (The fact that Asians and Native Americans share genetic markers on a Y chromosome lends credibility to this migration theory.) Continually moving southward, the settlers eventually populated both North and South America, creating unique cultures that ranged from the highly complex and urban Aztec civilization in what is now Mexico City to the woodland tribes of eastern North America. Recent research along the west coast of South America suggests that migrant populations may have traveled down this coast by water as well as by land. Researchers believe that about ten thousand years ago, humans also began the domestication of plants and animals, adding agriculture as a means of sustenance to hunting and gathering techniques. With this agricultural revolution, and the more abundant and reliable food supplies it brought, populations grew and they were able to develop a more settled way of life, building permanent settlements. Nowhere in the Americas was this more obvious than in Mesoamerica ."
 
 /**
 """
@@ -33,30 +42,26 @@ function TextProcessForm(props) {
 
   // Botón upload --------------------------------------------------
   const loadFile = (file) => {
-    if (file.size > maxChars) {
-      message.error(`${file.name}` + t("tooBig"));
-    } else {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setText(e.target.result);
-      };
-      reader.readAsText(file);
-      message.success(`${file.name}` + t("sucessfulUpload"));
+    let importer = null;
+    if (file.type === "text/plain") {
+      importer = new TxtImporter();
     }
+    importer.import(file, (text) => {
+      setText(text);
+      message.success(`${file.name}` + t("sucessfulUpload"));
+    });
     return false;
-  }
+  };
 
   const uploadProps = {
     name: "file",
-    headers: {
-      authorization: "authorization-text",
-    },
     maxCount: 1,
-    accept: ".txt",
-    listType: "text",
+    accept: [".txt", ".docx", ".pptx"],
     beforeUpload: loadFile,
+    onRemove: () => {
+      setText("");
+    },
   };
-
 
   useEffect(() => {
     setText(props.textValue);
@@ -66,51 +71,70 @@ function TextProcessForm(props) {
   const [isLoading, setIsLoading] = useState(false);
   const sendApiMessage = async () => {
     setIsLoading(true);
-    let connector = new KeywordsConnector(text);
-    await connector.getKeywords().then((keywordsFetched) => {
+    let connector = new KeywordsConnector();
+    await connector.getKeywords(text).then((keywordsFetched) => {
       props.handleKeywordsFound(text, keywordsFetched.keywords);
       setIsLoading(false);
       props.changeStep(1);
     });
-  }
+  };
 
   return (
     <div>
-      <Row justify={"end"} gutter={[16, 16]}>
-        <Col span={24}>
-          <TextArea
-            showCount
-            maxLength={maxChars}
-            style={textAreaStyle}
-            placeholder={t("textAreaPlaceHolder")}
-            name="TextToProcess"
-            value={text}
-            onChange={(event) => {
-              setText(event.target.value);
-            }}
-          />
-        </Col>
-        <Col span={6} style={buttonsStyle}>
-          <Upload {...uploadProps}>
-            <Button icon={<UploadOutlined />}>{t("uploadButton")}</Button>
-          </Upload>
-        </Col>
-        <Col span={18} style={buttonsStyle}>
-          <Row justify={"end"} gutter={[32, 32]}>
-            <Col>
+      <Spin spinning={isLoading ? true : false}>
+        <Row justify={"end"} gutter={[16, 16]}>
+          <Col span={24}>
+            <TextArea
+              showCount
+              style={textAreaStyle}
+              placeholder={t("textAreaPlaceHolder")}
+              name="TextToProcess"
+              value={text}
+              onChange={(event) => {
+                setText(event.target.value);
+              }}
+            />
+          </Col>
+          <Col span={12} style={buttonsStyle}>
+            <Row>
+              <Upload {...uploadProps}>
+                <Button icon={<UploadOutlined />}>{t("uploadButton")}</Button>
+              </Upload>
               <Button
                 type="primary"
-                icon={<RightOutlined />}
-                loading={isLoading}
-                disabled={!text}
-                onClick={sendApiMessage}
+                style={buttons2Style}
+                onClick={() => setText(exampleText)}
               >
-                {t("processTextButton")}
+                {t("testText")}
               </Button>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+              <Button
+                style={buttons2Style}
+                type="primary"
+                disabled={text.length === 0}
+                icon={<DeleteOutlined />}
+                onClick={() => setText("")}
+                danger
+              >
+                {t("deleteSelected")}
+              </Button>
+            </Row>
+          </Col>
+          <Col span={12} style={buttonsStyle}>
+            <Row justify={"end"} gutter={[32, 32]}>
+              <Col>
+                <Button
+                  type="primary"
+                  icon={<RightOutlined />}
+                  disabled={!text}
+                  onClick={sendApiMessage}
+                >
+                  {t("processTextButton")}
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Spin>
     </div>
   );
 }

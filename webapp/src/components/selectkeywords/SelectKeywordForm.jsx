@@ -1,27 +1,17 @@
 import { useState } from "react";
-import { Button, Row, Col } from "antd";
+import { Button, Row, Col, Spin } from "antd";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import KeywordCardList from "./KeywordCardList";
 import { useTranslation } from "react-i18next";
-/**
- * A form component for editing a keyword. Displays a modal with a form that allows the user to modify the keyword.
- * @param {{object}} props - The props object containing the following properties:
- *   - visible: A boolean indicating whether the modal is visible or not.
- *   - onCancel: A function to be called when the user cancels the form.
- *   - onModify: A function to be called when the user modifies the keyword.
- *   - fields: An array of objects representing the fields in the form.
- *   - form: The antd form object used to manage the form state.
- * @returns A modal containing a form for editing a keyword.
- */
 import QuestionsConnector from "../../api/questionsconnector";
 
 const justifyButtonsBottom = {
-  xs: "center",
-  sm: "center",
+  xs: "end",
+  sm: "end",
   md: "end",
   lg: "end",
   xl: "end",
-  xxxl: "end",
+  xxl: "end",
 };
 
 const keywordsListStyle = {
@@ -33,7 +23,6 @@ const buttonsStyle = {
   paddingRight: "2%",
   marginBottom: "1%",
 };
-
 
 /**
  * A form component that allows users to select keywords and generate questions based on them.
@@ -48,64 +37,82 @@ function SelectKeywordsForm(props) {
   const { t } = useTranslation();
 
   // Botón de generar preguntas -----------------------------------------------
-  const [enabledGenerateButton, setEnabledGenerateButton] = useState(false);
+  const [enabledGenerateButton, setEnabledGenerateButton] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+
   // Envía la petición para que la restapi genere preguntas -------------------
   const sendApiMessage = async () => {
     setIsLoading(true);
-    let connector = new QuestionsConnector(props.text, selectedKeywords);
-    await connector.getQuestions().then((questionsFetched) => {
-      props.handleQuestions(questionsFetched);
-      setIsLoading(false);
-      props.changeStep(2);
-    });
+    let connector = new QuestionsConnector();
+    props.handleTotalKeywords(totalKeywords);
+    await connector
+      .getQuestions(props.text, selectedKeywords)
+      .then((questionsFetched) => {
+        props.handleQuestions(questionsFetched);
+        console.log(questionsFetched)
+        setIsLoading(false);
+        props.changeStep(2);
+      });
   };
 
-  // Almacena palabras seleccionadas ----------------------------------------------
-  const [selectedKeywords, setSelectedKeywords] = useState([]);
-  const handleKeywordsSelected = (selectedKeywords) => {
+  // Almacena palabras seleccionadas y no seleccionadas ----------------------------------------------
+  let [selectedKeywords, setSelectedKeywords] = useState([
+    ...props.keywordsFound.filter((k) => {
+      return k.selected;
+    }),
+  ]);
+  let [totalKeywords, setTotalKeywords] = useState([...props.keywordsFound]);
+
+  const handleKeywordsSelected = (totalKeywords) => {
     setSelectedKeywords([
-      ...selectedKeywords.map((k) => {
-        return { value: k.value };
+      ...totalKeywords.filter((k) => {
+        return k.selected;
       }),
     ]);
-  }
+    setTotalKeywords([...totalKeywords]);
+  };
 
   return (
     <div>
-      <Row gutter={[16, 16]} style={keywordsListStyle}>
-        <Col span={24}>
-          <KeywordCardList
-            keywordsFound={props.keywordsFound}
-            enableGenerateQuestionButton={setEnabledGenerateButton}
-            handleKeywordsSelected={handleKeywordsSelected}
-          />
-        </Col>
-      </Row>
-      <Row justify={justifyButtonsBottom} gutter={[8, 8]} style={buttonsStyle}>
-        <Col>
-          <Button
-            type="primary"
-            onClick={() => {
-              props.changeStep(0);
-            }}
-            icon={<LeftOutlined />}
-          >
-            {t("backButton")}
-          </Button>
-        </Col>
-        <Col>
-          <Button
-            type="primary"
-            icon={<RightOutlined />}
-            loading={isLoading}
-            disabled={!enabledGenerateButton}
-            onClick={sendApiMessage}
-          >
-            {t("generateQuestionsButton")}
-          </Button>
-        </Col>
-      </Row>
+      <Spin spinning={isLoading ? true : false}>
+        <Row gutter={[16, 16]} style={keywordsListStyle}>
+          <Col span={24}>
+            <KeywordCardList
+              keywordsFound={props.keywordsFound}
+              enableGenerateQuestionButton={setEnabledGenerateButton}
+              handleKeywordsSelected={handleKeywordsSelected}
+              text={props.text}
+            />
+          </Col>
+        </Row>
+        <Row
+          justify={justifyButtonsBottom}
+          gutter={[8, 8]}
+          style={buttonsStyle}
+        >
+          <Col>
+            <Button
+              type="primary"
+              onClick={() => {
+                props.changeStep(0);
+              }}
+              icon={<LeftOutlined />}
+            >
+              {t("backButton")}
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              type="primary"
+              icon={<RightOutlined />}
+              disabled={!enabledGenerateButton}
+              onClick={sendApiMessage}
+            >
+              {t("generateQuestionsButton")}
+            </Button>
+          </Col>
+        </Row>
+      </Spin>
     </div>
   );
 }

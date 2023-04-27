@@ -1,27 +1,75 @@
-import React from "react";
-import { Button, Form, Input, Card, Col, Row } from "antd";
+import React, { useState } from "react";
+import { Button, Form, Input, Card, Col, Row, Alert} from "antd";
 import { useTranslation } from "react-i18next";
+import UsersConnector from "../api/usersconnector";
+import {useNavigate} from "react-router-dom";
 
 const signinStyle = {
   margin: "2%",
 };
 
+const alertStyle = {
+  width: "100%",
+  marginRight: "1.5%",
+  marginBottom: "1.5%",
+}
+
 /**
  * A functional component that renders a sign-in form using Ant Design components.
  * @returns The sign-in form component.
  */
-function SigninView() {
+function SigninView(props) {
+
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const [userExists, setUserExists] = useState(false);
+
+  async function sendSignInToApi(values) {
+    let connector = new UsersConnector();
+    await connector
+      .signinUser(
+        values.name,
+        values.surname1,
+        values.surname2,
+        values.email,
+        values.password
+      )
+      .then((responseSignin) => {
+        console.log(responseSignin);
+        if (
+          responseSignin.detail !== undefined &&
+          responseSignin.detail === "REGISTER_USER_ALREADY_EXISTS"
+        ) {
+          setUserExists(true);
+        }  else {
+          setUserExists(false);
+          //Inicia sesión y actualiza el token de acceso
+          connector.loginUser(values.email, values.password).then((responseLogin) => {
+            props.updateAccessToken(responseLogin.access_token);
+            navigate("/");
+          });
+        }
+      })
+    }
 
   return (
     <Row style={signinStyle}>
       <Col span={24} style={{ height: "100%" }}>
+      {userExists ? <Alert
+        style={alertStyle}
+          message={t("existUser")}
+          description={t("existUserDescription")}
+          type="error"
+          showIcon
+        /> : <></>}
         <Card title={t("signinTitle")} headStyle={{ textAlign: "center" }}>
           <Form
             name="basic"
             labelCol={{ span: 24 / 3 }}
             wrapperCol={{ span: 24 / 3 }}
             initialValues={{ remember: true }}
+            onFinish={sendSignInToApi}
             autoComplete="off"
           >
             <Form.Item

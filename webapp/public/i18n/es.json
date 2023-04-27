@@ -17,11 +17,19 @@
     "english": "Inglés 🇬🇧",
     "signin": "Registrarse",
     "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
 
     "inputEmailCompulsory": "Introduzca su email",
     "inputPasswordCompulsory": "Introduzca su contraseña",
     "password": "Contraseña",
     "loginTitle": "Inicie sesión para disfrutar de todas las carcaterísticas. 😀",
+    "existUser": "Usuario con correo existente",
+    "existUserDescription": "Ya existe en la base de datos un usuario con ese correo electrónico.",
+    "registerIfNoAccount": "Si no tiene cuenta, ¡regístrese ya!",
+    "credentialsError": "Credenciales incorrectas",
+    "credentialsErrorDescription": "El correo electrónico o la contraseña son incorrectos.",
+    "userNotVerifiedError": "Usuario no verificado",
+    "userNotVerifiedErrorDescription": "Usuario no verificado, verifique su cuenta.",
 
     "name": "Nombre",
     "inputName": "Introduzca su nombre",
@@ -31,7 +39,7 @@
     "inputSecondSurname": "Introduzca su segundo apellido",
     "confirmPassword": "Confirme su constraseña",
     "repeatPassword": "Repita su contraseña",
-    "signinTitle": "Registrese, si no tiene cuenta, para disfrutar de todas las carcaterísticas. 😀",
+    "signinTitle": "Registrese, si no tiene cuenta, para disfrutar de todas las características. 😀",
 
     "personalinfo": "Información personal:",
     "email": "Correo electrónico",
@@ -48,10 +56,12 @@
     "uploadButton": "Subir archivo...",
     "tooBig": " demasiado grande",
     "sucessfulUpload": " cargado correctamente",
+    "testText": "¡Pruebe con un texto!",
 
     "deleteMessage" : "Palabras eliminadas correctamente",
     "addMessage" : "Palabra añadida correctamente",
     "repeatMessage": "Palabra repetida",
+    "inTextMessage": "Palabra no encontrada en el texto",
     "selectAll": "Seleccionar todas",
     "numberSelectAll": " palabras seleccionadas",
     "newWordPlaceHolder": "Nueva palabra...",
@@ -64,10 +74,20 @@
     "editFormTitle": "Edite la palabra clave",
     "deleteSelected": "Eliminar",
     "searchPlaceholder": "Buscar...",
+    "numberQuestionsGenerate": " preguntas se generarán como máximo",
 
-    "exportButton": "Exportar...",
+    "exportTxtButton": "Exportar a txt...",
     "addOption": "Añadir opción...",
-    "optionEmpty": "No puede ser vacío"
+    "optionEmpty": "No puede ser vacío",
+    "repeatedQuestionsWarningTitle": "Preguntas repetidas",
+    "repeatedQuestionsWarning": "Es posible que se hayan generado preguntas distintas pero con enunciados repetidos. Revise bien y cambie algunas.",
+    "notEnoughQuestionsError": "No hay preguntas suficientes",
+    "notEnoughQuestionsErrorDescription": "Imposible generar más preguntas para las palaras:",
+    "addNewQuestion": "Añadir nueva pregunta...",
+    "numberOfQuestions": "preguntas propuestas",
 
+    "docText1": "Aquí podrá encontrar enlaces a la documentación de la API REST de la aplicación." ,
+    "docText2": "Disponible en dos tecnologías diferentes que son interactivas: Swagger UI y ReDoc. Ambas siguen la ",
+    "openApi": "especificación OpenAPI."
 
 }

@@ -17,11 +17,19 @@
     "english": "English 🇬🇧",
     "signin": "Sign in",
     "login": "Log in",
+    "logout": "Log out",
 
     "inputEmailCompulsory": "Input your email",
     "inputPasswordCompulsory": "Input your password",
     "password": "Password",
     "loginTitle": "Log in with your account to enjoy all the features. 😀",
+    "existUser": "Existing user email",
+    "existUserDescription": "There is a user with the same email. Please, try again.",
+    "registerIfNoAccount": "Get an account! If you don't have one.",
+    "credentialsError": "Credentials error",
+    "credentialsErrorDescription": "The email or password are incorrect. Please, try again.",
+    "userNotVerifiedError": "User not verified",
+    "userNotVerifiedErrorDescription": "The user is not verified. Please, check your email.",
 
     "name": "name",
     "inputName": "Input your name",
@@ -49,10 +57,12 @@
     "uploadButton": "Upload...",
     "tooBig": " file to big",
     "sucessfulUpload": " uploaded sucessful",
+    "testText": "Try it now!",
 
     "deleteMessage" : "Words deleted",
     "addMessage" : "New word added",
     "repeatMessage": "Word repeated",
+    "inTextMessage": "Word not found in text",
     "selectAll": "Select all",
     "numberSelectAll": " words selected",
     "newWordPlaceHolder": "New word...",
@@ -65,10 +75,21 @@
     "editFormTitle": "Edit keyword",
     "deleteSelected": "Delete",
     "searchPlaceholder": "Search...",
+    "numberQuestionsGenerate": " maximum questions to generate",
 
-    "exportButton": "Export...",
+    "exportTxtButton": "Export to txt...",
     "addOption": "Add option...",
-    "optionEmpty": "It can't be empty"
+    "optionEmpty": "It can't be empty",
+    "repeatedQuestionsWarningTitle": "Repeated questions",
+    "repeatedQuestionsWarning": "Maybe some questions are repeated. Take a look to them and try to modify some ones.",
+    "notEnoughQuestionsError": "Not enough questions",
+    "notEnoughQuestionsErrorDescription": "Imposible to generate enough questions for words:",
+    "addNewQuestion": "Add new question...",
+    "numberOfQuestions": "questions proposed",
+
+    "docText1": "Here, you can find the documentation of the API used in this application." ,
+    "docText2": "Swagger UI and ReDoc are the two main tools used to generate interactive documentation. Both following",
+    "openApi": "OpenAPI specifiacation"
 
 
 }

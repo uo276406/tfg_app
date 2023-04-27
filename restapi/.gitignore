@@ -1,2 +1,11 @@
 # venv
 .venv
+
+# db files
+*.db
+
+#.env files
+.env.*
+
+# .pyc
+*.pyc

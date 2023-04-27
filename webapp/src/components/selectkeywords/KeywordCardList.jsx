@@ -1,27 +1,37 @@
 import { useState } from "react";
-import { Button, Row, Col, Input, Checkbox, message, Tooltip } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  Input,
+  Checkbox,
+  message,
+  Tooltip,
+  Space,
+  InputNumber,
+  Tag
+} from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import KeywordCard from "./KeywordCard";
 import { useTranslation } from "react-i18next";
 
-const justifyAddButtons = {
-  xs: "center",
-  sm: "center",
-  md: "start",
-  lg: "start",
-  xl: "start",
-  xxxl: "start",
-};
-
 const listStyle = {
   padding: "1%",
   backgroundColor: "white",
-  overflow: 'scroll',
-  maxHeight: 275
-  
+  overflow: "scroll",
+  maxHeight: 450,
 };
 
-const addButtonStyle = { paddingTop: "1%" };
+const spaceStyle = { justifyContent: "center" };
+
+const addButtonStyle = { paddingTop: "1%", paddingBottom: "1%" };
+
+const checkAllStyle = {
+  color: "darkblue",
+  fontSize: "1.2em",
+}
+
+const tagStyle = {fontSize: "1em"}
 
 /**
  * A component that displays a list of keywords and allows the user to select, delete, and add new keywords.
@@ -35,35 +45,70 @@ function KeywordCardList(props) {
   const { t } = useTranslation();
 
   // Compara palabras clave ----------------------------------------------------
-  function isKeywordEqual(k1, k2) {
-    return k1.value.toLowerCase() === k2.value.toLowerCase();
-  }
+  const sameKeywordIndex = (i1, i2) => {
+    return i1 === i2;
+  };
 
-  // Lista de palabras clave totales ---------------------------------------------------
-  let [keywordsList, setKeywordsList] = useState([
-    ...props.keywordsFound.map((k) => {
-      return { index: k.index, value: k.value, selected: false };
-    }),
-  ]);
-
-  // Lista de palabras clave seleccionadas ---------------------------------------------
-
-  let selectedKeywords = keywordsList.filter((k) => k.selected);
-  let [countSelected, setCountSelected] = useState(0);
-
-  const updateSelectedKeywords = (keyword) => {
-    for (let elem of keywordsList) {
-      if (isKeywordEqual(elem, keyword)) {
-        elem.selected = keyword.selected;
+  const isRepeated = (keyword) => {
+    for (const k of keywordsList) {
+      if (k.value.toLowerCase() === keyword.toLowerCase()) {
+        return true;
       }
     }
-    props.handleKeywordsSelected(keywordsList.filter((k) => k.selected));
-    updateCheckAllButton();
-    handleActivateButtons(selectedKeywords.length);
+    return false;
+  };
+
+  const isInText = (keyword) => {
+    return RegExp("\\b" + keyword.toLowerCase() + "\\b").test(
+      props.text.toLowerCase()
+    );
+  };
+
+  const validateKeyword = (keyword) => {
+    if (isRepeated(keyword)) {
+      showMessages("repeatMessage", "error");
+      return false;
+    }
+
+    if (!isInText(keyword)) {
+      showMessages("inTextMessage", "error");
+      return false;
+    }
+    return true;
+  };
+
+  const updateScreenButtons = (count) => {
+    updateCheckAllButton(count);
+    handleActivateButtons(count);
   }
 
+
+  // Lista de palabras clave totales ---------------------------------------------------
+  let [keywordsList, setKeywordsList] = useState([...props.keywordsFound]);
+
+  // Lista de palabras clave seleccionadas ---------------------------------------------
+  let selectedKeywords = keywordsList.filter((k) => k.selected);
+  let [countSelected, setCountSelected] = useState(
+    props.keywordsFound.filter((k) => k.selected).length
+  );
+
+  const updateSelectedKeywords = (keyword) => {
+    console.log(keyword)
+    for (let elem of keywordsList) {
+      if (sameKeywordIndex(elem.index, keyword.index)) {
+        elem.selected = keyword.selected;
+        elem.value = keyword.value;
+        elem.numberOfQuestions = keyword.numberOfQuestions;
+      }
+    }
+    props.handleKeywordsSelected(keywordsList);
+    selectedKeywords = keywordsList.filter((k) => k.selected);    
+    updateScreenButtons(selectedKeywords.length);
+    setCountQuestionsToGenerate(countQuestions());
+  };
+
   // Botón de eliminar ---------------------------------------------------------
-  let [enabledDeleteButton, setEnabledDeleteButton] = useState(false);
+  let [enabledDeleteButton, setEnabledDeleteButton] = useState(true);
 
   const deleteKeywordsSelected = () => {
     setKeywordsList((prevKeywordsList) => {
@@ -73,21 +118,12 @@ function KeywordCardList(props) {
           i--;
         }
       }
-      console.log(prevKeywordsList);
       return prevKeywordsList;
     });
-    successDelete();
-    updateCheckAllButton();
-    handleActivateButtons(0);
+    showMessages("deleteMessage", "success");
+    updateScreenButtons(0)
     selectedKeywords = [];
-  }
-
-  const successDelete = () => {
-    messageApi.open({
-      type: "success",
-      content: t("deleteMessage"),
-      duration: 5,
-    });
+    setCountQuestionsToGenerate(0);
   };
 
   // Activa botones ------------------------------------------------------------
@@ -100,41 +136,50 @@ function KeywordCardList(props) {
       setEnabledDeleteButton(false);
       props.enableGenerateQuestionButton(false);
     }
-  }
+  };
 
   // Botón de seleccionar todas ------------------------------------------------
-  const [indeterminate, setIndeterminate] = useState(false);
+  const [indeterminate, setIndeterminate] = useState(true);
   const [checkAll, setCheckAll] = useState(false);
 
   const activateAll = (value) => {
     setKeywordsList((prevKeywordsList) => {
       for (const k of prevKeywordsList) {
+        if (!value) {
+          k.numberOfQuestions = 0;
+        } else {
+          k.numberOfQuestions = 1;
+        }
         k.selected = value;
       }
       return prevKeywordsList;
     });
-    updateCheckAllButton();
+    setCheckAll(value);
+    setIndeterminate(false);
     value
       ? handleActivateButtons(keywordsList.length)
       : handleActivateButtons(0);
-  }
+    props.handleKeywordsSelected(keywordsList);
+    setCountQuestionsToGenerate(countQuestions());
+    console.log(keywordsList);
+  };
 
-  const updateCheckAllButton = () => {
-    selectedKeywords = keywordsList.filter((k) => k.selected);
+  const updateCheckAllButton = (count) => {
     if (
-      selectedKeywords.length > 0 &&
-      selectedKeywords.length < keywordsList.length
+      count > 0 &&
+      count < keywordsList.length
     ) {
       setIndeterminate(true);
       setCheckAll(false);
-    } else if (selectedKeywords.length === 0) {
+    } else if (count === 0) {
       setIndeterminate(false);
       setCheckAll(false);
-    } else if (selectedKeywords.length === keywordsList.length) {
+    } else if (count === keywordsList.length) {
       setIndeterminate(false);
       setCheckAll(true);
     }
-  }
+    setCountSelected(count);
+  };
 
   // Buscador ------------------------------------------------------------------
   const searchedElements = keywordsList;
@@ -142,13 +187,13 @@ function KeywordCardList(props) {
 
   const editSearchField = (event) => {
     setSearchTerm(event.target.value);
-  }
+  };
 
   const getSearchedTerms = () => {
     return searchedElements.filter((keyword) =>
       keyword.value.toLowerCase().includes(searchTerm.toLocaleLowerCase())
     );
-  }
+  };
 
   // Botón de añadir -----------------------------------------------------------
   const [enabledAddButton, setEnabledAddButton] = useState(false);
@@ -160,40 +205,73 @@ function KeywordCardList(props) {
     event.target.value !== ""
       ? setEnabledAddButton(true)
       : setEnabledAddButton(false);
-  }
+  };
   const addNewKeyword = () => {
     setKeywordsList((prevKeywordsList) => {
       let toAdd = {
         index: Math.max(...prevKeywordsList.map((k) => k.index)) + 1,
         value: keywordToAdd,
-        selected: false,
+        selected: true,
+        numberOfQuestions: 1,
       };
-      for (const k of prevKeywordsList) {
-        if (isKeywordEqual(toAdd, k)) {
-          errorAdd();
-          return prevKeywordsList;
-        }
+
+      if (validateKeyword(toAdd.value)) {
+        prevKeywordsList.push(toAdd);
+        setCountSelected(countSelected + 1);
+        showMessages("addMessage", "success");
       }
-      prevKeywordsList.push(toAdd);
-      successAdd();
       return prevKeywordsList;
     });
     setKeywordToAdd("");
     setEnabledAddButton(false);
-  }
-
-  const successAdd = () => {
-    messageApi.open({
-      type: "success",
-      content: t("addMessage"),
-      duration: 5,
-    });
+    selectedKeywords = keywordsList.filter((k) => k.selected);
+    updateScreenButtons(selectedKeywords.length);
+    setCountQuestionsToGenerate(countQuestions());
   };
 
-  const errorAdd = () => {
+  // Contador de preguntas -----------------------------------------------------
+  const countQuestions = () =>
+    keywordsList.map((k) => k.numberOfQuestions).reduce((a, b) => a + b, 0);
+  const [countQuestionsToGenerate, setCountQuestionsToGenerate] = useState(
+    countQuestions()
+  );
+
+  const handleUpdateNumberOfQuestions = (value) => {
+    if (value === null) value = 0;
+    setKeywordsList((prevKeywordsList) => {
+      let numberToAdd = value;
+      if (numberToAdd < prevKeywordsList.length) {
+        for (let i = 0; i < prevKeywordsList.length; i++) {
+          prevKeywordsList[i].numberOfQuestions = 0;
+          prevKeywordsList[i].selected = false;
+          if (i < numberToAdd) {
+            prevKeywordsList[i].numberOfQuestions += 1;
+            prevKeywordsList[i].selected = true;
+          }
+        }
+      } else if (numberToAdd >= prevKeywordsList.length){
+        for (let elem of prevKeywordsList) {
+          elem.numberOfQuestions = 1;
+          elem.selected = true;
+        }
+      }
+      return prevKeywordsList;
+    });
+    setCountQuestionsToGenerate(value);
+    selectedKeywords = keywordsList.filter((k) => k.selected);
+    updateScreenButtons(selectedKeywords.length);
+  };
+
+  const questionCounterStyle = {
+    marginLeft: "auto",
+    marginRight: "1%",
+    width: "250px",
+  };
+
+  const showMessages = (text, type) => {
     messageApi.open({
-      type: "error",
-      content: t("repeatMessage"),
+      type: type,
+      content: t(text),
       duration: 5,
     });
   };
@@ -222,46 +300,56 @@ function KeywordCardList(props) {
           </Row>
         </Col>
         <Col>
+        <Tag style={tagStyle} color="geekblue">
           <Checkbox
             checked={checkAll}
             indeterminate={indeterminate}
             onChange={(event) => activateAll(event.target.checked)}
+            style={checkAllStyle}
           >
             {countSelected === 0
               ? t("selectAll")
               : countSelected + t("numberSelectAll")}
           </Checkbox>
+          </Tag>
         </Col>
         <Col span={24}>
           <Row justify={"center"} style={listStyle}>
-            {getSearchedTerms().length > 0 ? (
-              getSearchedTerms().map((keyword) => {
-                return (
-                  <KeywordCard
-                    updateSelectedKeywords={updateSelectedKeywords}
-                    key={keyword.index}
-                    index={keyword.index}
-                    value={keyword.value}
-                    selected={keyword.selected}
-                  />
-                );
-              })
-            ) : (
-              <h1>No se han encontrado palabras</h1>
-            )}
+            <Space style={spaceStyle} size={"large"} wrap>
+              {getSearchedTerms().length > 0 ? (
+                getSearchedTerms().map((keyword) => {
+                  return (
+                    <KeywordCard
+                      updateSelectedKeywords={updateSelectedKeywords}
+                      key={keyword.index}
+                      index={keyword.index}
+                      value={keyword.value}
+                      selected={keyword.selected}
+                      numberOfQuestions={keyword.numberOfQuestions}
+                      isInText={isInText}
+                      isRepeated={isRepeated}
+                      showMessages={showMessages}
+                    />
+                  );
+                })
+              ) : (
+                <h2>No se han encontrado palabras</h2>
+              )}
+            </Space>
           </Row>
         </Col>
       </Row>
-      <Row justify={justifyAddButtons} gutter={[8, 8]} style={addButtonStyle}>
-        <Col>
+      <Row gutter={[8, 8]} style={addButtonStyle}>
+        <Col xs={16} sm={16} md={8} lg={8} xl={6} xxl={6}>
           <Input
             onChange={(event) => activateButtonAdd(event)}
             value={keywordToAdd}
+            onPressEnter={addNewKeyword}
             placeholder={t("newWordPlaceHolder")}
           ></Input>
         </Col>
         {contextHolder}
-        <Col>
+        <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}>
           <Tooltip title={t("newWordTooltip")}>
             <Button
               type="primary"
@@ -270,6 +358,23 @@ function KeywordCardList(props) {
               icon={<PlusOutlined />}
             ></Button>
           </Tooltip>
+        </Col>
+        <Col
+          style={questionCounterStyle}
+          xs={24}
+          sm={24}
+          md={24}
+          lg={10}
+          xl={7}
+          xxl={5}
+        >
+          <InputNumber
+            min={0}
+            defaultValue={countQuestionsToGenerate}
+            value={countQuestionsToGenerate}
+            addonAfter={t("numberQuestionsGenerate")}
+            onChange={(value) => handleUpdateNumberOfQuestions(value)}
+          />
         </Col>
       </Row>
     </div>

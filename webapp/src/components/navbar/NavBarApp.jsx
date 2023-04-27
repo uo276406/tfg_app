@@ -4,15 +4,23 @@ import { Link } from "react-router-dom";
 import {
   SnippetsOutlined,
   LoginOutlined,
-  QuestionOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
+import UsersConnector from "../../api/usersconnector";
 
 /**
  * A functional component that renders a navigation bar with links to various pages and language options.
  * @returns The rendered navigation bar.
  */
-function NavBarApp() {
+function NavBarApp(props) {
   const { i18n, t } = useTranslation();
+
+  const logout = async () => {
+    let connector = new UsersConnector();
+    await connector.logoutUser(props.accessToken).then((responseLogout) => {
+      props.clearLocalStorage();
+    });
+  };
 
   // Menu items
   const items = [
@@ -27,11 +35,6 @@ function NavBarApp() {
       style: { marginLeft: "auto" },
     },
     {
-      label: <Link to="/about">{t("about")}</Link>,
-      key: "about",
-      icon: <QuestionOutlined />,
-    },
-    {
       label: t("lang"),
       key: "lang",
       icon: <SnippetsOutlined />,
@@ -39,16 +42,19 @@ function NavBarApp() {
         {
           label: t("spanish"),
           key: "ES",
-          onClick: () => onClickChangeLang("es")
+          onClick: () => onClickChangeLang("es"),
         },
         {
           label: t("english"),
           key: "EN",
-          onClick: () => onClickChangeLang("en")
-          
+          onClick: () => onClickChangeLang("en"),
         },
       ],
     },
+  ];
+
+  const itemsLogin = [
+    ...items,
     {
       label: <Link to="/login">{t("login")}</Link>,
       key: "login",
@@ -61,13 +67,28 @@ function NavBarApp() {
     },
   ];
 
+  const itemsLogout = [
+    ...items,
+    {
+      label: <Link to="/logout">{t("logout")}</Link>,
+      key: "logout",
+      icon: <LogoutOutlined />,
+      onClick: logout,
+    },
+  ];
+
   // Cambia idioma ----------------------------------------------------
   const onClickChangeLang = (code) => {
     i18n.changeLanguage(code);
   };
 
   return (
-    <Menu theme="dark" selectable={false} mode="horizontal" items={items} />
+    <Menu
+      theme="dark"
+      selectable={false}
+      mode="horizontal"
+      items={props.accessToken === "" ? itemsLogin : itemsLogout}
+    ></Menu>
   );
 }
 

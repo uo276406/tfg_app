@@ -1,11 +1,34 @@
 import React, { useState } from "react";
-import { Card, Checkbox, Form } from "antd";
-import { EditOutlined } from "@ant-design/icons";
-import KeywordEditForm from "./KeywordEditForm";
+import { Card, Input, Badge, InputNumber, Button, Space } from "antd";
+import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 
-const { Meta } = Card;
+const cardStyleNotSelected = {
+  textAlign: "center",
+  width: "250px",
+  height: "125px",
+};
+const cardStyleSelected = {
+  textAlign: "center",
+  backgroundColor: "#e6f7ff",
+  width: "250px",
+  height: "125px",
+};
 
-const cardStyle = { margin: "0.5%", textAlign: "center", height: 'auto' };
+const textStyle = {
+  textAlign: "center",
+  fontSize: "1.2em",
+  fontWeight: "bold",
+};
+
+const inputStyle = {
+  textAlign: "center",
+  fontSize: "1em",
+  fontWeight: "bold",
+};
+
+const inputNumberStyle = {
+  width: "60px",
+};
 
 /**
  * A component that displays a keyword card with options to edit and select the keyword.
@@ -13,70 +36,177 @@ const cardStyle = { margin: "0.5%", textAlign: "center", height: 'auto' };
  * @returns A card component displaying the keyword and options to edit and select it.
  */
 function KeywordCard(props) {
-
-  // Chckboxes de selección ------------------------------------------------------
+  // Selección ------------------------------------------------------
   const handleSelect = () => {
     const keywordSelected = {
-      key: props.index,
-      value: props.value,
+      index: props.index,
+      value: keyword,
       selected: !props.selected,
+      numberOfQuestions: !props.selected ? 1 : 0,
     };
     props.updateSelectedKeywords(keywordSelected);
-  }
+    setNumberOfQuestions(!props.selected ? 1 : 0);
+  };
 
-  // Formulario de editar ---------------------------------------------------------
-  const [keyword, setKeyword] = useState([
-    {
-      name: "keyword",
-      value: props.value,
-    },
-  ]);
-  const [form] = Form.useForm();
-  const [visible, setVisible] = useState(false);
+  // Editar ---------------------------------------------------------
+  const [editable, setEditable] = useState(false);
+  const [keyword, setKeyword] = useState(props.value);
+  let prevKeyword = props.value;
 
-  const showModal = () => {
-    setVisible(true);
-  }
-  const handleCancel = () => {
-    setVisible(false);
-  }
-  const handleModify = (values) => {
-    setKeyword([
-      {
-        name: "keyword",
-        value: values.keyword,
-      },
-    ]);
-    setVisible(false);
-  }
+  const handleDoubleClick = (event) => {
+    event.target.focus();
+    setEditable(true);
+  };
+
+  const handleEditConfirm = () => {
+    if (!props.isInText(keyword)) {
+      props.showMessages("inTextMessage", "error");
+      setKeyword(prevKeyword);
+      setEditable(true);
+    } else if (props.isRepeated(keyword) && keyword !== prevKeyword) {
+      props.showMessages("repeatMessage", "error");
+      setKeyword(prevKeyword);
+      setEditable(true);
+    } else if (keyword.length === 0) {
+      props.showMessages("noEmptyEditForm", "error");
+      setKeyword(prevKeyword);
+      setEditable(true);
+    } else {
+      setEditable(false);
+    }
+    prevKeyword = keyword;
+  };
+
+  const handleEdit = (e) => {
+    setKeyword(e.target.value);
+  };
+
+  // Badge ----------------------------------------------------------
+  const [numberOfQuestions, setNumberOfQuestions] = useState(
+    props.numberOfQuestions
+  );
+  const [editableNumQuestions, setEditableNumQuestions] = useState(false);
+
+  const updateNumberOfQuestions = (value) => {
+    const keywordSelected = {
+      index: props.index,
+      value: keyword,
+      selected: true,
+      numberOfQuestions: value,
+    };
+    props.updateSelectedKeywords(keywordSelected);
+    setNumberOfQuestions(value);
+  };
+
+  const increase = (event) => {
+    event.stopPropagation();
+    let newValue = props.numberOfQuestions + 1;
+    const keywordSelected = {
+      index: props.index,
+      value: keyword,
+      selected: true,
+      numberOfQuestions: newValue,
+    };
+    setNumberOfQuestions(newValue);
+    props.updateSelectedKeywords(keywordSelected);
+  };
+
+  const decrease = (event) => {
+    event.stopPropagation();
+    let newValue = props.numberOfQuestions !== 0 ? props.numberOfQuestions - 1 : 0;
+    const keywordSelected = {
+      index: props.index,
+      value: keyword,
+      selected: props.numberOfQuestions - 1 === 0 ? false : true,
+      numberOfQuestions: newValue,
+    };
+    setNumberOfQuestions(newValue);
+    props.updateSelectedKeywords(keywordSelected);
+  };
 
   return (
-    <Card
-      style={cardStyle}
-      actions={[
-        <EditOutlined
-          key="editKeyword"
-          onClick={() => {
-            showModal();
-          }}
-        />,
-        <Checkbox
-          onChange={handleSelect}
-          key={props.index}
-          checked={props.selected}
-        />,
-      ]}
-    >
-      <Meta title={keyword[0]["value"]} />
+    <Badge.Ribbon text={props.numberOfQuestions}>
+      <Card
+        style={props.selected ? cardStyleSelected : cardStyleNotSelected}
+        onClick={() => {
+          handleSelect();
+        }}
+        onMouseEnter={() => {
+          setEditableNumQuestions(true);
+        }}
+        onMouseLeave={() => {
+          setEditableNumQuestions(false);
+        }}
+      >
+        <>
+          {editable ? (
+            <p
+              onClick={(event) => {
+                handleSelect();
+                event.stopPropagation();
+              }}
+              style={textStyle}
+            >
+              <Input
+                autoFocus
+                onChange={(event) => handleEdit(event)}
+                onBlur={() => handleEditConfirm()}
+                onPressEnter={() => handleEditConfirm()}
+                value={keyword}
+                style={inputStyle}
+                size="small"
+              ></Input>
+            </p>
+          ) : (
+            <p
+              onDoubleClick={(event) => {
+                handleDoubleClick(event);
+              }}
+              style={textStyle}
+            >
+              {keyword}
+            </p>
+          )}
+        </>
 
-      <KeywordEditForm
-        form={form}
-        visible={visible}
-        onCancel={handleCancel}
-        onModify={handleModify}
-        fields={keyword}
-      />
-    </Card>
+        <>
+          {editableNumQuestions ? (
+            <Space>
+              <InputNumber
+                style={inputNumberStyle}
+                min={0}
+                value={props.numberOfQuestions}
+                onChange={(value) => updateNumberOfQuestions(value)}
+                controls={false}
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
+                onKeyDown={(event) => {
+                  if (event.keyCode === 39) {
+                    increase(event);
+                  } else if (event.keyCode === 40) {
+                    decrease(event);
+                  }
+                }}
+              />
+              <Button.Group>
+                <Button
+                  disabled = {numberOfQuestions === 0}
+                  onClick={(event) => decrease(event)}
+                  icon={<MinusOutlined />}
+                />
+                <Button
+                  onClick={(event) => increase(event)}
+                  icon={<PlusOutlined />}
+                />
+              </Button.Group>
+            </Space>
+          ) : (
+            <></>
+          )}
+        </>
+      </Card>
+    </Badge.Ribbon>
   );
 }
 

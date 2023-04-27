@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { Card, Typography, Tag, Input, Space, message } from "antd";
+import { Card, Typography, Tag, Input, Space, message, Button } from "antd";
 import {
   PlusOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
+
 
 const { Paragraph } = Typography;
 
@@ -13,30 +15,32 @@ const questionCardStyle = {
   width: "100%",
   paddingTop: "1%",
   margin: "1%",
+  backgroundColor: "#e6f7ff",
 };
 
 const questionTextStyle = {
   fontSize: "15px",
-  whiteSpace: "pre-line"
-}
+  whiteSpace: "pre-line",
+  marginRight: "5%",
+};
 
-const tagInputStyle = {
+const optionInputStyle = {
   width: 78,
   verticalAlign: "top",
 };
 
-const tagPlusStyle = {
+const optionPlusStyle = {
   borderStyle: "dashed",
-  fontSize: "15px"
+  fontSize: "15px",
 };
 
-const tagsAdded = {
+const optionsAdded = {
   userSelect: "none",
-  fontSize: "16px"
-}
+  fontSize: "16px",
+};
 
 /**
- * A component that displays a question card with editable question text and tags for options.
+ * A component that displays a question card with editable question text and options for options.
  * @param {{questionText: string, options: Array<{value: string, correct: boolean}>}} props - The props object containing the question text and options.
  * @returns A JSX element that displays the question card.
  */
@@ -47,27 +51,18 @@ function QuestionCard(props) {
   // Enucnciado ------------------------------------------------------------------
   const [questionText, setQuestionText] = useState(props.questionText);
 
-  const handleModifyQuestionText = (text) => {
-    if (text.length === 0) {
+  const handleModifyQuestionText = (newText) => {
+    if (newText.length === 0) {
       emptyOption();
+    } else {
+      setQuestionText(newText);
+      props.updateQuestion(props.index, newText, options); //Actualiza la pregunta
     }
-    else{
-      setQuestionText(text);
-    }
-  }
+  };
 
   // Opciones --------------------------------------------------------------------
-  const [tags, setTags] = useState([
-    ...props.options.map((o) => {
-      return o.value;
-    }),
-  ]);
+  const [options, setOptions] = useState([...props.options]);
 
-  const [corrects, setCorrects] = useState([
-    ...props.options.map((o) => {
-      return o.correct;
-    }),
-  ]);
   const [inputVisible, setInputVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [editInputIndex, setEditInputIndex] = useState(-1);
@@ -85,10 +80,10 @@ function QuestionCard(props) {
     editInputRef.current?.focus();
   }, [inputValue]);
 
-  const handleClose = (removedTag) => {
-    const newTags = tags.filter((tag) => tag !== removedTag);
-    console.log(newTags);
-    setTags(newTags);
+  const handleClose = (removedOption) => {
+    const newOptions = options.filter((option) => option !== removedOption);
+    setOptions(newOptions);
+    props.updateQuestion(props.index, questionText, newOptions); //Actualiza la pregunta
   };
 
   const showInput = () => {
@@ -100,8 +95,10 @@ function QuestionCard(props) {
   };
 
   const handleInputConfirm = () => {
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      setTags([...tags, inputValue]);
+    if (inputValue && options.indexOf(inputValue) === -1) {
+      let newOptions = options;
+      newOptions.push({ value: inputValue, correct: false });
+      setOptions(newOptions);
     }
     setInputVisible(false);
     setInputValue("");
@@ -110,8 +107,7 @@ function QuestionCard(props) {
   const handleEditInputChange = (e) => {
     if (e.target.value.length === 0) {
       emptyOption();
-    }
-    else{
+    } else {
       setEditInputValue(e.target.value);
     }
   };
@@ -125,11 +121,19 @@ function QuestionCard(props) {
   };
 
   const handleEditInputConfirm = () => {
-    const newTags = [...tags];
-    newTags[editInputIndex] = editInputValue;
-    setTags(newTags);
+    const newOptions = [...options];
+    newOptions[editInputIndex] = editInputValue;
+    setOptions(newOptions);
     setEditInputIndex(-1);
     setInputValue("");
+    props.updateQuestion(props.index, questionText, newOptions); //Actualiza la pregunta
+  };
+
+  // Botón de borrar pregunta ----------------------------------------------------
+  const [buttonVisible, setButtonVisible] = useState(false);
+
+  const handleDelete = () => {
+    props.deleteQuestion(props.index);
   };
 
   return (
@@ -137,12 +141,24 @@ function QuestionCard(props) {
       {contextHolder}
       <Card
         size="small"
+        extra={
+          buttonVisible ? (
+            <Button
+              type="primary"
+              danger
+              icon={<DeleteOutlined></DeleteOutlined>}
+              onClick={handleDelete}
+            />
+          ) : null
+        }
+        onMouseEnter={() => setButtonVisible(true)}
+        onMouseLeave={() => setButtonVisible(false)}
         title={
           <Paragraph
             editable={{
               onChange: handleModifyQuestionText,
             }}
-            style = {questionTextStyle}
+            style={questionTextStyle}
           >
             {questionText}
           </Paragraph>
@@ -151,14 +167,14 @@ function QuestionCard(props) {
       >
         <Space size={[0, 8]} wrap>
           <Space size={[0, 8]} wrap>
-            {tags.map((option, index) => {
+            {options.map((option, index) => {
               if (editInputIndex === index) {
                 return (
                   <Input
                     ref={editInputRef}
-                    key={option}
+                    key={option.value}
                     size="small"
-                    style={tagInputStyle}
+                    style={optionInputStyle}
                     value={editInputValue}
                     onChange={handleEditInputChange}
                     onBlur={handleEditInputConfirm}
@@ -166,19 +182,19 @@ function QuestionCard(props) {
                   />
                 );
               }
-              const tagElem = (
+              const optionElem = (
                 <Tag
-                  key={option}
-                  closable={corrects[index] ? false : true}
-                  color={corrects[index] ? "success" : "error"}
+                  key={option.value}
+                  closable={options[index].correct ? false : true}
+                  color={options[index].correct ? "success" : "error"}
                   icon={
-                    corrects[index] ? (
+                    options[index].correct ? (
                       <CheckCircleOutlined />
                     ) : (
                       <CloseCircleOutlined />
                     )
                   }
-                  style={tagsAdded}
+                  style={optionsAdded}
                   onClose={() => handleClose(option)}
                 >
                   <span
@@ -190,11 +206,11 @@ function QuestionCard(props) {
                       }
                     }}
                   >
-                    {option}
+                    {option.value}
                   </span>
                 </Tag>
               );
-              return tagElem;
+              return optionElem;
             })}
           </Space>
           {inputVisible ? (
@@ -202,14 +218,14 @@ function QuestionCard(props) {
               ref={inputRef}
               type="text"
               size="small"
-              style={tagInputStyle}
+              style={optionInputStyle}
               value={inputValue}
               onChange={handleInputChange}
               onBlur={handleInputConfirm}
               onPressEnter={handleInputConfirm}
             />
           ) : (
-            <Tag style={tagPlusStyle} onClick={showInput}>
+            <Tag style={optionPlusStyle} onClick={showInput}>
               <PlusOutlined /> {t("addOption")}
             </Tag>
           )}

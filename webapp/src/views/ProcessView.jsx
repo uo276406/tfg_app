@@ -5,6 +5,8 @@ import TextProcessForm from "../components/textprocess/TextProcessForm";
 import SelectKeywordsForm from "../components/selectkeywords/SelectKeywordForm";
 import SelectQuestionsForm from "../components/selectquestions/SelectQuestionsForm";
 
+const dividerStyle = { border: "1px solid" }
+
 /**
  * A component that processes a given text and generates questions based on the keywords found.
  * @returns A React component that displays a form for processing text and generating questions.
@@ -25,8 +27,11 @@ function ProcessView() {
         <SelectKeywordsForm
           changeStep={handleStep}
           text={text}
-          keywordsFound={keywordsFound}
+          keywordsFound={
+            totalKeywords.length === 0 ? keywordsFound : totalKeywords
+          }
           handleQuestions={handleQuestions}
+          handleTotalKeywords={handleTotalKeywords}
         />
       ),
       2: <SelectQuestionsForm changeStep={handleStep} questions={questions} />,
@@ -39,11 +44,19 @@ function ProcessView() {
 
   //Maneja el texto introducido por el usuario y lo envía a la api ---------------------------------
   const [text, setText] = useState("");
-  //Recoge las palabras clave devueltas ------------------------------------------------------------
+  //Recoge las palabras clave devueltas y selecciona por defecto ------------------------------------------------------------
   const [keywordsFound, setKeywordsFound] = useState([]);
+  const percentageOfSelected = 0.3;
   const handleKeywordsFound = (textSent, keywordsFound) => {
     setText(textSent);
-    setKeywordsFound(keywordsFound);
+    setKeywordsFound([
+      ...keywordsFound.map((k, index) => {
+        let toSelect = index < keywordsFound.length * percentageOfSelected ? true : false;
+        let numberOfQuestions = toSelect ? 1 : 0;
+        return { index: k.index, value: k.value, selected: toSelect, numberOfQuestions: numberOfQuestions };
+      }),
+    ]);
+    setTotalKeywords([]);
     console.log(keywordsFound);
   };
 
@@ -51,13 +64,18 @@ function ProcessView() {
   const [questions, setQuestions] = useState();
   const handleQuestions = (questionsGenerated) => {
     setQuestions(questionsGenerated);
-    console.log(questionsGenerated);
+  };
+
+  // Guarda lista de palabars totales
+  const [totalKeywords, setTotalKeywords] = useState([]);
+  const handleTotalKeywords = (totalKeywords) => {
+    setTotalKeywords(totalKeywords);
   };
 
   return (
     <div>
       <Stepper step={step} />
-      <Divider style={{ border: "1px solid" }} />
+      <Divider style={dividerStyle} />
       <div>{getStep(step)}</div>
     </div>
   );

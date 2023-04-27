@@ -4,19 +4,33 @@ from spacy.lang.en.stop_words import STOP_WORDS
 
 
 class Scorer:
-    """Extract keywords from text"""
+    """
+    This is a class that scores keyphrases in a text using the PageRank algorithm. 
+    """
 
     def __init__(self, damping_factor=0.85, convergence_threshold=1e-5, iteration_steps=50, score_threshold=0, processor=None, graph=None):
-        self.damping_factor = damping_factor  # usually  .85
+        """
+        This is the constructor for the algorithm class. It initializes the class with various parameters.
+        @param damping_factor - The damping factor for the the algorithm. Default is 0.85.
+        @param convergence_threshold - The threshold for convergence of the algorithm. Default is 1e-5.
+        @param iteration_steps - The number of iterations for the algorithm. Default is 50.
+        @param score_threshold - The threshold for the score of a node to be included in the final results. Default is 0.
+        @param processor - The processor to use for the algorithm. Default is None.
+        @param graph - The graph to use for the algorithm. Default is None.
+        """
+        self.damping_factor = damping_factor  # normalmente  .85
         self.threshold = convergence_threshold
         self.iterations = iteration_steps
         self.processor = processor
         self.score_threshold = score_threshold
         self.graph = graph
 
-    """Gives a score for every word which has been found in the vocabulary"""
 
     def score_vocabulary_words(self):
+        """
+        This method calculates the score of vocabulary words using the PageRank algorithm.
+        It first initializes an array of zeros with the length of the vocabulary. It then calculates the sum of the weighted edges for each word in the vocabulary. 
+        """
         vocab_len = len(self.processor.vocabulary)
 
         # Gets the sum of weights of every vertex
@@ -41,9 +55,12 @@ class Scorer:
                 print("Converging at iteration " + str(iteration) + "...")
                 break
 
-    """Gets keyphrases susceptible of being keywords"""
 
     def get_candidate_keyphrases(self):
+        """
+        This method extracts candidate keyphrases from a given text. It first tokenizes the text and removes stopwords. It then creates candidate phrases by combining non-stopword tokens. It then removes duplicate phrases and single-word phrases that are also present in multi-word phrases. Finally, it returns the unique candidate phrases.
+        @return A list of unique candidate keyphrases.
+        """
         candidate_phrases = []
         candidate_phrase = " "
         for word in self.processor.lemmatized_text:
@@ -56,8 +73,17 @@ class Scorer:
                 candidate_phrase += str(word)
                 candidate_phrase += " "
 
+        return self.get_unique_phrases(candidate_phrases)
+
+    def get_unique_phrases(self, candidate_phrases):
+        """
+        Given a list of candidate phrases, return a list of unique phrases.
+        @param self - the class instance
+        @param candidate_phrases - the list of candidate phrases
+        @return A list of unique phrases.
+        """
         unique_phrases = []
-        # Deletes repeated ones
+        # Elimina los duplicados
         for phrase in candidate_phrases:
             if phrase not in unique_phrases:
                 unique_phrases.append(phrase)
@@ -65,18 +91,19 @@ class Scorer:
         for word in self.processor.vocabulary:
             for phrase in unique_phrases:
                 if (word in phrase) and ([word] in unique_phrases) and (len(phrase) > 1):
-                    # if len(phrase)>1 then the current phrase is multi-worded.
-                    # if the word in vocabulary is present in unique_phrases as a single-word-phrase
-                    # and at the same time present as a word within a multi-worded phrase,
-                    # then I will remove the single-word-phrase from the list.
                     unique_phrases.remove([word])
-
         return unique_phrases
 
-    """Score the keyphrases selected"""
 
     def score_keyphrases(self, phrases):
         phrase_scores = []
+        """
+        Given a list of phrases, score each phrase based on the sum of the scores of its words.
+        If the score of a phrase is below a certain threshold, remove it from the list of keywords.
+        @param self - the object instance
+        @param phrases - a list of phrases
+        @return a tuple containing two lists: the keywords and their corresponding scores.
+        """
         keywords = []
         for phrase in phrases:
             phrase_score = 0
@@ -92,30 +119,30 @@ class Scorer:
             keywords.append(keyword.strip())
 
         for i in range(len(keywords)):
-            # Only return keywords with score 0.2 or more
+            # Retorna palabars clave a partir de un límite de puntuación
             if phrase_scores[i] < self.score_threshold:
                 keywords.pop(i)
 
         return keywords, phrase_scores
 
-    """Returns the keywords of the text"""
 
     def get_keywords(self):
-        # calculates the punctuation
+        """
+        This method is part of a class. It returns a list of keywords that are extracted from a text document. 
+        """
+        # Calcula la puntuación de cada palabra
         self.score_vocabulary_words()
 
-        # gets candidate phrases
+        # Obtiene las frases candidatas
         phrases = self.get_candidate_keyphrases()
 
-        # scores all the phrases
+        # Puntuación de las frases candidatas
         keywords, phrase_scores = self.score_keyphrases(phrases)
 
-        # Get ranked keywords
-        """
+        # Ordena las frases por puntuación
         sorted_index = np.flip(np.argsort(phrase_scores), 0)
-        keywords_num = 100
-        print("Keywords found:\n")
-        for i in range(0, keywords_num):
-            print(str(keywords[sorted_index[i]]))
-        """
-        return keywords
+        res = []
+        for i in range(0, len(keywords)):
+            res.append(str(keywords[sorted_index[i]]))
+
+        return res

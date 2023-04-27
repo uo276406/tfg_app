@@ -5,9 +5,10 @@ import { useTranslation } from "react-i18next";
 const stepperStyle = {
   paddingLeft: "5%",
   paddingRight: "5%",
-  paddingTop: "2%",
-  paddingBottom: "1%",
-  margin: "2%",
+  paddingTop: "0.5%",
+  marginLeft: "2%",
+  marginRight: "2%",
+  marginTop: "1%",
   backgroundColor: "white",
   borderRadius: "15px",
 };

@@ -11,8 +11,10 @@ const contentStyle = {
 const carouselContentStyle = {
   textAlign: "center",
   borderRadius: "20px",
-  marginLeft: "10%",
+  marginLeft: "5%",
   marginRight: "10%",
+  width: "90%",
+  height: "auto",
 
 };
 
@@ -34,18 +36,23 @@ const buttonStyle = {
   color: "#fff",
 };
 
+const imgStyle = {
+  width: "100%",
+  height: "auto",
+};
+
 const { Meta } = Card;
 
 /**
  * The HomeView component displays a carousel of images and a card with text and a button.
  * @returns A React component that displays a carousel of images and a card with text and a button.
  */
-function HomeView() {
+function HomeView(props) {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
   const navigateToStartProcess = () => {
-    navigate("/process");
+    props.accessToken !== "" ? navigate("/process") : navigate("/login");
   }
 
   return (
@@ -57,7 +64,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="Uniovi" src="homeimg/uniovilogobig.jpg" />}
+                  cover={<img style={imgStyle} alt="Uniovi" src="homeimg/uniovilogobig.jpg" />}
                 >
                 </Card>
               </Col>
@@ -68,7 +75,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="EII" src="homeimg/eiilogobig.jpg" />}
+                  cover={<img style={imgStyle} alt="EII" src="homeimg/eiilogobig.jpg" />}
                 >
                 </Card>
               </Col>
@@ -79,7 +86,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="Process text example" src="homeimg/processTextExample.jpg" />}
+                  cover={<img style={imgStyle} alt="Process text example" src="homeimg/processTextExample.jpg" />}
                 >
                   <Meta style={carouselContentStyle} title={t("processHome")} description={t("processHomeDesc")} />
                 </Card>
@@ -91,7 +98,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="Select kewywords example" src="homeimg/selectKeywordsExample.jpg" />}
+                  cover={<img style={imgStyle} alt="Select kewywords example" src="homeimg/selectKeywordsExample.jpg" />}
                 >
                   <Meta
                     style={carouselContentStyle}
@@ -107,7 +114,7 @@ function HomeView() {
               <Col>
                 <Card
                   style={carouselContentStyle}
-                  cover={<img alt="Select questions example" src="homeimg/selectQuestionsExample.jpg" />}
+                  cover={<img style={imgStyle} alt="Select questions example" src="homeimg/questionsExample.jpg" />}
                 >
                   <Meta
                     style={carouselContentStyle}
