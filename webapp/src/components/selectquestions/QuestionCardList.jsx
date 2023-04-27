@@ -74,8 +74,17 @@ function QuestionCardList(props) {
   };
 
   // Agrega una nueva pregunta ----------------------------------------------------
+  function getRandomInt(min, max) {
+    let array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    let range = max - min + 1;
+    let max_range = Math.pow(2, 32);
+    return min + Math.floor((array[0] / max_range) * range);
+  }
+
   const addNewQuestion = () => {
-    let random = Math.floor(Math.random() * 4);
+    let random = getRandomInt(0, 3);
+    console.log(random);
     const newQuestions = [...questions];
     newQuestions.push({
       id: newQuestions.length,

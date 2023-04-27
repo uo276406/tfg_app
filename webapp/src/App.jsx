@@ -45,7 +45,6 @@ function App() {
             clearLocalStorage={clearLocalStorage}
           />
         </Header>
-
         <Content style={contentStyle}>
           <Routes>
             <Route path="/" element={<HomeView accessToken={accessToken} />} />
@@ -60,8 +59,7 @@ function App() {
                 />
                 <Route
                   path="/process"
-                  accessToken={accessToken}
-                  element={<ProcessView />}
+                  element={<ProcessView accessToken={accessToken}/>}
                 />
                 <Route
                   path="*"

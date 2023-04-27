@@ -46,7 +46,7 @@ function SelectKeywordsForm(props) {
     let connector = new QuestionsConnector();
     props.handleTotalKeywords(totalKeywords);
     await connector
-      .getQuestions(props.text, selectedKeywords)
+      .getQuestions(props.text, selectedKeywords, props.accessToken)
       .then((questionsFetched) => {
         props.handleQuestions(questionsFetched);
         console.log(questionsFetched)
