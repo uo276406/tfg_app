@@ -80,9 +80,10 @@
     "addOption": "Añadir opción...",
     "optionEmpty": "No puede ser vacío",
     "repeatedQuestionsWarningTitle": "Preguntas repetidas",
-    "repeatedQuestionsWarning": "Al ser un texto corto, se han generado preguntas repetidas. Revise bien y cambie algunas.",
+    "repeatedQuestionsWarning": "Es posible que se hayan generado preguntas distintas pero con enunciados repetidos. Revise bien y cambie algunas.",
     "notEnoughQuestionsError": "No hay preguntas suficientes",
     "notEnoughQuestionsErrorDescription": "Imposible generar más preguntas para las palaras:",
+    "addNewQuestion": "Añadir nueva pregunta...",
 
     "docText1": "Aquí podrá encontrar enlaces a la documentación de la API REST de la aplicación." ,
     "docText2": "Disponible en dos tecnologías diferentes que son interactivas: Swagger UI y ReDoc. Ambas siguen la ",

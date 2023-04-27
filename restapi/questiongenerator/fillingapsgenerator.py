@@ -58,10 +58,14 @@ class FillInGapsGenerator():
         @return a fill-in-the-blank sentence containing the word if the word is in the text and not already in the list of actual questions. If the word is not in the text or is already in the list of actual questions
         """
         sentences = text.split(".")
-        for sentence in sentences:
-            potential_question = self.create_fillin_sentence(sentence, word)
-            if (re.search(r'\b' + word.lower() + r'\b', sentence.lower()) is not None and potential_question not in questions_used_in_word):
-                    return potential_question, sentence
+        sentence_index = self.system_random.randint(0, len(sentences)-1)
+        while(re.search(r'\b' + word.lower() + r'\b', sentences[sentence_index].lower()) is None):
+            sentence_index = self.system_random.randint(0, len(sentences)-1)
+
+        potential_question = self.create_fillin_sentence(sentences[sentence_index], word)
+        if(potential_question not in questions_used_in_word):
+            return potential_question, sentences[sentence_index]
+        
         return "", ""
 
 

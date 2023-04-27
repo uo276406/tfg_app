@@ -5,6 +5,8 @@ import TextProcessForm from "../components/textprocess/TextProcessForm";
 import SelectKeywordsForm from "../components/selectkeywords/SelectKeywordForm";
 import SelectQuestionsForm from "../components/selectquestions/SelectQuestionsForm";
 
+const dividerStyle = { border: "1px solid" }
+
 /**
  * A component that processes a given text and generates questions based on the keywords found.
  * @returns A React component that displays a form for processing text and generating questions.
@@ -44,7 +46,7 @@ function ProcessView() {
   const [text, setText] = useState("");
   //Recoge las palabras clave devueltas y selecciona por defecto ------------------------------------------------------------
   const [keywordsFound, setKeywordsFound] = useState([]);
-  const percentageOfSelected = 0.5;
+  const percentageOfSelected = 0.3;
   const handleKeywordsFound = (textSent, keywordsFound) => {
     setText(textSent);
     setKeywordsFound([
@@ -73,7 +75,7 @@ function ProcessView() {
   return (
     <div>
       <Stepper step={step} />
-      <Divider style={{ border: "1px solid" }} />
+      <Divider style={dividerStyle} />
       <div>{getStep(step)}</div>
     </div>
   );

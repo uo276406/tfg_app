@@ -27,6 +27,11 @@ function App() {
     setAccessToken(token);
   };
 
+  const clearLocalStorage = () => {
+    localStorage.clear();
+    setAccessToken("");
+  }
+
   const contentStyle = {
     backgroundColor: "lightGrey",
   };
@@ -37,7 +42,7 @@ function App() {
         <Header>
           <NavBarApp
             accessToken={accessToken}
-            updateAccessToken={updateAccessToken}
+            clearLocalStorage={clearLocalStorage}
           />
         </Header>
 

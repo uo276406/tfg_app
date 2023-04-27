@@ -18,7 +18,7 @@ function NavBarApp(props) {
   const logout = async () => {
     let connector = new UsersConnector();
     await connector.logoutUser(props.accessToken).then((responseLogout) => {
-      props.updateAccessToken("");
+      props.clearLocalStorage();
     });
   };
 
