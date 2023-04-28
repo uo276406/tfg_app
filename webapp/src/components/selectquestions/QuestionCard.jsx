@@ -1,18 +1,26 @@
 import { useState, useEffect, useRef } from "react";
-import { Card, Typography, Tag, Input, Space, message, Button } from "antd";
+import {
+  Card,
+  Typography,
+  Tag,
+  Input,
+  Space,
+  message,
+  Button,
+  Tooltip,
+} from "antd";
 import {
   PlusOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
   DeleteOutlined,
+  CopyOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-
 
 const { Paragraph } = Typography;
 
 const questionCardStyle = {
-  width: "100%",
   paddingTop: "1%",
   margin: "1%",
   backgroundColor: "#e6f7ff",
@@ -21,7 +29,6 @@ const questionCardStyle = {
 const questionTextStyle = {
   fontSize: "15px",
   whiteSpace: "pre-line",
-  marginRight: "5%",
 };
 
 const optionInputStyle = {
@@ -37,7 +44,9 @@ const optionPlusStyle = {
 const optionsAdded = {
   userSelect: "none",
   fontSize: "16px",
-};
+}; 
+
+const buttonsDeleteDuplicateStyle = {width:"100px"}
 
 /**
  * A component that displays a question card with editable question text and options for options.
@@ -46,14 +55,13 @@ const optionsAdded = {
  */
 function QuestionCard(props) {
   const { t } = useTranslation();
-  const [messageApi, contextHolder] = message.useMessage();
 
   // Enucnciado ------------------------------------------------------------------
   const [questionText, setQuestionText] = useState(props.questionText);
 
   const handleModifyQuestionText = (newText) => {
     if (newText.length === 0) {
-      emptyOption();
+      message.error(t("questionEmpty"));
     } else {
       setQuestionText(newText);
       props.updateQuestion(props.index, newText, options); //Actualiza la pregunta
@@ -106,18 +114,10 @@ function QuestionCard(props) {
 
   const handleEditInputChange = (e) => {
     if (e.target.value.length === 0) {
-      emptyOption();
+      message.error(t("optionEmpty"));
     } else {
       setEditInputValue(e.target.value);
     }
-  };
-
-  const emptyOption = () => {
-    messageApi.open({
-      type: "error",
-      content: t("optionEmpty"),
-      duration: 5,
-    });
   };
 
   const handleEditInputConfirm = () => {
@@ -129,27 +129,52 @@ function QuestionCard(props) {
     props.updateQuestion(props.index, questionText, newOptions); //Actualiza la pregunta
   };
 
-  // Botón de borrar pregunta ----------------------------------------------------
   const [buttonVisible, setButtonVisible] = useState(false);
 
+  // Botón de borrar pregunta ----------------------------------------------------
   const handleDelete = () => {
     props.deleteQuestion(props.index);
+    message.success(t("questionDeleted"));
   };
+
+  // Botón de duplicar pregunta --------------------------------------------------
+  const handleDuplicate = () => {
+    let questionDuplicated = {
+      id: props.id,
+      question: questionText,
+      options: options,
+    };
+
+    props.addNewQuestion(questionDuplicated, props.index);
+  };
+
+ 
 
   return (
     <>
-      {contextHolder}
       <Card
         size="small"
         extra={
-          buttonVisible ? (
-            <Button
-              type="primary"
-              danger
-              icon={<DeleteOutlined></DeleteOutlined>}
-              onClick={handleDelete}
-            />
-          ) : null
+          <div style={buttonsDeleteDuplicateStyle}>
+            {buttonVisible ? (
+              <>
+                <Tooltip title={t("duplicateQuestion")}>
+                  <Button
+                    type="text"
+                    icon={<CopyOutlined></CopyOutlined>}
+                    onClick={handleDuplicate}
+                  />
+                </Tooltip>
+                <Tooltip title={t("deleteSelected")}>
+                  <Button
+                    type="text"
+                    icon={<DeleteOutlined></DeleteOutlined>}
+                    onClick={handleDelete}
+                  />
+                </Tooltip>
+              </>
+            ) : null}
+          </div>
         }
         onMouseEnter={() => setButtonVisible(true)}
         onMouseLeave={() => setButtonVisible(false)}

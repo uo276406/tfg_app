@@ -87,7 +87,7 @@ function NavBarApp(props) {
       theme="dark"
       selectable={false}
       mode="horizontal"
-      items={props.accessToken === "" ? itemsLogin : itemsLogout}
+      items={ props.accessToken === "" || props.accessToken === null ? itemsLogin : itemsLogout}
     ></Menu>
   );
 }

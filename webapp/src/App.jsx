@@ -30,7 +30,7 @@ function App() {
   const clearLocalStorage = () => {
     localStorage.clear();
     setAccessToken("");
-  }
+  };
 
   const contentStyle = {
     backgroundColor: "lightGrey",
@@ -44,6 +44,7 @@ function App() {
             accessToken={accessToken}
             clearLocalStorage={clearLocalStorage}
           />
+        
         </Header>
         <Content style={contentStyle}>
           <Routes>
@@ -51,15 +52,15 @@ function App() {
 
             <Route path="/doc" element={<DocView />} />
 
-            {accessToken !== "" ? (
+            {accessToken === "" || accessToken === null ? (
               <>
                 <Route
-                  path="/logout"
-                  element={<HomeView accessToken={accessToken} />}
+                  path="/login"
+                  element={<LoginView updateAccessToken={updateAccessToken} />}
                 />
                 <Route
-                  path="/process"
-                  element={<ProcessView accessToken={accessToken}/>}
+                  path="/signin"
+                  element={<SigninView updateAccessToken={updateAccessToken} />}
                 />
                 <Route
                   path="*"
@@ -69,12 +70,12 @@ function App() {
             ) : (
               <>
                 <Route
-                  path="/login"
-                  element={<LoginView updateAccessToken={updateAccessToken} />}
+                  path="/logout"
+                  element={<HomeView accessToken={accessToken} />}
                 />
                 <Route
-                  path="/signin"
-                  element={<SigninView updateAccessToken={updateAccessToken} />}
+                  path="/process"
+                  element={<ProcessView accessToken={accessToken} />}
                 />
                 <Route
                   path="*"
