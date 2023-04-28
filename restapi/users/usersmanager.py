@@ -1,7 +1,7 @@
 import uuid
 from typing import Optional
 from fastapi import Depends, Request
-from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin, schemas
+from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin, schemas, InvalidPasswordException
 from fastapi_users.authentication import (
     AuthenticationBackend,
     BearerTransport,
@@ -9,6 +9,7 @@ from fastapi_users.authentication import (
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
 from repository.usersrepository import User, get_user_db
+
 
 # Esquemas de usuarios --------------------------------------------
 
@@ -34,10 +35,38 @@ class UserUpdate(schemas.BaseUserUpdate):
 
 SECRET = "SECRET_KEY"
 SECONDS = 3600
+MIN_PASSWORD_LENGTH = 6
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET
+
+    async def validate_password(
+        self,
+        password: str,
+        user: UserCreate,
+    ) -> None:
+        if len(password) < MIN_PASSWORD_LENGTH:
+            raise InvalidPasswordException(
+                reason="Password should be at least 6 characters"
+            )
+        if " " in password:
+            raise InvalidPasswordException(
+                reason="Password should not contain blankspaces"
+            )
+        if not any(char.isdigit() for char in password):
+            raise InvalidPasswordException(
+                reason="Password should contain at least one digit"
+            )
+        if not any(char.lower().isalpha() for char in password):
+            raise InvalidPasswordException(
+                reason="Password should contain at least one downcase letter"
+            )
+        if not any(char.isupper() for char in password):
+            raise InvalidPasswordException(
+                reason="Password should contain at least one uppercase letter"
+            )
+        
 
     async def on_after_register(self, user: User, token:str, request: Optional[Request] = None):
         print(f"User {user.id} has registered.")

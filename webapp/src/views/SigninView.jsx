@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Button, Form, Input, Card, Col, Row, Alert} from "antd";
+import { Button, Form, Input, Card, Col, Row, Alert } from "antd";
 import { useTranslation } from "react-i18next";
 import UsersConnector from "../api/usersconnector";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const signinStyle = {
   margin: "2%",
@@ -12,18 +12,18 @@ const alertStyle = {
   width: "100%",
   marginRight: "1.5%",
   marginBottom: "1.5%",
-}
+};
 
 /**
  * A functional component that renders a sign-in form using Ant Design components.
  * @returns The sign-in form component.
  */
 function SigninView(props) {
-
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [userExists, setUserExists] = useState(false);
+  const [invalidPassword, setInvalidPassword] = useState(false);
 
   async function sendSignInToApi(values) {
     let connector = new UsersConnector();
@@ -37,32 +37,56 @@ function SigninView(props) {
       )
       .then((responseSignin) => {
         console.log(responseSignin);
-        if (
-          responseSignin.detail !== undefined &&
-          responseSignin.detail === "REGISTER_USER_ALREADY_EXISTS"
-        ) {
-          setUserExists(true);
-        }  else {
+        if (responseSignin.detal) {
+          if (
+            responseSignin.detail !== undefined &&
+            responseSignin.detail === "REGISTER_USER_ALREADY_EXISTS"
+          ) {
+            setUserExists(true);
+          } else if (
+            responseSignin.detail.code !== undefined &&
+            responseSignin.detail.code === "REGISTER_INVALID_PASSWORD"
+          ) {
+            setInvalidPassword(true);
+          }
+        } else {
           setUserExists(false);
           //Inicia sesión y actualiza el token de acceso
-          connector.loginUser(values.email, values.password).then((responseLogin) => {
-            props.updateAccessToken(responseLogin.access_token);
-            navigate("/");
-          });
+          connector
+            .loginUser(values.email, values.password)
+            .then((responseLogin) => {
+              props.updateAccessToken(responseLogin.access_token);
+              navigate("/");
+            });
         }
-      })
-    }
+      });
+  }
 
   return (
     <Row style={signinStyle}>
       <Col span={24} style={{ height: "100%" }}>
-      {userExists ? <Alert
-        style={alertStyle}
-          message={t("existUser")}
-          description={t("existUserDescription")}
-          type="error"
-          showIcon
-        /> : <></>}
+        {userExists ? (
+          <Alert
+            style={alertStyle}
+            message={t("existUser")}
+            description={t("existUserDescription")}
+            type="error"
+            showIcon
+          />
+        ) : (
+          <></>
+        )}
+        {invalidPassword ? (
+          <Alert
+            style={alertStyle}
+            message={t("invalidPassword")}
+            description={t("invalidPasswordDescription")}
+            type="error"
+            showIcon
+          />
+        ) : (
+          <></>
+        )}
         <Card title={t("signinTitle")} headStyle={{ textAlign: "center" }}>
           <Form
             name="basic"
@@ -109,6 +133,12 @@ function SigninView(props) {
               name="password"
               rules={[
                 { required: true, message: t("inputPasswordCompulsory") },
+                { min: 6, message: t("minPassword") },
+                { whitespace: true, message: t("whitespacePassword") },
+                {
+                  pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]/,
+                  message: t("minMayusMinNumber"),
+                },
               ]}
             >
               <Input.Password />
@@ -117,7 +147,17 @@ function SigninView(props) {
             <Form.Item
               label={t("confirmPassword")}
               name="passwordConfirm"
-              rules={[{ required: true, message: t("repeatPassword") }]}
+              rules={[
+                { required: true, message: t("repeatPassword") },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(new Error(t("passwordsNotMatch")));
+                  },
+                }),
+              ]}
             >
               <Input.Password />
             </Form.Item>

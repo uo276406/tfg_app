@@ -40,7 +40,12 @@
     "confirmPassword": "Confirm password",
     "repeatPassword": "Repeat your password",
     "signinTitle": "Sign in to enjoy the full application. 😀",
-
+    "minPassword": "Password should be at least 6 chars",
+    "whitespacePassword": "Password can't contain whitespaces",
+    "minMayusMinNumber": "Password should contain one minus, one mayus and one number.",
+    "passwordsNotMatch": "Passwords don't match",
+    "invalidPassword": "Invalid password",
+    "invalidPasswordDesc": "Password is not valid. It should contain at least one number, one uppercase and one lowercase letter.",
 
     "personalinfo": "Personal information:",
     "email": "Email",
