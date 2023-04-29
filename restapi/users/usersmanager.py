@@ -1,7 +1,8 @@
 import uuid
+from models.user import UserCreate, UserUpdate, UserRead
 from typing import Optional
 from fastapi import Depends, Request
-from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin, schemas, InvalidPasswordException
+from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin, InvalidPasswordException
 from fastapi_users.authentication import (
     AuthenticationBackend,
     BearerTransport,
@@ -9,28 +10,6 @@ from fastapi_users.authentication import (
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
 from repository.usersrepository import User, get_user_db
-
-
-# Esquemas de usuarios --------------------------------------------
-
-
-class UserRead(schemas.BaseUser[uuid.UUID]):
-    name: str
-    surname1: str
-    surname2: str
-
-
-class UserCreate(schemas.BaseUserCreate):
-    name: str
-    surname1: str
-    surname2: Optional[str]
-
-
-class UserUpdate(schemas.BaseUserUpdate):
-    name: Optional[str]
-    surname1: Optional[str]
-    surname2: Optional[str]
-# ------------------------------------------------------------------
 
 
 SECRET = "SECRET_KEY"
@@ -44,7 +23,6 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     async def validate_password(
         self,
         password: str,
-        user: UserCreate,
     ) -> None:
         if len(password) < MIN_PASSWORD_LENGTH:
             raise InvalidPasswordException(
