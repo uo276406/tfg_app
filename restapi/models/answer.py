@@ -1,13 +1,13 @@
 
-from sqlalchemy import Table, Column, String, MetaData, CHAR
+from sqlalchemy import Table, Column, String, MetaData, CHAR, INTEGER, Boolean
 from sqlalchemy.orm import registry
 
 metadata = MetaData()
 
 answer_table = Table('answer', metadata,
-    Column('id', CHAR(36), primary_key=True),
+    Column('id', INTEGER, primary_key=True),
     Column('value', String, nullable=False),
-    Column('is_correct', CHAR(36), nullable=False),
+    Column('is_correct', Boolean, nullable=False),
     Column('question_id', CHAR(36), nullable=False, primary_key=True),
 )
 

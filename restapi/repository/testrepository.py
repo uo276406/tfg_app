@@ -16,7 +16,7 @@ async def insert_test(test):
 
 async def get_tests_by_user(user_id):
     async with AsyncSession(engine) as session:
-        stmt = select(Test).where(Test.user_id == str(user_id))
-        result = await session.execute(statement=stmt)
+        result = await session.execute(select(Test).where(Test.user_id == str(user_id)))
         return result.scalars().all()
+
 
