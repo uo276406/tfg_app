@@ -62,6 +62,10 @@ function LoginView(props) {
           setBadCredentials(false);
           setUserNotVerified(false);
           props.updateAccessToken(responseLogin.access_token);
+          connector.userInfo(responseLogin.access_token).then((response) => {
+            console.log(response)
+            props.updateUser(response);
+          });
           navigate("/");
         }
       });

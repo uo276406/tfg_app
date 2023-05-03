@@ -18,6 +18,9 @@
     "signin": "Registrarse",
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
+    "profile": "Mi perfil",
+    "seeProfile": "Gestionar perfil",
+    "personalData": "Datos personales",
 
     "inputEmailCompulsory": "Introduzca su email",
     "inputPasswordCompulsory": "Introduzca su contraseña",

@@ -7,6 +7,7 @@ import LoginView from "./views/LoginView";
 import SigninView from "./views/SigninView";
 import ProcessView from "./views/ProcessView";
 import DocView from "./views/DocView";
+import ProfileView from "./views/ProfileView";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./i18n";
 
@@ -15,9 +16,9 @@ import "./i18n";
  * @returns {JSX.Element} - The JSX element of the App component.
  */
 function App() {
-  // for not using Layout.Header, Layout.Footer, etc...
   const { Header, Content } = Layout;
 
+  // Token de acceso ------------------------------------------------
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("accessToken") || ""
   );
@@ -31,6 +32,15 @@ function App() {
     localStorage.clear();
     setAccessToken("");
   };
+  // ----------------------------------------------------------------
+  // Información usuario----------------------------------------------
+
+  const updateUser = (user) => {
+    let newUser = {"id": user.id, "name": user.name, "surname1": user.surname1, "surname2": user.surname2, "email": user.email}
+    console.log(newUser)
+    localStorage.setItem("user", JSON.stringify(newUser));
+    console.log(localStorage.getItem("user"))
+  }
 
   const contentStyle = {
     backgroundColor: "lightGrey",
@@ -56,11 +66,11 @@ function App() {
               <>
                 <Route
                   path="/login"
-                  element={<LoginView updateAccessToken={updateAccessToken} />}
+                  element={<LoginView updateAccessToken={updateAccessToken} updateUser={updateUser} />}
                 />
                 <Route
                   path="/signin"
-                  element={<SigninView updateAccessToken={updateAccessToken} />}
+                  element={<SigninView updateAccessToken={updateAccessToken} updateUser={updateUser}/>}
                 />
                 <Route
                   path="*"
@@ -76,6 +86,10 @@ function App() {
                 <Route
                   path="/process"
                   element={<ProcessView accessToken={accessToken} />}
+                />
+                <Route
+                  path="/profile"
+                  element={<ProfileView />}
                 />
                 <Route
                   path="*"

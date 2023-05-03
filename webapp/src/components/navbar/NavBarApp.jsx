@@ -5,6 +5,8 @@ import {
   SnippetsOutlined,
   LoginOutlined,
   LogoutOutlined,
+  ProfileFilled,
+  UserOutlined
 } from "@ant-design/icons";
 import UsersConnector from "../../api/usersconnector";
 
@@ -70,10 +72,22 @@ function NavBarApp(props) {
   const itemsLogout = [
     ...items,
     {
-      label: <Link to="/logout">{t("logout")}</Link>,
-      key: "logout",
-      icon: <LogoutOutlined />,
-      onClick: logout,
+      label: t("profile"),
+      key: "profile",
+      icon: <ProfileFilled />,
+      children: [
+        {
+          label: <Link to="/profile">{t("seeProfile")}</Link>,
+          key: "seeProfile",
+          icon: <UserOutlined />,
+        },
+        {
+          label: <Link to="/logout">{t("logout")}</Link>,
+          key: "logout",
+          icon: <LogoutOutlined />,
+          onClick: logout,
+        },
+      ],
     },
   ];
 

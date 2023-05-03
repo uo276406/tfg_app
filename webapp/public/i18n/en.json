@@ -18,6 +18,10 @@
     "signin": "Sign in",
     "login": "Log in",
     "logout": "Log out",
+    "profile": "My profile",
+    "seeProfile": "Manage profile",
+    "personalData": "Personal data",
+
 
     "inputEmailCompulsory": "Input your email",
     "inputPasswordCompulsory": "Input your password",
@@ -31,7 +35,7 @@
     "userNotVerifiedError": "User not verified",
     "userNotVerifiedErrorDescription": "The user is not verified. Please, check your email.",
 
-    "name": "name",
+    "name": "Name",
     "inputName": "Input your name",
     "firstSurname": "First surname",
     "inputFirstSurname": "Input your first surname",

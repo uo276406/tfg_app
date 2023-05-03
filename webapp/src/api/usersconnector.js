@@ -49,6 +49,17 @@ class UsersConnector {
       },
     }).then((response) => response.json());
   }
+
+  async userInfo(accessToken) {
+    console.log(accessToken)
+    return await fetch(apiendpoint + "/api/v1.0/users/me", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+    }).then((response) => response.json());
+  }
 }
 
 
