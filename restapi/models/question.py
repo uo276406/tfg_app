@@ -1,34 +1,21 @@
-from pydantic import BaseModel
 
-# Modelos de datos: Request ----------------------------------------
+from sqlalchemy import Table, Column, String, MetaData, CHAR
+from sqlalchemy.orm import registry
 
+metadata = MetaData()
 
-class Keyword(BaseModel):
-    value: str
-    numberOfQuestions: int
+question_table = Table('question', metadata,
+    Column('id', CHAR(36), primary_key=True),
+    Column('question_text', String, nullable=False),
+    Column('test_id', CHAR(36), nullable=False, primary_key=True),
+)
 
+class Question:
+    def __init__(self, id: str, question_text: str, test_id: str):
+        self.id = id
+        self.question_text = question_text
+        self.test_id = test_id
 
-class TextKeywords(BaseModel):
-    text_body: str
-    keywords_selected: list[Keyword]
-
-
-# Modelos de datos: Response ----------------------------------------
-
-
-class Answer(BaseModel):
-    value: str
-    correct: bool
+registry().map_imperatively(Question, question_table)
 
 
-class Question(BaseModel):
-    question: str
-    options: list[Answer]
-
-
-class QuestionsInfo(BaseModel):
-    questions: list[Question]
-    not_enough_questions_for: list[str]
-    there_are_repeated: bool
-
-# ---------------------------------------------------------

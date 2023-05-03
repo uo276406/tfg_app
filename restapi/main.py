@@ -1,5 +1,5 @@
 from fastapi import Depends, FastAPI
-from routers import keywordsrouter, questionsrouter, usersrouter, authrouter
+from routers import keywordsrouter, questionsrouter, usersrouter, authrouter, testrouter
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from pathlib import Path
@@ -27,6 +27,8 @@ app.include_router(usersrouter.router, prefix=version + "/users",
                    tags=["users"])
 app.include_router(authrouter.router, prefix=version + "/auth",
                    tags=["auth"])
+app.include_router(testrouter.router, prefix=version + "/test",
+                   tags=["test"])
 
 
 # Ajustes de CORS -----------------------------------------

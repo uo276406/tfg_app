@@ -36,10 +36,9 @@ function App() {
   // Información usuario----------------------------------------------
 
   const updateUser = (user) => {
-    let newUser = {"id": user.id, "name": user.name, "surname1": user.surname1, "surname2": user.surname2, "email": user.email}
+    let newUser = {"name": user.name, "surname1": user.surname1, "surname2": user.surname2, "email": user.email}
     console.log(newUser)
     localStorage.setItem("user", JSON.stringify(newUser));
-    console.log(localStorage.getItem("user"))
   }
 
   const contentStyle = {

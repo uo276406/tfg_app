@@ -4,6 +4,8 @@ import {
   LeftOutlined,
   FileTextOutlined,
   FilePdfOutlined,
+  CheckOutlined
+  
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import QuestionCardList from "./QuestionCardList";
@@ -11,6 +13,7 @@ import { useState } from "react";
 import TxtExporter from "./export/txtexporter";
 import PdfExporter from "./export/pdfexporter";
 import DocxExporter from "./export/docxexporter";
+import TestsConnector from "../../api/testsconnector";
 
 const justifyButtonsBottom = {
   xs: "center",
@@ -77,6 +80,15 @@ function SelectQuestionsForm(props) {
     [...props.questions.questions].length
   );
 
+  // Genera test --------------------------------------------------------------------
+  const generateTest = async () => {
+    console.log("generateTest");
+    let connector = new TestsConnector()
+    // Llama a la función de la API para guardar el test generado
+    await connector.addTest(props.accessToken, questions).then((response) => {
+      // Muestra el test generado
+    });
+  };
 
   return (
     <div>
@@ -113,7 +125,7 @@ function SelectQuestionsForm(props) {
           <></>
         )}
         <Tag style={countQuestionsStyle} color="geekblue">
-         {countQuestions + " " + t('numberOfQuestions')}
+          {countQuestions + " " + t("numberOfQuestions")}
         </Tag>
       </Row>
       <Row gutter={[16, 16]} style={questionsListStyle}>
@@ -125,19 +137,17 @@ function SelectQuestionsForm(props) {
         </Col>
       </Row>
       <Row justify={justifyButtonsBottom} gutter={[8, 8]} style={buttonsStyle}>
-        <Col>
-          <Button
-            type="primary"
-            onClick={() => {
-              props.changeStep(1);
-            }}
-            icon={<LeftOutlined />}
-          >
-            {t("backButton")}
-          </Button>
-        </Col>
-        <Col>
+        <Col xs={24} sm={24} md={18} lg={21} xl={21} xxl={21}>
           <Space>
+            <Button
+              type="primary"
+              onClick={() => {
+                props.changeStep(1);
+              }}
+              icon={<LeftOutlined />}
+            >
+              {t("backButton")}
+            </Button>
             <Button
               ghost
               style={buttonTxtStyle}
@@ -162,6 +172,15 @@ function SelectQuestionsForm(props) {
               docx
             </Button>
           </Space>
+        </Col>
+        <Col xs={24} sm={24} md={4} lg={3} xl={3} xxl={3}>
+          <Button
+            type="primary"
+            icon={<CheckOutlined />}
+            onClick={generateTest}
+          >
+            {t("generateTest")}
+          </Button>
         </Col>
       </Row>
     </div>

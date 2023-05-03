@@ -16,7 +16,6 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     surname2 = Column(String)
 # ----------------------------------------------------------
 
-
 class UserRead(schemas.BaseUser[uuid.UUID]):
     name: str
     surname1: str
