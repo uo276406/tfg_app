@@ -1,89 +1,47 @@
-import React from "react";
-import { Button, Form, Input, Card, Col, Row, Alert } from "antd";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import React, { useState } from "react";
+import JoinTestForm from "../components/maketest/JoinTestForm";
+import AnswerTest from "../components/maketest/AnswerTest";
 
-const loginStyle = {
-  margin: "2%",
-};
-
-const formStyle = {
-  textAlign: "center",
-};
-
-const alertStyle = {
-  width: "100%",
-  marginRight: "1.5%",
-  marginBottom: "1.5%",
-}
 
 /**
- * A functional component that renders a login form.
- * @param {{object}} props - The props object that contains the sendLoginToConsole function.
- * @returns A JSX element that renders a login form.
+ * A component that processes a given text and generates questions based on the keywords found.
+ * @returns A React component that displays a form for processing text and generating questions.
  */
-function TestView(props) {
-  const { t } = useTranslation();
+function TestView() {
+  //Maneja los pasos de la página web ---------------------------------------------------------
+  const [step, setStep] = useState(0);
+  const getStep = (currentStep) => {
+    const steps = {
+      0: (
+        <JoinTestForm handleStep={handleStep} handleSetStudent={handleSetStudent} handleSetTestInfo={handleSetTestInfo}
+        />
+      ),
+      1: (
+        <AnswerTest student={student} testInfo={testInfo} handleStep={handleStep} />
+      ),
+    };
+    return steps[currentStep];
+  };
+  const handleStep = (nextStep) => {
+    setStep(nextStep);
+  };
 
-  const showAlert = (text, textDescription) => {
-    return (
-      <Alert
-        style={alertStyle}
-        message={text}
-        description={textDescription}
-        type="error"
-        showIcon
-      />
-    );
+  const [student, setStudent] = useState("");
+  const handleSetStudent = (studentId) => {
+    setStudent(studentId);
   }
 
+  const [testInfo, setTestInfo] = useState("");
+  const handleSetTestInfo = (testInfo) => {
+    setTestInfo(testInfo);
+  }
+
+
+
   return (
-    <Row style={loginStyle}>
-      <Col span={24}>
-        <Card
-          style={formStyle}
-          title={t("loginTitle")}
-          headStyle={{ textAlign: "center" }}
-        >
-          <Form
-            name="basic"
-            labelCol={{ span: 24 / 3 }}
-            wrapperCol={{ span: 24 / 3 }}
-            initialValues={{ remember: true }}
-            autoComplete="off"
-          >
-            <Form.Item
-              label={t("testId")}
-              name="testid"
-              rules={[{ required: true, message: t("testIdCompulsory") }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label={t("studentId")}
-              name="studentId"
-              rules={[
-                { required: true, message: t("studentIdCompulsory") },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              wrapperCol={{
-                xs: { offset: 0 },
-                sm: { offset: 8, span: 24 / 3 },
-              }}
-            >
-              <Button type="primary" htmlType="submit" block>
-                {t("joinTest")}
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </Col>
-    </Row>
+    <div>
+      <div>{getStep(step)}</div>
+    </div>
   );
 }
 

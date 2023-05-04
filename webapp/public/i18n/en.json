@@ -109,7 +109,10 @@
     "testIdCompulsory": "Test id is compulsory",
     "studentIdCompulsory": "Student id is compulsory",
     "studentId": "Student id",
-    "joinTest": "Join test"
-
-
+    "joinTest": "Join test",
+    "joinTestTitle": "Join a test to answer the questions. 😀",
+    "testNotFound": "Test not found",
+    "testNotFoundDescription": "The test id is not valid. Please, try again.",
+    "studentInTest": "Student already in test",
+    "studentInTestDescription": "The student is already in the test. Please, try again."
 }

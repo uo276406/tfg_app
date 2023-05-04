@@ -14,7 +14,15 @@ class TestsConnector {
     }).then((response) => response.json());
   }
 
+  async getTest(testId) {
+    return await fetch(apiendpoint + "/api/v1.0/test/" + testId, {
+      method: "GET",
+    }).then((response) => response.json());
+  }
+
 }
+
+
 
 
 export default TestsConnector;

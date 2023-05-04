@@ -109,7 +109,12 @@
     "testIdCompulsory": "Introduzca el id del test",
     "studentIdCompulsory": "Introduzca el id del alumno",
     "studentId": "Id alumno",
-    "joinTest": "Unirse a test"
+    "joinTest": "Unirse a test",
+    "joinTestTitle": "Únase a un test para responder a las preguntas. 😀",
+    "testNotFound": "Test no encontrado",
+    "testNotFoundDescription": "No se ha encontrado ningún test con ese id.",
+    "studentInTest": "Alumno registrado en el test",
+    "studentInTestDescription": "El alumno ya está en el test. Por favor, inténtelo de nuevo."
 
 
 }

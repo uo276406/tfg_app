@@ -18,5 +18,10 @@ async def get_tests_by_user(user_id):
     async with AsyncSession(engine) as session:
         result = await session.execute(select(Test).where(Test.user_id == str(user_id)))
         return result.scalars().all()
+    
+async def get_test_by_id(test_id):
+    async with AsyncSession(engine) as session:
+        result = await session.execute(select(Test).where(Test.id == str(test_id)))
+        return result.scalars().first()
 
 
