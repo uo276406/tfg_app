@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Row, Col, Spin } from "antd";
+import { Button, Row, Col, Spin, notification } from "antd";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import KeywordCardList from "./KeywordCardList";
 import { useTranslation } from "react-i18next";
@@ -52,7 +52,18 @@ function SelectKeywordsForm(props) {
         console.log(questionsFetched)
         setIsLoading(false);
         props.changeStep(2);
+      }).catch((error) => {
+        openNotificationWithIcon('info');
       });
+  };
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotificationWithIcon = (type) => {
+    api[type]({
+      message: t("sessionExpired"),
+      description: t("sessionExpiredDescription"),
+    });
   };
 
   // Almacena palabras seleccionadas y no seleccionadas ----------------------------------------------
@@ -74,6 +85,7 @@ function SelectKeywordsForm(props) {
 
   return (
     <div>
+      {contextHolder}
       <Spin spinning={isLoading ? true : false}>
         <Row gutter={[16, 16]} style={keywordsListStyle}>
           <Col span={24}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Row, Col, Input, Upload, message, Spin } from "antd";
+import { Button, Row, Col, Input, Upload, message, Spin, notification } from "antd";
 import {
   RightOutlined,
   UploadOutlined,
@@ -8,6 +8,7 @@ import {
 import KeywordsConnector from "../../api/keywordsconnector";
 import { useTranslation } from "react-i18next";
 import TxtImporter from "./import/txtimporter";
+
 
 const { TextArea } = Input;
 
@@ -76,11 +77,23 @@ function TextProcessForm(props) {
       props.handleKeywordsFound(text, keywordsFetched.keywords);
       setIsLoading(false);
       props.changeStep(1);
+    }).catch((error) => {
+      openNotificationWithIcon('info');
     });
   };
 
+  const openNotificationWithIcon = (type) => {
+    api[type]({
+      message: t("sessionExpired"),
+      description: t("sessionExpiredDescription"),
+    });
+  };
+
+  const [api, contextHolder] = notification.useNotification();
+
   return (
     <div>
+      {contextHolder}
       <Spin spinning={isLoading ? true : false}>
         <Row justify={"end"} gutter={[16, 16]}>
           <Col span={24}>

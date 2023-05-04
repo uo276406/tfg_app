@@ -54,7 +54,6 @@ function App() {
             accessToken={accessToken}
             clearLocalStorage={clearLocalStorage}
           />
-        
         </Header>
         <Content style={contentStyle}>
           <Routes>

@@ -114,7 +114,8 @@
     "testNotFound": "Test no encontrado",
     "testNotFoundDescription": "No se ha encontrado ningún test con ese id.",
     "studentInTest": "Alumno registrado en el test",
-    "studentInTestDescription": "El alumno ya está en el test. Por favor, inténtelo de nuevo."
-
+    "studentInTestDescription": "El alumno ya está en el test. Por favor, inténtelo de nuevo.",
+    "sessionExpired": "Sesión expirada",
+    "sessionExpiredDescription": "La sesión ha expirado. Por favor, vuelva a iniciar sesión."
 
 }

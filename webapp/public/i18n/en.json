@@ -114,5 +114,7 @@
     "testNotFound": "Test not found",
     "testNotFoundDescription": "The test id is not valid. Please, try again.",
     "studentInTest": "Student already in test",
-    "studentInTestDescription": "The student is already in the test. Please, try again."
+    "studentInTestDescription": "The student is already in the test. Please, try again.",
+    "sessionExpired": "Session expired",
+    "sessionExpiredDescription": "The session has expired. Please, login again."
 }
