@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import JoinTestForm from "../components/maketest/JoinTestForm";
-import AnswerTest from "../components/maketest/AnswerTest";
+import Test from "../components/maketest/Test";
 
 
 /**
@@ -17,7 +17,7 @@ function TestView() {
         />
       ),
       1: (
-        <AnswerTest student={student} testInfo={testInfo} handleStep={handleStep} />
+        <Test student={student} testInfo={testInfo} handleStep={handleStep} />
       ),
     };
     return steps[currentStep];
@@ -34,6 +34,7 @@ function TestView() {
   const [testInfo, setTestInfo] = useState("");
   const handleSetTestInfo = (testInfo) => {
     setTestInfo(testInfo);
+    console.log(testInfo);
   }
 
 

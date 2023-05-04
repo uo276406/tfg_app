@@ -116,5 +116,9 @@
     "studentInTest": "Student already in test",
     "studentInTestDescription": "The student is already in the test. Please, try again.",
     "sessionExpired": "Session expired",
-    "sessionExpiredDescription": "The session has expired. Please, login again."
+    "sessionExpiredDescription": "The session has expired. Please, login again.",
+    "sendTest": "Send test",
+    "inTestAs": "You have entered in the test as"
+
+
 }

@@ -41,24 +41,22 @@ function JoinTestForm(props) {
   const [testNotFound, setTestNotFound] = useState(false);
   const [studentInTest, setStudentInTest] = useState(false);
 
-  const stepIntoTest = (values) => {
+  const stepIntoTest = async (values) => {
+    let studentConnector = new StudentsConnector();
     let testConnector = new TestsConnector()
-    testConnector.getTest(values.testId).then((response) => {
-        if(response.detail !== undefined && response.detail === "Test not found"){
-            setTestNotFound(true);
-        }
-        let studentConnector = new StudentsConnector();
-        studentConnector.findStudentInTest(values.studentId, values.testId).then((response) => {
-            if(response.detail !== undefined && response.detail === "User registered in test"){
-                setStudentInTest(true);
-            }
-            else{
-                props.handleSetStudent(values.studentId);
-                props.handleSetTestInfo(response)
-                props.handleStep(1);
-            }
-        })
-    })
+    let test = await testConnector.getTest(values.testId)
+    let student = await studentConnector.findStudentInTest(values.studentId, values.testId)
+    if(test.detail !== undefined && test.detail === "Test not found"){
+      setTestNotFound(true);
+    }
+    else if (student.detail !== undefined && student.detail === "User registered in test"){
+      setStudentInTest(true);
+    }
+    else{
+      props.handleSetStudent(values.studentId);
+      props.handleSetTestInfo(test)
+      props.handleStep(1);
+    }
     
   }
 

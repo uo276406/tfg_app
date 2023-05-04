@@ -21,6 +21,8 @@
     "profile": "Mi perfil",
     "seeProfile": "Gestionar perfil",
     "personalData": "Datos personales",
+    "sessionExpired": "Sesión expirada",
+    "sessionExpiredDescription": "La sesión ha expirado. Por favor, vuelva a iniciar sesión.",
 
     "inputEmailCompulsory": "Introduzca su email",
     "inputPasswordCompulsory": "Introduzca su contraseña",
@@ -115,7 +117,7 @@
     "testNotFoundDescription": "No se ha encontrado ningún test con ese id.",
     "studentInTest": "Alumno registrado en el test",
     "studentInTestDescription": "El alumno ya está en el test. Por favor, inténtelo de nuevo.",
-    "sessionExpired": "Sesión expirada",
-    "sessionExpiredDescription": "La sesión ha expirado. Por favor, vuelva a iniciar sesión."
+    "sendTest": "Enviar test",
+    "inTestAs": "Ha entrado en el test como"
 
 }
