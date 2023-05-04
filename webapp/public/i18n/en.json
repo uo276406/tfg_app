@@ -99,10 +99,17 @@
     "questionDeleted": "Question deleted correctly",
     "questionAdded": "Question added correctly",
     "generateTest": "Generate test",
+    "testGenerated": "Test generated correctly",
+    "testId": "Test id:",
 
     "docText1": "Here, you can find the documentation of the API used in this application." ,
     "docText2": "Swagger UI and ReDoc are the two main tools used to generate interactive documentation. Both following",
-    "openApi": "OpenAPI specifiacation"
+    "openApi": "OpenAPI specifiacation",
+
+    "testIdCompulsory": "Test id is compulsory",
+    "studentIdCompulsory": "Student id is compulsory",
+    "studentId": "Student id",
+    "joinTest": "Join test"
 
 
 }

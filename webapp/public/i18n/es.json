@@ -99,9 +99,17 @@
     "questionDeleted": "Pregunta eliminada correctamente",
     "questionAdded": "Pregunta añadida correctamente",
     "generateTest": "Generar test",
+    "testGenerated": "Test creado correctamente",
+    "testId": "Id del test:",
 
     "docText1": "Aquí podrá encontrar enlaces a la documentación de la API REST de la aplicación." ,
     "docText2": "Disponible en dos tecnologías diferentes que son interactivas: Swagger UI y ReDoc. Ambas siguen la ",
-    "openApi": "especificación OpenAPI."
+    "openApi": "especificación OpenAPI.",
+
+    "testIdCompulsory": "Introduzca el id del test",
+    "studentIdCompulsory": "Introduzca el id del alumno",
+    "studentId": "Id alumno",
+    "joinTest": "Unirse a test"
+
 
 }

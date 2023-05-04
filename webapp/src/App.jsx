@@ -10,6 +10,7 @@ import DocView from "./views/DocView";
 import ProfileView from "./views/ProfileView";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./i18n";
+import TestView from "./views/TestView";
 
 /**
  * The main component of the application. Renders the layout of the app and the different views based on the current route.
@@ -70,6 +71,10 @@ function App() {
                 <Route
                   path="/signin"
                   element={<SigninView updateAccessToken={updateAccessToken} updateUser={updateUser}/>}
+                />
+                <Route
+                  path="/test"
+                  element={<TestView />}
                 />
                 <Route
                   path="*"

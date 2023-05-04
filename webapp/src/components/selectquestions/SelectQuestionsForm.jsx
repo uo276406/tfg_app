@@ -1,4 +1,4 @@
-import { Button, Row, Col, Alert, Space, Tag } from "antd";
+import { Button, Row, Col, Alert, Space, Tag, notification, Typography } from "antd";
 import {
   DownloadOutlined,
   LeftOutlined,
@@ -54,6 +54,8 @@ const buttonTxtStyle = {
   border: "black",
 };
 
+const { Paragraph } = Typography;
+
 /**
  * A functional component that renders a form for selecting questions.
  * @param {{Object}} props - The props object containing the questions to display and a function to change the step.
@@ -82,16 +84,26 @@ function SelectQuestionsForm(props) {
 
   // Genera test --------------------------------------------------------------------
   const generateTest = async () => {
-    console.log("generateTest");
     let connector = new TestsConnector()
     // Llama a la función de la API para guardar el test generado
     await connector.addTest(props.accessToken, questions).then((response) => {
-      // Muestra el test generado
+      console.log(response)
+      openNotificationWithIcon('success', response.id)
+    });
+  };
+
+  const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (type, testId) => {
+    api[type]({
+      message: t("testGenerated"),
+      description: <Paragraph copyable={{ text: testId }}>{t("testId") + " " + testId}</Paragraph>,
+      duration: 0,
     });
   };
 
   return (
     <div>
+      {contextHolder}
       <Row span={24}>
         {props.questions.not_enough_questions_for.length > 0 ? (
           <Alert
@@ -178,6 +190,7 @@ function SelectQuestionsForm(props) {
             type="primary"
             icon={<CheckOutlined />}
             onClick={generateTest}
+            disabled={countQuestions === 0}
           >
             {t("generateTest")}
           </Button>

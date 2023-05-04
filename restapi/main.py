@@ -1,5 +1,5 @@
 from fastapi import Depends, FastAPI
-from routers import keywordsrouter, questionsrouter, usersrouter, authrouter, testrouter
+from routers import keywordsrouter, questionsgeneratorrouter, usersrouter, authrouter, testrouter
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from pathlib import Path
@@ -21,7 +21,7 @@ version = "/api/v1.0"
 # Adición de routers ----------------------------------------
 app.include_router(keywordsrouter.router, prefix=version + "/keywords",
                    tags=["keywords"])
-app.include_router(questionsrouter.router, prefix=version + "/questions",
+app.include_router(questionsgeneratorrouter.router, prefix=version + "/questions",
                    tags=["questions"])
 app.include_router(usersrouter.router, prefix=version + "/users",
                    tags=["users"])
