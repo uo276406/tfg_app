@@ -13,7 +13,7 @@ function ResultSummaryCard(props) {
   return (
     <div style={studentStyle}>
       <Space>
-        {props.student.id}
+        {props.student.id + " ---"}
         <Tag color={colorScore}>
           {props.student.score + "/" + props.student.max_score}
         </Tag>

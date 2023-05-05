@@ -119,7 +119,8 @@
     "sessionExpired": "Session expired",
     "sessionExpiredDescription": "The session has expired. Please, login again.",
     "sendTest": "Send test",
-    "inTestAs": "You have entered in the test as"
+    "inTestAs": "You have entered in the test as",
+    "noStudentsInTest": "There are no students in the test"
 
 
 }

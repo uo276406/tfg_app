@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Collapse, Row, Col } from "antd";
+import { Collapse, Row, Col, Typography } from "antd";
 import TestsConnector from "../api/testsconnector";
 import ResultSummaryCard from "../components/resultsummary/ResultSummaryCard";
 import { useTranslation } from "react-i18next";
 
 const { Panel } = Collapse;
+const { Paragraph } = Typography;
 
 const listStyle = {
   padding: "2%",
@@ -36,24 +37,38 @@ function ResultsView(props) {
       });
   }, []);
 
+  const getDate = (date) => {
+    const d = new Date(date);
+    return d.toLocaleDateString() + " " + d.toLocaleTimeString();
+  };
+
   return (
     <Row style={listStyle}>
       <Collapse style={collapseStyle}>
         {tests.map((test, index) => {
           return (
             <Panel
-              style={panelStyle}
               key={index}
               header={
-                <Row>
-                  <Col xs={24} sm={24} md={14} lg={16} xl={16} xxl={16} >{"Id: " + test.id}</Col>
-                  <Col xs={24} sm={24} md={10} lg={8} xl={8} xxl={8}>{t("createdAt") + ": " + test.created_at}</Col>
+                <Row style={panelStyle}>
+                  <Col xs={24} sm={18} md={18} lg={21} xl={21} xxl={21}>
+                    <Paragraph copyable={{ text: test.id }}>
+                      {"Id: " + test.id}
+                    </Paragraph>
+                  </Col>
+                  <Col xs={24} sm={6} md={6} lg={3} xl={3} xxl={3}>
+                    {getDate(test.created_at)}
+                  </Col>
                 </Row>
               }
             >
-              {test.students.map((student, index) => {
-                return <ResultSummaryCard key={index} student={student} />;
-              })}
+              {test.students.length === 0 ? (
+                <p>{t("noStudentsInTest")}</p>
+              ) : (
+                test.students.map((student, index) => {
+                  return <ResultSummaryCard key={index} student={student} />;
+                })
+              )}
             </Panel>
           );
         })}

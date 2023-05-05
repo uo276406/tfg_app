@@ -118,6 +118,8 @@
     "studentInTest": "Alumno registrado en el test",
     "studentInTestDescription": "El alumno ya está en el test. Por favor, inténtelo de nuevo.",
     "sendTest": "Enviar test",
-    "inTestAs": "Ha entrado en el test como"
+    "inTestAs": "Ha entrado en el test como",
+    "noStudentsInTest": "No hay alumnos en el test"
+
 
 }
