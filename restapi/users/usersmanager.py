@@ -10,10 +10,13 @@ from fastapi_users.authentication import (
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
 from repository.usersrepository import User, get_user_db
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
-SECRET = "SECRET_KEY"
-SECONDS = 3600
+SECRET = os.getenv("SECRET")
+SECONDS = int(os.getenv("SECONDS"))
 MIN_PASSWORD_LENGTH = 6
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
@@ -23,7 +26,9 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     async def validate_password(
         self,
         password: str,
+        user: Optional[User] = None,
     ) -> None:
+        print(password)
         if len(password) < MIN_PASSWORD_LENGTH:
             raise InvalidPasswordException(
                 reason="Password should be at least 6 characters"

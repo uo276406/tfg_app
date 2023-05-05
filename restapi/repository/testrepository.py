@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy import select, bindparam
 from models.test import Test
 from dotenv import load_dotenv
+import datetime
 import os
 
 load_dotenv()
@@ -13,7 +14,7 @@ engine = create_async_engine(DATABASE)
 
 async def insert_test(test):
     async with AsyncSession(engine) as session:
-        session.add(Test(id=test["id"], user_id=test["user_id"]))
+        session.add(Test(id=test["id"], user_id=test["user_id"], created_at=datetime.now()))
         await session.commit()
 
 async def get_tests_by_user(user_id):

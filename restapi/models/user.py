@@ -2,17 +2,15 @@ import uuid
 from fastapi_users import schemas
 from typing import Optional
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
-from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import Column, String
+from .base import Base
 
 # Esquemas de usuarios --------------------------------------------
 # Modelos --------------------------------------------------
-class Base(DeclarativeBase):
-    pass
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
-    name = Column(String)
-    surname1 = Column(String)
+    name = Column(String, nullable=False)
+    surname1 = Column(String, nullable=False)
     surname2 = Column(String)
 # ----------------------------------------------------------
 

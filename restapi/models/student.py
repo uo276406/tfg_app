@@ -1,21 +1,15 @@
 
-from sqlalchemy import Table, Column, CHAR, MetaData, REAL
-from sqlalchemy.orm import registry
+from sqlalchemy import String, REAL, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
+from .base import Base
 
-metadata = MetaData()
+class Student(Base):
+     __tablename__ = 'student'
 
-student_table = Table('student', metadata,
-    Column('id', CHAR(36), primary_key=True),
-    Column('mark', REAL, nullable=False),
-    Column('test_id', CHAR(36), primary_key=True),
-)
+     id: Mapped[str] = mapped_column(String(30), primary_key=True)
+     mark: Mapped[float] = mapped_column(REAL, nullable=False)
+     test_id: Mapped[str] = mapped_column(String(30), ForeignKey('test.id'), primary_key=True)
 
-class Student:
-    def __init__(self, id: str, mark:REAL, test_id: str):
-        self.id = id
-        self.mark = mark
-        self.test_id = test_id
 
-registry().map_imperatively(Student, student_table)
 
 

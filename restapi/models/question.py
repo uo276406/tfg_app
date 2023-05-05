@@ -1,21 +1,15 @@
 
-from sqlalchemy import Table, Column, String, MetaData, CHAR
-from sqlalchemy.orm import registry
+from sqlalchemy import String, CHAR, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
+from .base import Base
 
-metadata = MetaData()
 
-question_table = Table('question', metadata,
-    Column('id', CHAR(36), primary_key=True),
-    Column('question_text', String, nullable=False),
-    Column('test_id', CHAR(36), nullable=False, primary_key=True),
-)
+class Question(Base):
+    __tablename__ = 'question'
 
-class Question:
-    def __init__(self, id: str, question_text: str, test_id: str):
-        self.id = id
-        self.question_text = question_text
-        self.test_id = test_id
+    id: Mapped[str] = mapped_column(String(30), primary_key=True)
+    question_text: Mapped[str] = mapped_column(String(100), nullable=False)
+    test_id: Mapped[str] = mapped_column(String(30), ForeignKey('user.id'), primary_key=True)
 
-registry().map_imperatively(Question, question_table)
 
 

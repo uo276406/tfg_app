@@ -3,9 +3,10 @@ from routers import keywordsrouter, questionsgeneratorrouter, usersrouter, authr
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from pathlib import Path
+from sqlalchemy.ext.asyncio import create_async_engine
+from models.base import Base
+import os
 
-dotenv_path = Path('../.env.development')
-load_dotenv(dotenv_path=dotenv_path)
 
 app = FastAPI(
     title="Keyword APP API",
@@ -43,6 +44,20 @@ app.add_middleware(
 )
 
 # -------------------------------------------------------------------------------------------------------------------
+
+# Base de datos -------------------------------------------
+
+@app.on_event("startup")
+async def startup():
+
+    load_dotenv()
+    DATABASE = os.getenv("DATABASE")
+
+    engine = create_async_engine(DATABASE)
+
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
 
 @app.get("/api/v1.0/")
 async def root():
