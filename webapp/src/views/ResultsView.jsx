@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Collapse, Row, Col, Typography, notification } from "antd";
+import { Collapse, Row, Col, Typography } from "antd";
 import TestsConnector from "../api/testsconnector";
 import ResultSummaryCard from "../components/resultsummary/ResultSummaryCard";
 import { useTranslation } from "react-i18next";
@@ -27,7 +27,6 @@ const panelStyle = {
 };
 
 function ResultsView(props) {
-  const [api, contextHolder] = notification.useNotification();
 
   const { t } = useTranslation();
 
@@ -39,29 +38,19 @@ function ResultsView(props) {
       .then((response) => {
         setTests(response);
       })
-      .catch((error) => {
-        openNotificationWithIcon("info");
-      });
-  }, []);
+  }, [props.accessToken]);
 
   const getDate = (date) => {
     const d = new Date(date);
     return d.toLocaleDateString() + " " + d.toLocaleTimeString();
   };
 
-  const openNotificationWithIcon = (type) => {
-    api[type]({
-      message: t("sessionExpired"),
-      description: t("sessionExpiredDescription"),
-    });
-  };
 
   return (
     <Row style={listStyle}>
-      {contextHolder}
       <Title level={3}>{t("resultsTitle")}</Title>
       <Collapse style={collapseStyle}>
-        { tests.length != 0 ? tests.map((test, index) => {
+        { tests.length !== 0 ? tests.map((test, index) => {
           return (
             <Panel
               key={index}

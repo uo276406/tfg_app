@@ -6,7 +6,7 @@ const studentStyle = {
 };
 
 function ResultSummaryCard(props) {
-  const [colorScore, setColorScore] = useState(
+  const [colorScore] = useState(
     props.student.score >= props.student.max_score/2 ? "green" : "red"
   );
 
