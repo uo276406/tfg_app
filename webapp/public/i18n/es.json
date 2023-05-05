@@ -24,6 +24,7 @@
     "personalData": "Datos personales",
     "sessionExpired": "Sesión expirada",
     "sessionExpiredDescription": "La sesión ha expirado. Por favor, vuelva a iniciar sesión.",
+    "createExams": "Crear examen",
 
     "inputEmailCompulsory": "Introduzca su email",
     "inputPasswordCompulsory": "Introduzca su contraseña",
@@ -119,7 +120,10 @@
     "studentInTestDescription": "El alumno ya está en el test. Por favor, inténtelo de nuevo.",
     "sendTest": "Enviar test",
     "inTestAs": "Ha entrado en el test como",
-    "noStudentsInTest": "No hay alumnos en el test"
+    "noStudentsInTest": "No hay alumnos en el test",
+    "resultsTitle": "Resultados de los tests generados",
+    "noTestFound": "No se han encontrado tests"
+
 
 
 }

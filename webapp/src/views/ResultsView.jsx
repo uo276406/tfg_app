@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Collapse, Row, Col, Typography } from "antd";
+import { Collapse, Row, Col, Typography, notification } from "antd";
 import TestsConnector from "../api/testsconnector";
 import ResultSummaryCard from "../components/resultsummary/ResultSummaryCard";
 import { useTranslation } from "react-i18next";
 
 const { Panel } = Collapse;
-const { Paragraph } = Typography;
+const { Paragraph, Title } = Typography;
 
 const listStyle = {
-  padding: "2%",
+  paddingLeft: "2%",
+  paddingBottom: "2%",
+  paddingRight: "2%",
   backgroundColor: "lightgray",
   overflow: "scroll",
   maxHeight: 450,
@@ -25,6 +27,8 @@ const panelStyle = {
 };
 
 function ResultsView(props) {
+  const [api, contextHolder] = notification.useNotification();
+
   const { t } = useTranslation();
 
   const [tests, setTests] = useState([]);
@@ -34,6 +38,9 @@ function ResultsView(props) {
       .findTestsResultsOfUser(props.accessToken)
       .then((response) => {
         setTests(response);
+      })
+      .catch((error) => {
+        openNotificationWithIcon("info");
       });
   }, []);
 
@@ -42,10 +49,19 @@ function ResultsView(props) {
     return d.toLocaleDateString() + " " + d.toLocaleTimeString();
   };
 
+  const openNotificationWithIcon = (type) => {
+    api[type]({
+      message: t("sessionExpired"),
+      description: t("sessionExpiredDescription"),
+    });
+  };
+
   return (
     <Row style={listStyle}>
+      {contextHolder}
+      <Title level={3}>{t("resultsTitle")}</Title>
       <Collapse style={collapseStyle}>
-        {tests.map((test, index) => {
+        { tests.length != 0 ? tests.map((test, index) => {
           return (
             <Panel
               key={index}
@@ -71,7 +87,7 @@ function ResultsView(props) {
               )}
             </Panel>
           );
-        })}
+        }) : <Title level={5}>{t("noTestFound")}</Title>}
       </Collapse>
     </Row>
   );

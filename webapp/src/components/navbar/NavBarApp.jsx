@@ -10,6 +10,11 @@ import {
   CheckOutlined,
   CommentOutlined,
   EditOutlined,
+  PlusOutlined,
+  WechatOutlined,
+  FileProtectOutlined,
+  UsergroupAddOutlined,
+  CheckCircleOutlined,
 } from "@ant-design/icons";
 import UsersConnector from "../../api/usersconnector";
 
@@ -37,7 +42,7 @@ function NavBarApp(props) {
     {
       label: <Link to="/test">{t("joinTest")}</Link>,
       key: "jointest",
-      icon: <CheckOutlined />,
+      icon: <UsergroupAddOutlined />,
       style: { marginLeft: "auto" },
     },
     {
@@ -82,8 +87,13 @@ function NavBarApp(props) {
     {
       label: <Link to="/results">{t("results")}</Link>,
       key: "results",
-      icon: <EditOutlined />,
+      icon: <CheckCircleOutlined />,
       style: { marginLeft: "auto" },
+    },
+    {
+      label: <Link to="/process">{t("createExams")}</Link>,
+      key: "process",
+      icon: <EditOutlined />,
     },
     {
       label: <Link to="/doc">{t("doc")}</Link>,
@@ -93,7 +103,7 @@ function NavBarApp(props) {
     {
       label: t("lang"),
       key: "lang",
-      icon: <SnippetsOutlined />,
+      icon: <WechatOutlined />,
       children: [
         {
           label: t("spanish"),

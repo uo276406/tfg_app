@@ -51,6 +51,7 @@
     "passwordsNotMatch": "Passwords don't match",
     "invalidPassword": "Invalid password",
     "invalidPasswordDesc": "Password is not valid. It should contain at least one number, one uppercase and one lowercase letter.",
+    "createExams": "Create exam",
 
     "personalinfo": "Personal information:",
     "email": "Email",
@@ -120,7 +121,9 @@
     "sessionExpiredDescription": "The session has expired. Please, login again.",
     "sendTest": "Send test",
     "inTestAs": "You have entered in the test as",
-    "noStudentsInTest": "There are no students in the test"
+    "noStudentsInTest": "There are no students in the test",
+    "resultsTitle": "Results of generated tests",
+    "noTestFound": "No test found"
 
 
 }
