@@ -23,7 +23,7 @@ const { Text, Paragraph } = Typography;
 function Test(props) {
   const { t } = useTranslation();
 
-  const [studentCombination, setStudentCombination] = useState([]);
+  const [studentCombination, setStudentCombination] = useState(props.testInfo.questions.map((q) => -1));
 
   const handleUpdateOption = (option, index) => {
     let newStudentCombination = studentCombination;

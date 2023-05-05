@@ -3,6 +3,8 @@ from users.usersmanager import fastapi_users
 from repository.testrepository import insert_test, get_tests_by_user, get_test_by_id
 from repository.questionsrepository import insert_question, get_questions_by_test
 from repository.answersrepository import insert_answer, get_answers_by_question
+from repository.studentsrepository import insert_student
+from testcorrector.testcorrector import TestCorrector
 from models.user import User
 from pydantic import BaseModel
 import uuid
@@ -89,14 +91,14 @@ async def get_tests(test_id: str):
 
 
 @router.post("/check", status_code=status.HTTP_201_CREATED, description="Checks the test done by the student")
-async def test_ckeck(test_chek: TestCheck):
-    test_found = await get_test_by_id(test_chek.testId)
+async def test_ckeck(test_check: TestCheck):
+    test_found = await get_test_by_id(test_check.testId)
     if test_found == None:
         raise HTTPException(status_code=200, detail="Test not found")
     else:
         # Busca el test
         test_found = {"questions": []}
-        questions_found = await get_questions_by_test(test_chek.testId)
+        questions_found = await get_questions_by_test(test_check.testId)
         for question in questions_found:
             question_found = {
                 "question_text": question.question_text, "options": []}
@@ -106,13 +108,9 @@ async def test_ckeck(test_chek: TestCheck):
                                 "is_correct": answer.is_correct}
                 question_found["options"].append(answer_found)
             test_found["questions"].append(question_found)
-        # Corrige el test
-        score = 0
-        for i in range(len(test_found["questions"])):
-            number_of_options = len(test_found["questions"][i]["options"])
-            if test_found["questions"][i]["options"][test_chek.selection[i]]["is_correct"] == True:
-                score += 1
-            else:
-                score -= 1/number_of_options
+        # Corrige el test pregunta por pregunta
+        test_corrector = TestCorrector()
+        res = test_corrector.correct(test_found, test_check)        
+        await insert_student({"id": test_check.studentId, "test_id": test_check.testId, "score": res["score"], "max_score": res["max_score"]})
+        return res
 
-        return {"score": score}

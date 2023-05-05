@@ -25,8 +25,8 @@ function QuestionTest(props) {
   };
 
   const removeOption = () => {
-    setValue(undefined);
-    props.handleUpdateOption(undefined, props.index);
+    setValue(-1);
+    props.handleUpdateOption(-1, props.index);
   };
 
   return (

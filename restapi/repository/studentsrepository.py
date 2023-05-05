@@ -12,7 +12,7 @@ engine = create_async_engine(DATABASE)
 
 async def insert_student(student):
     async with AsyncSession(engine) as session:
-        session.add(Student(id=student["id"], mark=student["mark"], test_id=student["test_id"]))
+        session.add(Student(id=student["id"], score=student["score"], test_id=student["test_id"], max_score=student["max_score"]))
         await session.commit()
 
 async def get_student_by_id_and_test(student_id, test_id):

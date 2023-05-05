@@ -7,8 +7,9 @@ class Student(Base):
      __tablename__ = 'student'
 
      id: Mapped[str] = mapped_column(String(30), primary_key=True)
-     mark: Mapped[float] = mapped_column(REAL, nullable=False)
+     score: Mapped[float] = mapped_column(REAL, nullable=False)
      test_id: Mapped[str] = mapped_column(String(30), ForeignKey('test.id'), primary_key=True)
+     max_score: Mapped[float] = mapped_column(REAL, nullable=False)
 
 
 
