@@ -36,18 +36,19 @@ function SigninView(props) {
         values.password
       )
       .then((responseSignin) => {
-        console.log(responseSignin);
-        if (responseSignin.detal) {
+        if (responseSignin.detail) {
           if (
             responseSignin.detail !== undefined &&
             responseSignin.detail === "REGISTER_USER_ALREADY_EXISTS"
           ) {
             setUserExists(true);
+            return;
           } else if (
             responseSignin.detail.code !== undefined &&
             responseSignin.detail.code === "REGISTER_INVALID_PASSWORD"
           ) {
             setInvalidPassword(true);
+            return;
           }
         } else {
           setUserExists(false);

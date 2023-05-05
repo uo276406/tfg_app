@@ -28,7 +28,6 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         password: str,
         user: Optional[User] = None,
     ) -> None:
-        print(password)
         if len(password) < MIN_PASSWORD_LENGTH:
             raise InvalidPasswordException(
                 reason="Password should be at least 6 characters"

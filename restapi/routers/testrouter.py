@@ -69,7 +69,7 @@ async def find_user_tests(user: User = Depends(current_active_user)):
     return res
 
 
-@router.get("/{test_id}", status_code=status.HTTP_200_OK, description="Get specific test")
+@router.get("/{test_id}", status_code=status.HTTP_200_OK, description="Get specific test questions and posible answers")
 async def get_tests(test_id: str):
     test_found = await get_test_by_id(test_id)
     if test_found == None:

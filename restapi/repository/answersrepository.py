@@ -12,7 +12,7 @@ engine = create_async_engine(DATABASE)
 
 async def insert_answer(answer):
     async with AsyncSession(engine) as session:
-        session.add(Answer(answer["id"], answer["value"], answer["is_correct"], answer["question_id"]))
+        session.add(Answer(id=answer["id"], value=answer["value"], is_correct=answer["is_correct"], question_id=answer["question_id"]))
         await session.commit()
 
 async def get_answers_by_question(question_id):

@@ -1,9 +1,9 @@
 
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy import select, bindparam
+from sqlalchemy import select
 from models.test import Test
 from dotenv import load_dotenv
-import datetime
+from datetime import datetime
 import os
 
 load_dotenv()
