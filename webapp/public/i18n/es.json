@@ -19,6 +19,7 @@
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
     "profile": "Mi perfil",
+    "results": "Resultados",
     "seeProfile": "Gestionar perfil",
     "personalData": "Datos personales",
     "sessionExpired": "Sesión expirada",
@@ -51,7 +52,6 @@
     "passwordsNotMatch": "Las contraseñas no coinciden",
     "invalidPassword": "Contraseña inválida",
     "invalidPasswordDesc": "Contraseña no válida. Debe tener al menos una letra mayúscula, una minúscula y un número.",
-
 
     "personalinfo": "Información personal:",
     "email": "Correo electrónico",

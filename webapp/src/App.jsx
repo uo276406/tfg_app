@@ -10,6 +10,7 @@ import DocView from "./views/DocView";
 import ProfileView from "./views/ProfileView";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./i18n";
+import ResultsView from "./views/ResultsView";
 import TestView from "./views/TestView";
 
 /**
@@ -93,6 +94,10 @@ function App() {
                 <Route
                   path="/profile"
                   element={<ProfileView />}
+                />
+                <Route
+                  path="/results"
+                  element={<ResultsView accessToken={accessToken}/>}
                 />
                 <Route
                   path="*"

@@ -1,12 +1,6 @@
 import React from "react";
-import { Button, Form, Input, Card, Col, Row, Alert } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Form, Input, Card, Col, Row } from "antd";
 import { useTranslation } from "react-i18next";
-import UsersConnector from "../api/usersconnector";
-
-const loginStyle = {
-  margin: "2%",
-};
 
 const formStyle = {
   textAlign: "center",
@@ -18,7 +12,7 @@ function ProfileView() {
 
   return (
     <Row gutter={[32, 32]}>
-      <Col xs={24} sm={24} md={24} lg={10} xl={10} xxl={10}>
+      <Col span={24}>
         <Card style={formStyle} title={t("personalData")}>
           <Form
             name="basic"
@@ -44,8 +38,6 @@ function ProfileView() {
           </Form>
         </Card>
       </Col>
-
-      <Col xs={24} sm={24} md={24} lg={14} xl={14} xxl={14}></Col>
     </Row>
   );
 }

@@ -21,3 +21,8 @@ async def get_student_by_id_and_test(student_id, test_id):
         result = await session.execute(select(Student).where(Student.id == str(student_id)).where(Student.test_id == str(test_id)))
         return result.scalars().first()
 
+async def get_students_by_test(test_id):
+    async with AsyncSession(engine) as session:
+        result = await session.execute(select(Student).where(Student.test_id == str(test_id)))
+        return result.scalars().all()
+

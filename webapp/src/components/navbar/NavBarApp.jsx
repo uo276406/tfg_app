@@ -9,6 +9,7 @@ import {
   UserOutlined,
   CheckOutlined,
   CommentOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import UsersConnector from "../../api/usersconnector";
 
@@ -79,10 +80,15 @@ function NavBarApp(props) {
       key: "app",
     },
     {
+      label: <Link to="/results">{t("results")}</Link>,
+      key: "results",
+      icon: <EditOutlined />,
+      style: { marginLeft: "auto" },
+    },
+    {
       label: <Link to="/doc">{t("doc")}</Link>,
       key: "doc",
       icon: <SnippetsOutlined />,
-      style: { marginLeft: "auto" },
     },
     {
       label: t("lang"),

@@ -14,6 +14,16 @@ class TestsConnector {
     }).then((response) => response.json());
   }
 
+  async findTestsResultsOfUser(accessToken) {
+    return await fetch(apiendpoint + "/api/v1.0/test/find/results", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + accessToken,
+      },
+    }).then((response) => response.json());
+  };
+
   async getTest(testId) {
     return await fetch(apiendpoint + "/api/v1.0/test/" + testId, {
       method: "GET",
