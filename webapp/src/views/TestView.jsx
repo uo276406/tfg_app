@@ -17,7 +17,7 @@ function TestView() {
         />
       ),
       1: (
-        <Test student={student} testInfo={testInfo} handleStep={handleStep} />
+        <Test student={student} testId={testId} testInfo={testInfo} handleStep={handleStep} />
       ),
     };
     return steps[currentStep];
@@ -32,9 +32,10 @@ function TestView() {
   }
 
   const [testInfo, setTestInfo] = useState("");
-  const handleSetTestInfo = (testInfo) => {
+  const [testId, setTestId] = useState("");
+  const handleSetTestInfo = (testInfo, testId) => {
     setTestInfo(testInfo);
-    console.log(testInfo);
+    setTestId(testId);
   }
 
 

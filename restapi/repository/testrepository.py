@@ -2,9 +2,11 @@
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy import select, bindparam
 from models.test import Test
+from dotenv import load_dotenv
+import os
 
-
-DATABASE = "sqlite+aiosqlite:///development.db"
+load_dotenv()
+DATABASE = os.getenv("DATABASE")
 
 engine = create_async_engine(DATABASE)
 

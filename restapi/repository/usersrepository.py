@@ -1,12 +1,13 @@
 from typing import AsyncGenerator
-
 from fastapi import Depends
 from fastapi_users.db import SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from models.user import User, Base
+from dotenv import load_dotenv
+import os
 
-
-DATABASE = "sqlite+aiosqlite:///development.db"
+load_dotenv()
+DATABASE = os.getenv("DATABASE")
 
 engine = create_async_engine(DATABASE)
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)

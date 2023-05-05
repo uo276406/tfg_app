@@ -54,7 +54,7 @@ function JoinTestForm(props) {
     }
     else{
       props.handleSetStudent(values.studentId);
-      props.handleSetTestInfo(test)
+      props.handleSetTestInfo(test, values.testId)
       props.handleStep(1);
     }
     

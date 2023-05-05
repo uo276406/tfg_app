@@ -6,7 +6,7 @@
 *.sql
 
 #.env files
-.env.*
+.env
 
 # .pyc
 *.pyc

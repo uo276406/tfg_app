@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Row, Button, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import QuestionTest from "./QuestionTest";
+import TestsConnector from "../../api/testsconnector";
 
 const listStyle = {
   paddingLeft: "2%",
@@ -33,6 +34,10 @@ function Test(props) {
 
   const sendSelection = () => {
     console.log(studentCombination);
+    let testConnector = new TestsConnector();
+    testConnector.checkTest(props.testId, props.student, studentCombination).then((response) => {
+      console.log(response);
+    });
   };
 
   return (

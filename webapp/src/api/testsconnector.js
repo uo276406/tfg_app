@@ -20,6 +20,25 @@ class TestsConnector {
     }).then((response) => response.json());
   }
 
+  async checkTest(testId, studentId, studentSelection) {
+    console.log(JSON.stringify({
+      "selection": studentSelection,
+      "testId": testId,
+      "studentId": studentId,
+    }))
+    return await fetch(apiendpoint + "/api/v1.0/test/check", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "selection": studentSelection,
+        "testId": testId,
+        "studentId": studentId,
+      }),
+    }).then((response) => response.json());
+  }
+
 }
 
 
