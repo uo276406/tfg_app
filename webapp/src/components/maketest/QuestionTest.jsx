@@ -11,7 +11,7 @@ const questionTextStyle = {
 };
 
 function QuestionTest(props) {
-  let correctionColor = props.correction !== null && props.correction.is_correct ? "#b7eb8f" : "#ffccc7"
+  let correctionColor = props.correction !== null && props.correction.is_correct ? "#B1FFCA" : "#ffccc7"
   
   const questionStyle = {
     width: "100%",

@@ -5,13 +5,13 @@ import {
   SnippetsOutlined,
   LoginOutlined,
   LogoutOutlined,
-  ProfileFilled,
   UserOutlined,
   CommentOutlined,
   EditOutlined,
   WechatOutlined,
   UsergroupAddOutlined,
   CheckCircleOutlined,
+  ToolFilled,
 } from "@ant-design/icons";
 import UsersConnector from "../../api/usersconnector";
 
@@ -117,12 +117,12 @@ function NavBarApp(props) {
     {
       label: t("profile") + " " + props.username,
       key: "profile",
-      icon: <ProfileFilled />,
+      icon: <UserOutlined />,
       children: [
         {
           label: <Link to="/profile">{t("seeProfile")}</Link>,
           key: "seeProfile",
-          icon: <UserOutlined />,
+          icon: <ToolFilled />,
         },
         {
           label: <Link to="/logout">{t("logout")}</Link>,

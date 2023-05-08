@@ -17,7 +17,7 @@ function TestView() {
         />
       ),
       1: (
-        <Test student={student} testId={testId} testInfo={testInfo} handleStep={handleStep} />
+        <Test student={student} testId={testId.trim()} testInfo={testInfo} handleStep={handleStep} />
       ),
     };
     return steps[currentStep];

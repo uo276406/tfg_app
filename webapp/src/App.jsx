@@ -37,10 +37,13 @@ function App() {
   // ----------------------------------------------------------------
   // Información usuario----------------------------------------------
 
+  const [username, setUsername] = useState();
   const updateUser = (user) => {
     let newUser = {"name": user.name, "surname1": user.surname1, "surname2": user.surname2, "email": user.email}
     console.log(newUser)
     localStorage.setItem("user", JSON.stringify(newUser));
+    setUsername(user.name);
+    
   }
 
   const contentStyle = {
@@ -54,7 +57,7 @@ function App() {
           <NavBarApp
             accessToken={accessToken}
             clearLocalStorage={clearLocalStorage}
-            username={localStorage.getItem("user") !== null ? JSON.parse(localStorage.getItem("user")).name: ""}
+            username={username}
           />
         </Header>
         <Content style={contentStyle}>

@@ -130,6 +130,15 @@
     "closeTest": "Close test",
     "openTest": "Open test",
     "closedTest": "Closed test",
-    "closedTestDescription": "The test is closed. You can't answer the questions."
+    "closedTestDescription": "The test is closed. You can't answer the questions.",
+    "markSummary": "Summary",
+    "passed": "Passed",
+    "failed": "Failed",
+    "inProgress": "In progress",
+    "nextQuestion": "Next question",
+    "previousQuestion": "Previous question",
+    "id": "Id",
+    "score": "Score",
+    "maxScore": "Max score"
 
 }

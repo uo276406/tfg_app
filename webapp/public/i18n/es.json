@@ -129,7 +129,16 @@
     "closeTest": "Cerrar test",
     "openTest": "Abrir test",
     "closedTest": "Test cerrado",
-    "closedTestDescription": "El test está cerrado. Los alumnos ya no pueden unirse."
+    "closedTestDescription": "El test está cerrado. Los alumnos ya no pueden unirse.",
+    "markSummary": "Resumen",
+    "passed": "Aprobado",
+    "failed": "Suspenso",
+    "inProgress": "En progreso",
+    "nextQuestion": "Siguiente pregunta",
+    "previousQuestion": "Pregunta anterior",
+    "id": "Id",
+    "score": "Puntuación",
+    "maxScore": "Máxima puntuación"
 
 
 
