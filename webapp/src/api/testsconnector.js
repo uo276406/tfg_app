@@ -6,10 +6,10 @@ class TestsConnector {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + accessToken,
+        Authorization: "Bearer " + accessToken,
       },
       body: JSON.stringify({
-        "questions": questions,
+        questions: questions,
       }),
     }).then((response) => response.json());
   }
@@ -19,10 +19,10 @@ class TestsConnector {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + accessToken,
+        Authorization: "Bearer " + accessToken,
       },
     }).then((response) => response.json());
-  };
+  }
 
   async getTest(testId) {
     return await fetch(apiendpoint + "/api/v1.0/test/" + testId, {
@@ -31,27 +31,39 @@ class TestsConnector {
   }
 
   async checkTest(testId, studentId, studentSelection) {
-    console.log(JSON.stringify({
-      "selection": studentSelection,
-      "testId": testId,
-      "studentId": studentId,
-    }))
+    console.log(
+      JSON.stringify({
+        selection: studentSelection,
+        testId: testId,
+        studentId: studentId,
+      })
+    );
     return await fetch(apiendpoint + "/api/v1.0/test/check", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        "selection": studentSelection,
-        "testId": testId,
-        "studentId": studentId,
+        selection: studentSelection,
+        testId: testId,
+        studentId: studentId,
       }),
     }).then((response) => response.json());
   }
 
+  async changeTestState(id, checked, accessToken) {
+    return await fetch(apiendpoint + "/api/v1.0/test/changestatus", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+      body: JSON.stringify({
+        id: id,
+        status: checked,
+      }),
+    }).then((response) => response.json());
+  }
 }
-
-
-
 
 export default TestsConnector;

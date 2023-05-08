@@ -115,7 +115,7 @@ function NavBarApp(props) {
       ],
     },
     {
-      label: t("profile"),
+      label: t("profile") + " " + props.username,
       key: "profile",
       icon: <ProfileFilled />,
       children: [

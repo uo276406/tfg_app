@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, Depends, HTTPException
 from users.usersmanager import fastapi_users
-from repository.testrepository import insert_test, get_tests_by_user, get_test_by_id
+from repository.testrepository import insert_test, get_tests_by_user, get_test_by_id, update_test_status
 from repository.questionsrepository import insert_question, get_questions_by_test
 from repository.answersrepository import insert_answer, get_answers_by_question
 from repository.studentsrepository import insert_student, get_students_by_test
@@ -33,6 +33,10 @@ class TestCheck(BaseModel):
     studentId: str
     selection: list[int]
 
+class TestStatus(BaseModel):
+    id:str
+    status:bool
+
 
 # This is a FastAPI dependency that checks if the user is authenticated.
 current_active_user = fastapi_users.current_user(active=True)
@@ -56,7 +60,7 @@ async def find_user_tests(user: User = Depends(current_active_user)):
     res = []
     tests_found = await get_tests_by_user(user.id)
     for test in tests_found:
-        test_found = {"id": test.id, "user_id": test.user_id, "questions": []}
+        test_found = {"id": test.id, "user_id": test.user_id, "status": test.status ,"questions": []}
         questions_found = await get_questions_by_test(test.id)
         for question in questions_found:
             question_found = {"id": question.id, "question_text": question.question_text,
@@ -76,6 +80,8 @@ async def get_tests(test_id: str):
     test_found = await get_test_by_id(test_id)
     if test_found == None:
         raise HTTPException(status_code=200, detail="Test not found")
+    if test_found.status == False:
+        raise HTTPException(status_code=200, detail="Test is closed")
     else:
         test_found = {"questions": []}
         questions_found = await get_questions_by_test(test_id)
@@ -95,6 +101,8 @@ async def test_ckeck(test_check: TestCheck):
     test_found = await get_test_by_id(test_check.testId)
     if test_found == None:
         raise HTTPException(status_code=200, detail="Test not found")
+    elif test_found.status == False:
+        raise HTTPException(status_code=200, detail="Test is closed")
     else:
         # Busca el test
         test_found = {"questions": []}
@@ -119,10 +127,19 @@ async def find_user_tests_results(user: User = Depends(current_active_user)):
     res = []
     tests_found = await get_tests_by_user(user.id)
     for test in tests_found:
-        test_found = {"id": test.id, "created_at": test.created_at, "students": []}
+        test_found = {"id": test.id, "created_at": test.created_at, "status": test.status, "students": []}
         students_found = await get_students_by_test(test.id)
         for student in students_found:
             student_found = {"id": student.id, "score": student.score, "max_score": student.max_score}
             test_found["students"].append(student_found)
         res.append(test_found)
     return res
+
+@router.post("/changestatus", status_code=status.HTTP_200_OK, description="Modifies the state of the test")
+async def add_test(test: TestStatus, user: User = Depends(current_active_user)):
+    test_id = test.id
+    new_status = {"id": test_id, "status": test.status}
+    new_test = await update_test_status(new_status)
+    print(new_test)
+    return {"detail": "Test status updated"}
+    

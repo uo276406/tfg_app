@@ -54,6 +54,7 @@ function App() {
           <NavBarApp
             accessToken={accessToken}
             clearLocalStorage={clearLocalStorage}
+            username={localStorage.getItem("user") !== null ? JSON.parse(localStorage.getItem("user")).name: ""}
           />
         </Header>
         <Content style={contentStyle}>

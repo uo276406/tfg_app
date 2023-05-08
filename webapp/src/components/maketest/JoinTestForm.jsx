@@ -40,6 +40,7 @@ function JoinTestForm(props) {
 
   const [testNotFound, setTestNotFound] = useState(false);
   const [studentInTest, setStudentInTest] = useState(false);
+  const [closedTest, setClosedTest] = useState(false);
 
   const stepIntoTest = async (values) => {
     let studentConnector = new StudentsConnector();
@@ -48,9 +49,18 @@ function JoinTestForm(props) {
     let student = await studentConnector.findStudentInTest(values.studentId, values.testId)
     if(test.detail !== undefined && test.detail === "Test not found"){
       setTestNotFound(true);
+      setStudentInTest(false);
+      setClosedTest(false);
     }
     else if (student.detail !== undefined && student.detail === "User registered in test"){
+      setTestNotFound(false);
       setStudentInTest(true);
+      setClosedTest(false);
+    }
+    else if(test.detail !== undefined && test.detail === "Test is closed"){
+      setTestNotFound(false);
+      setStudentInTest(false);
+      setClosedTest(true);
     }
     else{
       props.handleSetStudent(values.studentId);
@@ -65,6 +75,7 @@ function JoinTestForm(props) {
       <Col span={24}>
         {testNotFound ? showAlert(t("testNotFound"), t("testNotFoundDescription")) : null}
         {studentInTest ? showAlert(t("studentInTest"), t("studentInTestDescription")) : null}
+        {closedTest ? showAlert(t("closedTest"), t("closedTestDescription")) : null}
         <Card
           style={formStyle}
           title={t("joinTestTitle")}

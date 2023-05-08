@@ -43,9 +43,14 @@ function Test(props) {
     testConnector
       .checkTest(props.testId, props.student, studentCombination)
       .then((response) => {
-        message.success(t("testSent"));        
-        setTestResults(response);
-        setTestFinished(true);
+        if (response.detail !== undefined && response.detail === "Test is closed") {
+          message.error(t("closedTest"));
+          return;
+        } else {
+          message.success(t("testSent"));
+          setTestResults(response);
+          setTestFinished(true);
+        }
       });
   };
 

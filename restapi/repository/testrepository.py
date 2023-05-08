@@ -14,7 +14,7 @@ engine = create_async_engine(DATABASE)
 
 async def insert_test(test):
     async with AsyncSession(engine) as session:
-        session.add(Test(id=test["id"], user_id=test["user_id"], created_at=datetime.now()))
+        session.add(Test(id=test["id"], user_id=test["user_id"], created_at=datetime.now(), status=True))
         await session.commit()
 
 async def get_tests_by_user(user_id):
@@ -27,4 +27,10 @@ async def get_test_by_id(test_id):
         result = await session.execute(select(Test).where(Test.id == str(test_id)))
         return result.scalars().first()
 
-
+async def update_test_status(new_test_status):
+    async with AsyncSession(engine) as session:
+        test = await session.execute(select(Test).where(Test.id == str(new_test_status["id"])))
+        test = test.scalars().first()
+        test.status = new_test_status["status"]
+        await session.commit()
+        return test

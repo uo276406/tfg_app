@@ -18,7 +18,7 @@
     "signin": "Registrarse",
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
-    "profile": "Mi perfil",
+    "profile": "Hola, ",
     "results": "Resultados",
     "seeProfile": "Gestionar perfil",
     "personalData": "Datos personales",
@@ -125,7 +125,11 @@
     "noTestFound": "No se han encontrado tests",
     "testScore": "Puntuación del test",
     "testSent": "Test enviado",
-    "navigateToHome": "Volver a la página principal"
+    "navigateToHome": "Volver a la página principal",
+    "closeTest": "Cerrar test",
+    "openTest": "Abrir test",
+    "closedTest": "Test cerrado",
+    "closedTestDescription": "El test está cerrado. Los alumnos ya no pueden unirse."
 
 
 

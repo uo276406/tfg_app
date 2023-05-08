@@ -18,7 +18,7 @@
     "signin": "Sign in",
     "login": "Log in",
     "logout": "Log out",
-    "profile": "My profile",
+    "profile": "Hi,",
     "results": "Results",
     "seeProfile": "Manage profile",
     "personalData": "Personal data",
@@ -126,7 +126,10 @@
     "noTestFound": "No test found",
     "testScore": "Test score",
     "testSent": "Test sent",
-    "navigateToHome": "Go to home"
-
+    "navigateToHome": "Go to home",
+    "closeTest": "Close test",
+    "openTest": "Open test",
+    "closedTest": "Closed test",
+    "closedTestDescription": "The test is closed. You can't answer the questions."
 
 }
