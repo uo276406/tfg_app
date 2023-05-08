@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Layout } from "antd";
 import FooterApp from "./components/footer/FooterApp";
 import NavBarApp from "./components/navbar/NavBarApp";
@@ -38,13 +38,23 @@ function App() {
   // Información usuario----------------------------------------------
 
   const [username, setUsername] = useState();
+
+  useEffect(() => {
+    if (localStorage.getItem("user") !== null) {
+      setUsername(JSON.parse(localStorage.getItem("user")).name);
+    }
+  }, []);
+
   const updateUser = (user) => {
-    let newUser = {"name": user.name, "surname1": user.surname1, "surname2": user.surname2, "email": user.email}
-    console.log(newUser)
+    let newUser = {
+      name: user.name,
+      surname1: user.surname1,
+      surname2: user.surname2,
+      email: user.email,
+    };
+    console.log(newUser);
     localStorage.setItem("user", JSON.stringify(newUser));
-    setUsername(user.name);
-    
-  }
+  };
 
   const contentStyle = {
     backgroundColor: "lightGrey",
@@ -70,16 +80,23 @@ function App() {
               <>
                 <Route
                   path="/login"
-                  element={<LoginView updateAccessToken={updateAccessToken} updateUser={updateUser} />}
+                  element={
+                    <LoginView
+                      updateAccessToken={updateAccessToken}
+                      updateUser={updateUser}
+                    />
+                  }
                 />
                 <Route
                   path="/signin"
-                  element={<SigninView updateAccessToken={updateAccessToken} updateUser={updateUser}/>}
+                  element={
+                    <SigninView
+                      updateAccessToken={updateAccessToken}
+                      updateUser={updateUser}
+                    />
+                  }
                 />
-                <Route
-                  path="/test"
-                  element={<TestView />}
-                />
+                <Route path="/test" element={<TestView />} />
                 <Route
                   path="*"
                   element={<HomeView accessToken={accessToken} />}
@@ -95,13 +112,10 @@ function App() {
                   path="/process"
                   element={<ProcessView accessToken={accessToken} />}
                 />
-                <Route
-                  path="/profile"
-                  element={<ProfileView />}
-                />
+                <Route path="/profile" element={<ProfileView />} />
                 <Route
                   path="/results"
-                  element={<ResultsView accessToken={accessToken}/>}
+                  element={<ResultsView accessToken={accessToken} />}
                 />
                 <Route
                   path="*"
