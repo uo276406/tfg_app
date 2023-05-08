@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Typography, Radio, Space, Button } from "antd";
-import { CheckCircleTwoTone, ClearOutlined } from "@ant-design/icons";
+import { ClearOutlined } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
 
@@ -18,12 +18,6 @@ function QuestionTest(props) {
     marginRight: "1%",
     marginTop: "1%",
     backgroundColor: props.correction === null || props.correction.is_correct === null ? "white" : correctionColor,
-  };
-
-  const resultStyle = {
-    marginRight: "1%",
-    marginTop: "1%",
-    fontSize: "18px",
   };
   
   const [value, setValue] = useState(null);
