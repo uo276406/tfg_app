@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 import { Card, Typography, Radio, Space, Button } from "antd";
-import { ClearOutlined } from "@ant-design/icons";
+import { CheckCircleTwoTone, ClearOutlined } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
 
-const questionStyle = {
-  width: "100%",
-  marginRight: "1%",
-  marginTop: "1%",
-  backgroundColor: "white",
-};
 
 const questionTextStyle = {
   whiteSpace: "pre-line",
@@ -17,6 +11,21 @@ const questionTextStyle = {
 };
 
 function QuestionTest(props) {
+  let correctionColor = props.correction !== null && props.correction.is_correct ? "#b7eb8f" : "#ffccc7"
+  
+  const questionStyle = {
+    width: "100%",
+    marginRight: "1%",
+    marginTop: "1%",
+    backgroundColor: props.correction === null || props.correction.is_correct === null ? "white" : correctionColor,
+  };
+
+  const resultStyle = {
+    marginRight: "1%",
+    marginTop: "1%",
+    fontSize: "18px",
+  };
+  
   const [value, setValue] = useState(null);
 
   const updateOption = (e) => {
@@ -35,9 +44,14 @@ function QuestionTest(props) {
         <Paragraph style={questionTextStyle}>{props.questionText}</Paragraph>
       }
       extra={
-        <Button onClick={removeOption}>
+        <div>
+        <Button onClick={removeOption} disabled={props.testFinished}>
           <ClearOutlined />
         </Button>
+        <div>
+          {props.correction !== null ? props.correction.addedScore : <></>}
+        </div>
+        </div>
       }
       style={questionStyle}
     >
@@ -45,8 +59,8 @@ function QuestionTest(props) {
         <Space direction="vertical">
           {props.options.map((o, index) => {
             return (
-              <Radio key={index} value={index}>
-                {o.value}
+              <Radio key={index} value={index} disabled={props.testFinished}>
+                {props.correction !== null && props.correction.correctOption === index ? <div>{o.value + " ✅"}</div> : o.value }
               </Radio>
             );
           })}

@@ -123,7 +123,10 @@
     "inTestAs": "You have entered in the test as",
     "noStudentsInTest": "There are no students in the test",
     "resultsTitle": "Results of generated tests",
-    "noTestFound": "No test found"
+    "noTestFound": "No test found",
+    "testScore": "Test score",
+    "testSent": "Test sent",
+    "navigateToHome": "Go to home"
 
 
 }

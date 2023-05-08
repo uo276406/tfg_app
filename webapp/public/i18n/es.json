@@ -122,7 +122,10 @@
     "inTestAs": "Ha entrado en el test como",
     "noStudentsInTest": "No hay alumnos en el test",
     "resultsTitle": "Resultados de los tests generados",
-    "noTestFound": "No se han encontrado tests"
+    "noTestFound": "No se han encontrado tests",
+    "testScore": "Puntuación del test",
+    "testSent": "Test enviado",
+    "navigateToHome": "Volver a la página principal"
 
 
 
