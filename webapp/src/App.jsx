@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Layout } from "antd";
 import FooterApp from "./components/footer/FooterApp";
 import NavBarApp from "./components/navbar/NavBarApp";
@@ -37,13 +37,7 @@ function App() {
   // ----------------------------------------------------------------
   // Información usuario----------------------------------------------
 
-  const [username, setUsername] = useState();
-
-  useEffect(() => {
-    if (localStorage.getItem("user") !== null) {
-      setUsername(JSON.parse(localStorage.getItem("user")).name);
-    }
-  }, []);
+  const [username, setUsername] = useState(localStorage.getItem("user") !== null ? JSON.parse(localStorage.getItem("user")).name : "");
 
   const updateUser = (user) => {
     let newUser = {
@@ -54,6 +48,7 @@ function App() {
     };
     console.log(newUser);
     localStorage.setItem("user", JSON.stringify(newUser));
+    setUsername(user.name);
   };
 
   const contentStyle = {

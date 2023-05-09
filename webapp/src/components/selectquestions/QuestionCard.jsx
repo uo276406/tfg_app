@@ -122,7 +122,7 @@ function QuestionCard(props) {
 
   const handleEditInputConfirm = () => {
     const newOptions = [...options];
-    newOptions[editInputIndex] = editInputValue;
+    newOptions[editInputIndex].value = editInputValue;
     setOptions(newOptions);
     setEditInputIndex(-1);
     setInputValue("");
@@ -197,7 +197,7 @@ function QuestionCard(props) {
                 return (
                   <Input
                     ref={editInputRef}
-                    key={option.value}
+                    key={index}
                     size="small"
                     style={optionInputStyle}
                     value={editInputValue}
@@ -224,11 +224,9 @@ function QuestionCard(props) {
                 >
                   <span
                     onDoubleClick={(e) => {
-                      if (index !== 0) {
-                        setEditInputIndex(index);
-                        setEditInputValue(option);
-                        e.preventDefault();
-                      }
+                      setEditInputIndex(index);
+                      setEditInputValue(option.value);
+                      e.preventDefault();
                     }}
                   >
                     {option.value}
