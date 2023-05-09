@@ -25,6 +25,7 @@ const alertStyle = {
  */
 function JoinTestForm(props) {
   const { t } = useTranslation();
+  
 
   const showAlert = (text, textDescription) => {
     return (
@@ -86,7 +87,7 @@ function JoinTestForm(props) {
             name="basic"
             labelCol={{ span: 24 / 3 }}
             wrapperCol={{ span: 24 / 3 }}
-            initialValues={{ remember: true }}
+            initialValues={{ remember: true, testId: props.testId }}
             autoComplete="off"
             onFinish={stepIntoTest}
           >
@@ -95,7 +96,7 @@ function JoinTestForm(props) {
               name="testId"
               rules={[{ required: true, message: t("testIdCompulsory") }]}
             >
-              <Input />
+              <Input/>
             </Form.Item>
 
             <Form.Item

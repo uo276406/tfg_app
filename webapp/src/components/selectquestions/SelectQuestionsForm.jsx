@@ -123,7 +123,7 @@ function SelectQuestionsForm(props) {
             </Title>
           </Row>
           <Row span={24} justify={"center"}>
-            <QRCode iconSize={50} value={reactAppUrl + "/test"} />
+            <QRCode iconSize={50} value={reactAppUrl + "/test?testId="+testId} />
           </Row>
         </Col>
       ),
