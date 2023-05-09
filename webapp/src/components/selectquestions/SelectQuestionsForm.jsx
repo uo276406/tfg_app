@@ -8,6 +8,7 @@ import {
   Typography,
   Modal,
   QRCode,
+  notification
 } from "antd";
 import {
   DownloadOutlined,
@@ -98,9 +99,24 @@ function SelectQuestionsForm(props) {
     let connector = new TestsConnector();
     // Llama a la función de la API para guardar el test generado
     await connector.addTest(props.accessToken, questions).then((response) => {
-      openModal(response.id);
+      if (response.detail === "Unauthorized") {
+        openNotificationWithIcon("info");
+      } else
+        openModal(response.id);
+    }).catch((error) => {
+      console.log(error);
+      openNotificationWithIcon("info");
     });
   };
+
+  const openNotificationWithIcon = (type) => {
+    api[type]({
+      message: t("sessionExpired"),
+      description: t("sessionExpiredDescription"),
+    });
+  };
+
+  const [api, contextHolder] = notification.useNotification();
 
   const openModal = (testId) => {
     console.log(testId);
@@ -135,6 +151,7 @@ function SelectQuestionsForm(props) {
 
   return (
     <div>
+      {contextHolder}
       <Row span={24}>
         {props.questions.not_enough_questions_for.length > 0 ? (
           <Alert

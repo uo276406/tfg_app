@@ -48,10 +48,15 @@ function SelectKeywordsForm(props) {
     await connector
       .getQuestions(props.text, selectedKeywords, props.accessToken)
       .then((questionsFetched) => {
-        props.handleQuestions(questionsFetched);
-        console.log(questionsFetched)
-        setIsLoading(false);
-        props.changeStep(2);
+        if (questionsFetched.detail === "unauthorized") {
+          openNotificationWithIcon('info');
+        }
+        else {
+          props.handleQuestions(questionsFetched);
+          console.log(questionsFetched)
+          setIsLoading(false);
+          props.changeStep(2);
+        }
       }).catch((error) => {
         openNotificationWithIcon('info');
       });

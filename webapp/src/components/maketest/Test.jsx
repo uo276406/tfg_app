@@ -4,11 +4,7 @@ import { useTranslation } from "react-i18next";
 import QuestionTest from "./QuestionTest";
 import TestsConnector from "../../api/testsconnector";
 import QuestionsMap from "./QuestionsMap";
-import {
-  LeftOutlined,
-  RightOutlined,
-  SendOutlined,
-} from "@ant-design/icons";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 const listStyle = {
   paddingLeft: "2%",
@@ -66,6 +62,7 @@ function Test(props) {
       <QuestionTest
         key={index}
         questionText={q.question_text}
+        studentCombinationIndex={studentCombination[index]}
         options={q.options}
         index={index}
         handleUpdateOption={handleUpdateOption}
@@ -115,6 +112,7 @@ function Test(props) {
         onClick={() => {
           setIndex(index - 1);
         }}
+        disabled={index === 0}
         icon={<LeftOutlined />}
       >
         {t("previousQuestion")}
@@ -128,6 +126,7 @@ function Test(props) {
         type={"primary"}
         onClick={() => setIndex(index + 1)}
         icon={<RightOutlined />}
+        disabled={index === props.testInfo.questions.length - 1}
       >
         {t("nextQuestion")}
       </Button>
@@ -166,60 +165,27 @@ function Test(props) {
             ) : (
               props.testInfo.questions.map((q, index) => {
                 return (
-                  <QuestionTest
-                    key={index}
-                    questionText={q.question_text}
-                    options={q.options}
-                    index={index}
-                    handleUpdateOption={handleUpdateOption}
-                    correction={
-                      testResults ? testResults.correction[index] : null
-                    }
-                    testFinished={testFinished}
-                  ></QuestionTest>
+                  getQuestionIndex(index)
                 );
               })
             )}
           </Row>
-          <div>
-            {index === props.testInfo.questions.length - 1 ? (
-              <Row style={buttonStyle}>
-                <Col span={12}>
-                  {!testFinished ? <>{getpreviousButton()}</> : <></>}
-                </Col>
-                <Col span={12}>
-                  <Row justify={"end"}>
-                    {!testFinished ? (
-                      <Button
-                        type={"primary"}
-                        onClick={sendSelection}
-                        icon={<SendOutlined />}
-                      >
-                        {t("sendTest")}
-                      </Button>
-                    ) : (
-                      <></>
-                    )}
-                  </Row>
-                </Col>
-              </Row>
-            ) : (
-              <Row style={buttonStyle}>
-                <Col span={12}>{getpreviousButton()}</Col>
-                <Col span={12}>
-                  <Row justify={"end"}>{getNextQuestionButton()}</Row>
-                </Col>
-              </Row>
-            )}
-          </div>
+          {!testFinished ? (<Row style={buttonStyle}>
+            <Col span={12}>{getpreviousButton()}</Col>
+            <Col span={12}>
+              <Row justify={"end"}>{getNextQuestionButton()}</Row>
+            </Col>
+          </Row>) : (<></>)}
         </Col>
         <Col xs={24} sm={24} md={5} lg={5} xl={5} xxl={5}>
           <QuestionsMap
             questions={props.testInfo.questions}
+            studentCombination={studentCombination}
             questionIndex={index}
             updateQuestionIndex={updateQuestionIndex}
             testFinished={testFinished}
             correction={testResults ? testResults.correction : null}
+            sendSelection={sendSelection}
           ></QuestionsMap>
         </Col>
       </Row>

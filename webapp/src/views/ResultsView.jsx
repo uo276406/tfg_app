@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Collapse, Row, Col, Typography, Switch, Spin, Table, Tag } from "antd";
+import { Collapse, Row, Col, Typography, Switch, Spin, Table, Tag, notification } from "antd";
 import TestsConnector from "../api/testsconnector";
 import { useTranslation } from "react-i18next";
 
@@ -28,16 +28,32 @@ const panelStyle = {
 function ResultsView(props) {
   const { t } = useTranslation();
 
+  const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (type) => {
+    api[type]({
+      message: t("sessionExpired"),
+      description: t("sessionExpiredDescription"),
+    });
+  };
+
   const [tests, setTests] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     new TestsConnector()
       .findTestsResultsOfUser(props.accessToken)
       .then((response) => {
-        console.log(response);
-        setTests(response);
-        console.log(response);
-        setLoading(false);
+        if (response.detail !== "Unauthorized") {
+          console.log(response);
+          setTests(response);
+          console.log(response);
+          setLoading(false);
+        }
+        else if (response.detail === "Unauthorized") {
+          openNotificationWithIcon("info");
+        }
+      }).catch((error) => {
+        console.log(error);
+        openNotificationWithIcon("info");
       });
   }, [props.accessToken]);
 
@@ -88,6 +104,7 @@ function ResultsView(props) {
 
   return (
     <Spin spinning={loading}>
+      {contextHolder}
       <Row style={listStyle}>
         <Title level={3}>{t("resultsTitle")}</Title>
         <Collapse style={collapseStyle}>
@@ -126,11 +143,11 @@ function ResultsView(props) {
                       columns={columns}
                       dataSource={test.students.map((student) => {
                         return {
-                          "id": student.id,
-                          "score": student.score,
-                          "maxScore": student.max_score,
-                          "tags":
-                            student.score >= student.max_score/2 ? (
+                          id: student.id,
+                          score: student.score,
+                          maxScore: student.max_score,
+                          tags:
+                            student.score >= student.max_score / 2 ? (
                               <Tag color="green">{t("passed")}</Tag>
                             ) : (
                               <Tag color="red">{t("failed")}</Tag>

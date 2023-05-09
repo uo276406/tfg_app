@@ -5,6 +5,7 @@ import {
   CloseOutlined,
   MinusOutlined,
   HomeOutlined,
+  SendOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +27,7 @@ function QuestionMap(props) {
     navigate("/");
   };
 
-  const getButtonStyle = (questionIndex) => {
+  const getButtonCorrectStyle = (questionIndex) => {
     if (props.correction !== null) {
       if (props.correction[questionIndex].is_correct === true) {
         return { backgroundColor: "lightgreen" };
@@ -38,7 +39,15 @@ function QuestionMap(props) {
     }
   };
 
-  const getButtonIcon = (questionIndex) => {
+  const getButtonMakingTestStyle = (questionIndex, index) => {
+    if (questionIndex === index) {
+      return { backgroundColor: "lightblue" };
+    } else if (props.studentCombination[index] !== -1) {
+      return { backgroundColor: "lightgrey" };
+    }
+  };
+
+  const getButtonCorrectIcon = (questionIndex) => {
     if (props.correction !== null) {
       if (props.correction[questionIndex].is_correct === true) {
         return <CheckCircleOutlined></CheckCircleOutlined>;
@@ -49,43 +58,47 @@ function QuestionMap(props) {
       }
     }
   };
-  const getButtontype = (questionIndex, index) => {
-    if (props.testFinished) return "default";
-    if (questionIndex === index) return "primary";
-    else return "default";
-  };
 
   return (
     <div style={mapStyle}>
-        <Space direction={"vertical"}>
-      <Space wrap>
-        {props.questions.map((q, index) => {
-          return (
-            <Button
-              disabled={props.testFinished}
-              onClick={() => props.updateQuestionIndex(index)}
-              type={getButtontype(props.questionIndex, index)}
-              key={index}
-              icon={getButtonIcon(index)}
-              style={getButtonStyle(index)}
-            >
-              {index + 1}
-            </Button>
-          );
-        })}
-      </Space>
+      <Space direction={"vertical"}>
+        <Space wrap>
+          {props.questions.map((q, index) => {
+            return (
+              <Button
+                disabled={props.testFinished}
+                onClick={() => props.updateQuestionIndex(index)}
+                key={index}
+                icon={getButtonCorrectIcon(index)}
+                style={
+                  props.testFinished
+                    ? getButtonCorrectStyle(index)
+                    : getButtonMakingTestStyle(props.questionIndex, index)
+                }
+              >
+                {index + 1}
+              </Button>
+            );
+          })}
+        </Space>
 
-      {props.testFinished ? (
-        <Button
-          type={"primary"}
-          onClick={navigateToHome}
-          icon={<HomeOutlined />}
-        >
-          {t("navigateToHome")}
-        </Button>
-      ) : (
-        <></>
-      )}
+        {props.testFinished ? (
+          <Button
+            type={"primary"}
+            onClick={navigateToHome}
+            icon={<HomeOutlined />}
+          >
+            {t("navigateToHome")}
+          </Button>
+        ) : (
+          <Button
+            type={"primary"}
+            onClick={props.sendSelection}
+            icon={<SendOutlined />}
+          >
+            {t("sendTest")}
+          </Button>
+        )}
       </Space>
     </div>
   );

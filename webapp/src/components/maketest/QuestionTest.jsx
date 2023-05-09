@@ -4,23 +4,28 @@ import { ClearOutlined } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
 
-
 const questionTextStyle = {
   whiteSpace: "pre-line",
   fontSize: "18px",
 };
 
 function QuestionTest(props) {
-  let correctionColor = props.correction !== null && props.correction.is_correct ? "#B1FFCA" : "#ffccc7"
-  
+  let correctionColor =
+    props.correction !== null && props.correction.is_correct
+      ? "#B1FFCA"
+      : "#ffccc7";
+
   const questionStyle = {
     width: "100%",
     marginRight: "1%",
     marginTop: "1%",
-    backgroundColor: props.correction === null || props.correction.is_correct === null ? "white" : correctionColor,
+    backgroundColor:
+      props.correction === null || props.correction.is_correct === null
+        ? "white"
+        : correctionColor,
   };
-  
-  const [value, setValue] = useState(null);
+
+  const [value, setValue] = useState(props.studentCombinationIndex);
 
   const updateOption = (e) => {
     setValue(e.target.value);
@@ -39,12 +44,12 @@ function QuestionTest(props) {
       }
       extra={
         <div>
-        <Button onClick={removeOption} disabled={props.testFinished}>
-          <ClearOutlined />
-        </Button>
-        <div>
-          {props.correction !== null ? props.correction.addedScore : <></>}
-        </div>
+          <Button onClick={removeOption} disabled={props.testFinished}>
+            <ClearOutlined />
+          </Button>
+          <div>
+            {props.correction !== null ? props.correction.addedScore : <></>}
+          </div>
         </div>
       }
       style={questionStyle}
@@ -53,8 +58,17 @@ function QuestionTest(props) {
         <Space direction="vertical">
           {props.options.map((o, index) => {
             return (
-              <Radio key={index} value={index} disabled={props.testFinished}>
-                {props.correction !== null && props.correction.correctOption === index ? <div>{o.value + " ✅"}</div> : o.value }
+              <Radio
+                key={index}
+                value={index}
+                disabled={props.testFinished}
+              >
+                {props.correction !== null &&
+                props.correction.correctOption === index ? (
+                  <div>{o.value + " ✅"}</div>
+                ) : (
+                  o.value
+                )}
               </Radio>
             );
           })}
