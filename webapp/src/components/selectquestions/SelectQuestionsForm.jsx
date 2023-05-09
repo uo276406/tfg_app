@@ -1,11 +1,21 @@
-import { Button, Row, Col, Alert, Space, Tag, notification, Typography } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  Alert,
+  Space,
+  Tag,
+  Typography,
+  Modal,
+  QRCode,
+} from "antd";
 import {
   DownloadOutlined,
   LeftOutlined,
   FileTextOutlined,
   FilePdfOutlined,
-  CheckOutlined
-  
+  CheckOutlined,
+  CheckCircleFilled,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import QuestionCardList from "./QuestionCardList";
@@ -54,7 +64,8 @@ const buttonTxtStyle = {
   border: "black",
 };
 
-const { Paragraph } = Typography;
+const { Title } = Typography;
+const reactAppUrl = process.env.REACT_APP_WEBAPP_URL;
 
 /**
  * A functional component that renders a form for selecting questions.
@@ -84,26 +95,46 @@ function SelectQuestionsForm(props) {
 
   // Genera test --------------------------------------------------------------------
   const generateTest = async () => {
-    let connector = new TestsConnector()
+    let connector = new TestsConnector();
     // Llama a la función de la API para guardar el test generado
     await connector.addTest(props.accessToken, questions).then((response) => {
-      console.log(response)
-      openNotificationWithIcon('success', response.id)
+      openModal(response.id);
     });
   };
 
-  const [api, contextHolder] = notification.useNotification();
-  const openNotificationWithIcon = (type, testId) => {
-    api[type]({
-      message: t("testGenerated"),
-      description: <Paragraph copyable={{ text: testId }}>{t("testId") + " " + testId}</Paragraph>,
-      duration: 0,
+  const openModal = (testId) => {
+    console.log(testId);
+    Modal.success({
+      title: (
+        <Col>
+          <Row justify={"center"}>
+            <Title>{t("testGenerated")}</Title>
+          </Row>
+          <Row justify={"center"}>
+            <CheckCircleFilled style={{ fontSize: "3em", color: "green" }} />
+          </Row>
+        </Col>
+      ),
+      content: (
+        <Col>
+          <Row span={24} justify={"center"}>
+            <Title level={3} copyable={{ text: testId }}>
+              {t("testId") + " " + testId}
+            </Title>
+          </Row>
+          <Row span={24} justify={"center"}>
+            <QRCode iconSize={50} value={reactAppUrl + "/test"} />
+          </Row>
+        </Col>
+      ),
+      width: "90%",
+      okText: t("backButton"),
+      icon: null,
     });
   };
 
   return (
     <div>
-      {contextHolder}
       <Row span={24}>
         {props.questions.not_enough_questions_for.length > 0 ? (
           <Alert

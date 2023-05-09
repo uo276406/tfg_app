@@ -33,7 +33,7 @@ function QuestionCardList(props) {
 
   let [questions, setQuestions] = useState([
     ...props.questions.map((q, index) => {
-      return { id: index, question: q.question, options: q.options };
+      return { id: index, question: q.question, options: q.options, repeated: q.repeated };
     }),
   ]);
 
@@ -76,7 +76,6 @@ function QuestionCardList(props) {
 
     setQuestions(questionsList);
     props.updateQuestions(questionsList);
-    console.log(questionsList);
   };
 
   // Agrega una nueva pregunta ----------------------------------------------------
@@ -144,6 +143,7 @@ function QuestionCardList(props) {
                               id={index}
                               questionText={q.question}
                               options={q.options}
+                              repeated={q.repeated || false}
                               updateQuestion={updateQuestion}
                               deleteQuestion={deleteQuestion}
                               addNewQuestion={addNewQuestion}

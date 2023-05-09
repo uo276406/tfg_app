@@ -88,6 +88,7 @@
     "deleteSelected": "Eliminar",
     "searchPlaceholder": "Buscar...",
     "numberQuestionsGenerate": " preguntas se generarán como máximo",
+    
 
     "exportTxtButton": "Exportar a txt...",
     "addOption": "Añadir opción...",
@@ -104,6 +105,7 @@
     "generateTest": "Generar test",
     "testGenerated": "Test creado correctamente",
     "testId": "Id del test:",
+    "repeated": "Repetida",
 
     "docText1": "Aquí podrá encontrar enlaces a la documentación de la API REST de la aplicación." ,
     "docText2": "Disponible en dos tecnologías diferentes que son interactivas: Swagger UI y ReDoc. Ambas siguen la ",

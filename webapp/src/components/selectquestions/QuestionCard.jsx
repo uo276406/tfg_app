@@ -15,6 +15,7 @@ import {
   CloseCircleOutlined,
   DeleteOutlined,
   CopyOutlined,
+  WarningFilled,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 
@@ -44,9 +45,9 @@ const optionPlusStyle = {
 const optionsAdded = {
   userSelect: "none",
   fontSize: "16px",
-}; 
+};
 
-const buttonsDeleteDuplicateStyle = {width:"100px"}
+const buttonsDeleteDuplicateStyle = { width: "100px", marginLeft: "10px" };
 
 /**
  * A component that displays a question card with editable question text and options for options.
@@ -148,32 +149,41 @@ function QuestionCard(props) {
     props.addNewQuestion(questionDuplicated, props.index);
   };
 
- 
-
   return (
     <>
       <Card
         size="small"
         extra={
           <div style={buttonsDeleteDuplicateStyle}>
-            {buttonVisible ? (
-              <>
-                <Tooltip title={t("duplicateQuestion")}>
-                  <Button
-                    type="text"
-                    icon={<CopyOutlined></CopyOutlined>}
-                    onClick={handleDuplicate}
-                  />
+            <Space direction="horizontal">
+              {props.repeated ? (
+                <Tooltip title={t("repeated")}>
+                  <WarningFilled style={{ color: "orange" }}></WarningFilled>
                 </Tooltip>
-                <Tooltip title={t("deleteSelected")}>
-                  <Button
-                    type="text"
-                    icon={<DeleteOutlined></DeleteOutlined>}
-                    onClick={handleDelete}
-                  />
-                </Tooltip>
-              </>
-            ) : null}
+              ) : (
+                <></>
+              )}
+              {buttonVisible ? (
+                <>
+                  <Tooltip title={t("duplicateQuestion")}>
+                    <Button
+                      type="text"
+                      icon={<CopyOutlined></CopyOutlined>}
+                      onClick={handleDuplicate}
+                    />
+                  </Tooltip>
+                  <Tooltip title={t("deleteSelected")}>
+                    <Button
+                      type="text"
+                      icon={<DeleteOutlined></DeleteOutlined>}
+                      onClick={handleDelete}
+                    />
+                  </Tooltip>
+                </>
+              ) : (
+                <></>
+              )}
+            </Space>
           </div>
         }
         onMouseEnter={() => setButtonVisible(true)}

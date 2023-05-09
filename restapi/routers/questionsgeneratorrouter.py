@@ -29,6 +29,7 @@ class Answer(BaseModel):
 class Question(BaseModel):
     question: str
     options: list[Answer]
+    repeated: bool
 
 
 class QuestionsInfo(BaseModel):
