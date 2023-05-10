@@ -47,6 +47,10 @@ const optionsAdded = {
   fontSize: "16px",
 };
 
+const tagNumberStyle = {fontSize: "1.3em"};
+
+const warningStyle = { color: "orange", fontSize: "1.5em" };
+
 const buttonsDeleteDuplicateStyle = { width: "100px", marginLeft: "10px" };
 
 /**
@@ -158,7 +162,7 @@ function QuestionCard(props) {
             <Space direction="horizontal">
               {props.repeated ? (
                 <Tooltip title={t("repeated")}>
-                  <WarningFilled style={{ color: "orange" }}></WarningFilled>
+                  <WarningFilled style={warningStyle}></WarningFilled>
                 </Tooltip>
               ) : (
                 <></>
@@ -189,14 +193,17 @@ function QuestionCard(props) {
         onMouseEnter={() => setButtonVisible(true)}
         onMouseLeave={() => setButtonVisible(false)}
         title={
-          <Paragraph
-            editable={{
-              onChange: handleModifyQuestionText,
-            }}
-            style={questionTextStyle}
-          >
-            {questionText}
-          </Paragraph>
+          <Space direction={"horizontal"} align={"start"}>
+            <Tag style={tagNumberStyle}>{props.index + 1}</Tag>
+            <Paragraph
+              editable={{
+                onChange: handleModifyQuestionText,
+              }}
+              style={questionTextStyle}
+            >
+              {questionText}
+            </Paragraph>
+          </Space>
         }
         style={questionCardStyle}
       >

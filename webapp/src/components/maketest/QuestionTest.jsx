@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Typography, Radio, Space, Button } from "antd";
+import { Card, Typography, Radio, Space, Button, Tag } from "antd";
 import { ClearOutlined } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
@@ -8,6 +8,8 @@ const questionTextStyle = {
   whiteSpace: "pre-line",
   fontSize: "18px",
 };
+
+const tagNumberStyle = { fontSize: "1.3em" };
 
 function QuestionTest(props) {
   let correctionColor =
@@ -40,7 +42,10 @@ function QuestionTest(props) {
   return (
     <Card
       title={
-        <Paragraph style={questionTextStyle}>{props.questionText}</Paragraph>
+        <Space align={"center"}>
+          <Tag style={tagNumberStyle}>{props.index + 1}</Tag>
+          <Paragraph style={questionTextStyle}>{props.questionText}</Paragraph>
+        </Space>
       }
       extra={
         <div>
