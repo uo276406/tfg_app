@@ -140,6 +140,6 @@
     "previousQuestion": "Previous question",
     "id": "Id",
     "score": "Score",
-    "maxScore": "Max score"
+    "state": "Estado"
 
 }

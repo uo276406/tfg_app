@@ -12,7 +12,6 @@ DATABASE = os.getenv("DATABASE")
 
 engine = create_async_engine(DATABASE)
 
-
 async def insert_student(student_id, test_id):
     async with AsyncSession(engine) as session:
         student_to_add = Student(id=student_id)
@@ -43,4 +42,4 @@ async def get_students_by_test(test_id):
             (TestStudent.c.test_id == test_id)
         )
         result = await session.execute(query)
-        return result.scalars().all()
+        return result

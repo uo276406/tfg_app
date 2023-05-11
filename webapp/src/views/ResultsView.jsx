@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Collapse, Row, Col, Typography, Switch, Spin, Table, Tag, notification } from "antd";
+import {
+  Collapse,
+  Row,
+  Col,
+  Typography,
+  Switch,
+  Spin,
+  Table,
+  Badge,
+  notification,
+} from "antd";
 import TestsConnector from "../api/testsconnector";
 import { useTranslation } from "react-i18next";
 
@@ -47,11 +57,11 @@ function ResultsView(props) {
           setTests(response);
           console.log(response);
           setLoading(false);
-        }
-        else if (response.detail === "Unauthorized") {
+        } else if (response.detail === "Unauthorized") {
           openNotificationWithIcon("info");
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
         openNotificationWithIcon("info");
       });
@@ -74,6 +84,18 @@ function ResultsView(props) {
     );
   };
 
+  const getStateTag = (finished, score) => {
+    if (finished) {
+      if (score === 0) {
+        return <Badge status="error" text={t("failed")}></Badge>;
+      } else {
+        return <Badge status="success" text={t("passed")}></Badge>;
+      }
+    } else {
+      return <Badge status="processing" text={t("inProgress")}></Badge>;
+    }
+  };
+
   //Table settings
   const columns = [
     {
@@ -93,12 +115,8 @@ function ResultsView(props) {
       },
     },
     {
-      title: t("maxScore"),
-      dataIndex: "maxScore",
-    },
-    {
-      title: "Tags",
-      dataIndex: "tags",
+      title: t("state"),
+      dataIndex: "finished",
     },
   ];
 
@@ -145,13 +163,10 @@ function ResultsView(props) {
                         return {
                           id: student.id,
                           score: student.score,
-                          maxScore: student.max_score,
-                          tags:
-                            student.score >= student.max_score / 2 ? (
-                              <Tag color="green">{t("passed")}</Tag>
-                            ) : (
-                              <Tag color="red">{t("failed")}</Tag>
-                            ),
+                          finished: getStateTag(
+                            student.finished,
+                            student.score
+                          ),
                         };
                       })}
                       pagination={false}
