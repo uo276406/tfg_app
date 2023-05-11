@@ -24,7 +24,6 @@ const buttonStyle = { marginRight: "3%", marginLeft: "2%", marginBottom: "2%" };
 function Test(props) {
   const { t } = useTranslation();
 
-
   const handleUpdateOption = (option, index) => {
     let newStudentCombination = props.studentCombination;
     newStudentCombination[index] = option;
@@ -51,7 +50,7 @@ function Test(props) {
     console.log(props.studentCombination);
     let testConnector = new TestsConnector();
     testConnector
-      .checkTest(props.testId, props.student, props.studentCombination)
+      .checkAndSaveTest(props.testId, props.student, props.studentCombination)
       .then((response) => {
         if (
           response.detail !== undefined &&
@@ -89,7 +88,7 @@ function Test(props) {
 
   const getBadgeStatus = () => {
     if (testFinished) {
-      if (testResults.score >= testResults.max_score / 2) {
+      if (testResults.base10_score >= 5) {
         return "success";
       } else {
         return "error";
@@ -101,7 +100,7 @@ function Test(props) {
 
   const getBadgeText = () => {
     if (testFinished) {
-      if (testResults.score >= testResults.max_score / 2) {
+      if (testResults.base10_score >= 5) {
         return t("passed");
       } else {
         return t("failed");
@@ -154,7 +153,7 @@ function Test(props) {
           {testFinished ? (
             <Descriptions.Item labelStyle={labelStyles} label={t("testScore")}>
               {" "}
-              {testResults.score + "/" + testResults.max_score}{" "}
+              {testResults.score + "/" + testResults.max_score + " -- " + testResults.base10_score + "/10"}
             </Descriptions.Item>
           ) : (
             <></>
@@ -165,7 +164,7 @@ function Test(props) {
         </Descriptions>
       </Row>
       <Row>
-        <Col xs={24} sm={24} md={18} lg={18} xl={18} xxl={18}>
+        <Col xs={24} sm={24} md={24} lg={17} xl={17} xxl={17}>
           <Row style={listStyle}>
             {!testFinished ? (
               <>{getQuestionIndex(index)}</>
@@ -186,7 +185,7 @@ function Test(props) {
             <></>
           )}
         </Col>
-        <Col xs={24} sm={24} md={5} lg={5} xl={5} xxl={5}>
+        <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
           <QuestionsMap
             questions={props.testInfo.questions}
             studentCombination={props.studentCombination}

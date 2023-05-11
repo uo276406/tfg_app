@@ -27,10 +27,10 @@ async def get_test_by_id(test_id):
         result = await session.execute(select(Test).where(Test.id == str(test_id)))
         return result.scalars().first()
 
-async def update_test_status(new_test_status):
+async def update_test_status(test_id, test_open):
     async with AsyncSession(engine) as session:
-        test = await session.execute(select(Test).where(Test.id == str(new_test_status["id"])))
+        test = await session.execute(select(Test).where(Test.id == str(test_id)))
         test = test.scalars().first()
-        test.open = new_test_status["open"]
+        test.open = test_open
         await session.commit()
         return test

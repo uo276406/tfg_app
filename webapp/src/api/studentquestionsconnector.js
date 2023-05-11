@@ -32,6 +32,15 @@ class StudentQuestionConnector {
       }
     }).then((response) => response.json());
   }
+
+  async getNumberAnsweredQuestions(studentId, testId) {
+    return await fetch(apiendpoint + "/api/v1.0/studentquestions/answered/"+studentId+"/test/"+testId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }).then((response) => response.json());
+  }
 }
 
 

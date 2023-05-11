@@ -39,7 +39,6 @@ class FillInGapsGenerator():
                     repeated = True
                     res['there_are_repeated'] = True
                 options = self.get_options(keyword.value)
-                print(keyword.value)
                 res['questions'].append({
                     'question': question_text.replace("\n", " "),
                     'options': options,

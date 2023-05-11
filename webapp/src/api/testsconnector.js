@@ -30,7 +30,7 @@ class TestsConnector {
     }).then((response) => response.json());
   }
 
-  async checkTest(testId, studentId, studentSelection) {
+  async checkAndSaveTest(testId, studentId, studentSelection) {
     console.log(
       JSON.stringify({
         selection: studentSelection,

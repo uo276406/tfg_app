@@ -141,7 +141,8 @@
     "id": "Id",
     "score": "Score",
     "state": "Estado",
-    "copy": "Copy"
+    "copy": "Copy",
+    "update": "Update"
 
 
 }

@@ -10,9 +10,9 @@ DATABASE = os.getenv("DATABASE")
 engine = create_async_engine(DATABASE)
 
 
-async def insert_question(question):
+async def insert_question(question_id, question_text, test_id):
     async with AsyncSession(engine) as session:
-        session.add(Question(id=question["id"], question_text=question["question_text"], test_id=question["test_id"]))
+        session.add(Question(id=question_id, question_text=question_text, test_id=test_id))
         await session.commit()
 
 async def get_questions_by_test(test_id):

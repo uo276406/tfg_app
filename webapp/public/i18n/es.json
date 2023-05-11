@@ -141,8 +141,8 @@
     "previousQuestion": "Pregunta anterior",
     "id": "Id",
     "score": "Puntuación",
-    "state": "Estado"
-
+    "state": "Estado",
+    "update": "Actualizar"
 
 
 }

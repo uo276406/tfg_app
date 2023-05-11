@@ -16,3 +16,12 @@ async def insert_test_student(student_id, test_id):
                 test_id=test_id, student_id=student_id, score=0, finished=False)
         await session.execute(new_test_student)
         await session.commit()
+
+
+async def update_test_student(test_id, student_id, score, finished):
+    async with AsyncSession(engine) as session:
+        async with session.begin():
+            update_test_student = TestStudent.update().where((TestStudent.c.test_id == test_id) & (TestStudent.c.student_id == student_id)).values(
+                score=score, finished=finished)
+        await session.execute(update_test_student)
+        await session.commit()

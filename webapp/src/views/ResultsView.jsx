@@ -14,6 +14,7 @@ import {
 import TestsConnector from "../api/testsconnector";
 import { useTranslation } from "react-i18next";
 import { CloudDownloadOutlined } from "@ant-design/icons";
+import StudentQuestionConnector from "../api/studentquestionsconnector";
 
 const { Panel } = Collapse;
 const { Paragraph, Title } = Typography;
@@ -52,27 +53,21 @@ function ResultsView(props) {
     });
   };
 
-  const updateResults = () => {
+  const [tests, setTests] = useState([]);
+  const updateResults = async () => {
     setLoading(true);
-    new TestsConnector()
-      .findTestsResultsOfUser(props.accessToken)
-      .then((response) => {
-        if (response.detail !== "Unauthorized") {
-          console.log(response);
-          setTests(response);
-          console.log(response);
-          setLoading(false);
-        } else if (response.detail === "Unauthorized") {
-          openNotificationWithIcon("info");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        openNotificationWithIcon("info");
-      });
+    let results = await new TestsConnector().findTestsResultsOfUser(
+      props.accessToken
+    );
+    if (results.detail !== "Unauthorized") {
+      setTests(results);
+      console.log(results);
+      setLoading(false);
+    } else if (results.detail === "Unauthorized") {
+      openNotificationWithIcon("info");
+    }
   };
 
-  const [tests, setTests] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (props.accessToken !== "") {
@@ -130,6 +125,18 @@ function ResultsView(props) {
     {
       title: t("state"),
       dataIndex: "finished",
+      sorter: {
+        compare: (a, b) => a.finished - b.finished,
+        multiple: 3,
+      },
+    },
+    {
+      title: t("answered"),
+      dataIndex: "answered",
+      sorter: {
+        compare: (a, b) => a.answered - b.answered,
+        multiple: 3,
+      },
     },
   ];
 
@@ -137,7 +144,7 @@ function ResultsView(props) {
     <Spin spinning={loading}>
       {contextHolder}
       <Row style={listStyle}>
-        <Col xs={24} sm={24} md={21} lg={22} xl={22} xxl={22}>
+        <Col xs={24} sm={24} md={21} lg={21} xl={21} xxl={21}>
           <Title level={3}>{t("resultsTitle")}</Title>
         </Col>
         <Col
@@ -145,16 +152,16 @@ function ResultsView(props) {
           xs={24}
           sm={24}
           md={2}
-          lg={1}
-          xl={1}
-          xxl={1}
+          lg={2}
+          xl={2}
+          xxl={2}
         >
           <Button
             type="primary"
             onClick={updateResults}
             icon={<CloudDownloadOutlined />}
           >
-            Update
+            {t("update")}
           </Button>
         </Col>
 
@@ -167,7 +174,9 @@ function ResultsView(props) {
                   header={
                     <Row style={panelStyle}>
                       <Col xs={24} sm={18} md={18} lg={18} xl={18} xxl={18}>
-                        <Paragraph copyable={{ text: test.id, tooltips:t("copy") }}>
+                        <Paragraph
+                          copyable={{ text: test.id, tooltips: t("copy") }}
+                        >
                           {"Id: " + test.id}
                         </Paragraph>
                       </Col>
@@ -178,7 +187,7 @@ function ResultsView(props) {
                         <Switch
                           checkedChildren={t("closeTest")}
                           unCheckedChildren={t("openTest")}
-                          defaultChecked={test.status}
+                          defaultChecked={test.open}
                           onChange={(checked, event) =>
                             changeTestState(checked, event, test.id)
                           }
@@ -194,6 +203,7 @@ function ResultsView(props) {
                       columns={columns}
                       dataSource={test.students.map((student) => {
                         return {
+                          key: student.id,
                           id: student.id,
                           score: student.score,
                           finished: getStateTag(
