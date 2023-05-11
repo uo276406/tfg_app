@@ -5,6 +5,7 @@ import QuestionTest from "./QuestionTest";
 import TestsConnector from "../../api/testsconnector";
 import QuestionsMap from "./QuestionsMap";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import StudentQuestionConnector from "../../api/studentquestionsconnector";
 
 const listStyle = {
   paddingLeft: "2%",
@@ -32,6 +33,19 @@ function Test(props) {
     newStudentCombination[index] = option;
     setStudentCombination(newStudentCombination);
     console.log(studentCombination);
+
+    let studentQuestionConnector = new StudentQuestionConnector();
+
+    studentQuestionConnector
+      .updateStudentQuestion(
+        props.student,
+        props.testInfo.questions[index].id,
+        option
+      )
+      .then((response) => {
+        console.log(response);
+      });
+
     // Actualizar pregunta contestada
   };
 
@@ -149,10 +163,7 @@ function Test(props) {
           ) : (
             <></>
           )}
-          <Descriptions.Item
-            labelStyle={labelStyles}
-            label={t("markSummary")}
-          >
+          <Descriptions.Item labelStyle={labelStyles} label={t("markSummary")}>
             <Badge status={getBadgeStatus()} text={getBadgeText()} />
           </Descriptions.Item>
         </Descriptions>
@@ -164,18 +175,20 @@ function Test(props) {
               <>{getQuestionIndex(index)}</>
             ) : (
               props.testInfo.questions.map((q, index) => {
-                return (
-                  getQuestionIndex(index)
-                );
+                return getQuestionIndex(index);
               })
             )}
           </Row>
-          {!testFinished ? (<Row style={buttonStyle}>
-            <Col span={12}>{getpreviousButton()}</Col>
-            <Col span={12}>
-              <Row justify={"end"}>{getNextQuestionButton()}</Row>
-            </Col>
-          </Row>) : (<></>)}
+          {!testFinished ? (
+            <Row style={buttonStyle}>
+              <Col span={12}>{getpreviousButton()}</Col>
+              <Col span={12}>
+                <Row justify={"end"}>{getNextQuestionButton()}</Row>
+              </Col>
+            </Row>
+          ) : (
+            <></>
+          )}
         </Col>
         <Col xs={24} sm={24} md={5} lg={5} xl={5} xxl={5}>
           <QuestionsMap
