@@ -1,5 +1,5 @@
 from fastapi import Depends, FastAPI
-from routers import keywordsrouter, questionsgeneratorrouter, usersrouter, authrouter, testrouter, studentsrouter
+from routers import keywordsrouter, questionsgeneratorrouter, usersrouter, authrouter, testrouter, studentsrouter, studentquestionsrouter
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -31,6 +31,8 @@ app.include_router(testrouter.router, prefix=version + "/test",
                    tags=["test"])
 app.include_router(studentsrouter.router, prefix=version +
                    "/students", tags=["students"])
+app.include_router(studentquestionsrouter.router, prefix=version +
+                     "/studentquestions", tags=["studentquestions"])
 
 
 # Ajustes de CORS -----------------------------------------

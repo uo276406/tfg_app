@@ -32,6 +32,7 @@ function Test(props) {
     newStudentCombination[index] = option;
     setStudentCombination(newStudentCombination);
     console.log(studentCombination);
+    // Actualizar pregunta contestada
   };
 
   const [testFinished, setTestFinished] = useState(false);

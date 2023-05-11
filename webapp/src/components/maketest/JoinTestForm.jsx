@@ -3,6 +3,7 @@ import { Button, Form, Input, Card, Col, Row, Alert } from "antd";
 import { useTranslation } from "react-i18next";
 import TestsConnector from "../../api/testsconnector";
 import StudentsConnector from "../../api/studentconnector";
+import StudentQuestionConnector from "../../api/studentquestionsconnector";
 
 const loginStyle = {
   margin: "2%",
@@ -45,6 +46,7 @@ function JoinTestForm(props) {
   const stepIntoTest = async (values) => {
     let studentConnector = new StudentsConnector();
     let testConnector = new TestsConnector();
+    let studentQuestionConnector = new StudentQuestionConnector();
     let test = await testConnector.getTest(values.testId);
     if (test.detail !== undefined && test.detail === "Test not found") {
       setTestNotFound(true);
@@ -57,8 +59,14 @@ function JoinTestForm(props) {
     }
     // Comprobar si el usuario ha terminado el test o si no lo ha completado aún
     else {
-      await studentConnector.addStudent(values.studentId, values.testId);
-      await studentConnector.findStudentInTest(values.studentId, values.testId);
+      let responseAdded = await studentConnector.addStudent(values.studentId, values.testId);
+      let responseInTest = await studentConnector.findStudentInTest(values.studentId, values.testId);
+      console.log(responseAdded);console.log(responseInTest);
+      // Inicializa en la base de datos las preguntas del estudiante
+      for(let i = 0; i < test.questions.length; i++) {
+        let response = await studentQuestionConnector.addStudentQuestion(values.studentId, test.questions[i].id, -1);
+        console.log(response);
+      }
       props.handleSetStudent(values.studentId);
       props.handleSetTestInfo(test, values.testId);
       props.handleStep(1);

@@ -87,7 +87,7 @@ async def get_tests(test_id: str):
         test_found = {"questions": []}
         questions_found = await get_questions_by_test(test_id)
         for question in questions_found:
-            question_found = {
+            question_found = { "id": question.id,
                 "question_text": question.question_text, "options": []}
             options_found = await get_options_by_question(question.id)
             for option in options_found:
