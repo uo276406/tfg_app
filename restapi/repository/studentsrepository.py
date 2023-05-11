@@ -16,8 +16,6 @@ async def insert_student(student_id, test_id):
     async with AsyncSession(engine) as session:
         student_to_add = Student(id=student_id)
         session.add(student_to_add)
-        new_test_student = TestStudent.insert().values(test_id=test_id, student_id=student_id, score=0, finished=False)
-        await session.execute(new_test_student)
         await session.commit()
 
 async def find_student_by_id(student_id):

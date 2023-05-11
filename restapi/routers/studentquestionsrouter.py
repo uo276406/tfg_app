@@ -17,7 +17,7 @@ class Answer(BaseModel):
 @router.post("/add", status_code=status.HTTP_201_CREATED, description="Adds new answer done by the user")
 async def add_student_question(answer: Answer):
     question_answered = await get_student_questions_by_ids(answer.student_id, answer.question_id)
-    if question_answered == None or question_answered.answer != -1:
+    if question_answered == None:
         await insert_student_question(answer.student_id, answer.question_id, answer.option)
         return {"message": "Answer added successfully"}
     else:

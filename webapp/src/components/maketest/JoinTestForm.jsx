@@ -59,17 +59,29 @@ function JoinTestForm(props) {
     }
     // Comprobar si el usuario ha terminado el test o si no lo ha completado aún
     else {
-      let responseAdded = await studentConnector.addStudent(values.studentId, values.testId);
-      let responseInTest = await studentConnector.findStudentInTest(values.studentId, values.testId);
-      console.log(responseAdded);console.log(responseInTest);
-      // Inicializa en la base de datos las preguntas del estudiante
-      for(let i = 0; i < test.questions.length; i++) {
-        let response = await studentQuestionConnector.addStudentQuestion(values.studentId, test.questions[i].id, -1);
-        console.log(response);
+      let responseAdded = await studentConnector.addStudent(
+        values.studentId,
+        values.testId
+      );
+      if (
+        responseAdded.message !== undefined &&
+        responseAdded.message === "Student already exists in test"
+      ) {
+        //Load last state
+      } else {
+        console.log(responseAdded);
+        // Inicializa en la base de datos las preguntas del estudiante
+        for (let i = 0; i < test.questions.length; i++) {
+          await studentQuestionConnector.addStudentQuestion(
+            values.studentId,
+            test.questions[i].id,
+            -1
+          );
+        }
+        props.handleSetStudent(values.studentId);
+        props.handleSetTestInfo(test, values.testId);
+        props.handleStep(1);
       }
-      props.handleSetStudent(values.studentId);
-      props.handleSetTestInfo(test, values.testId);
-      props.handleStep(1);
     }
   };
 

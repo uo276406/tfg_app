@@ -36,4 +36,4 @@ async def get_student_questions_by_ids(student_id, question_id):
             (StudentQuestion.c.question_id == question_id)
         )
         result = await session.execute(query)
-        return result.scalars().first()
+        return result.scalars().all()
