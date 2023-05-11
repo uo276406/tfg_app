@@ -9,6 +9,7 @@ from .base import Base
 # Modelos --------------------------------------------------
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
+    __tablename__ = "User"
     name = Column(String, nullable=False)
     surname1 = Column(String, nullable=False)
     surname2 = Column(String)

@@ -2,18 +2,18 @@
 from sqlalchemy import String, DateTime, ForeignKey, Boolean, Column
 from sqlalchemy.orm import relationship
 from .base import Base
-from .test_student import test_student
+from .teststudent import TestStudent
 
 
 class Test(Base):
-    __tablename__ = 'test'
+    __tablename__ = 'Test'
 
     id = Column(String(30), primary_key=True)
-    user_id = Column(String(30), ForeignKey('user.id'))
-    question_id = Column(String(30), ForeignKey('question.id'))
+    user_id = Column(String(30), ForeignKey('User.id'))
+    question_id = Column(String(30), ForeignKey('Question.id'))
     created_at = Column(DateTime, nullable=False)
     status = Column(Boolean, nullable=False)
-    students = relationship("Student", secondary=test_student, back_populates="tests")
+    students = relationship("Student", secondary=TestStudent, back_populates="tests")
 
 
 

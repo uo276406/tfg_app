@@ -2,7 +2,7 @@ from fastapi import APIRouter, status, Depends, HTTPException
 from users.usersmanager import fastapi_users
 from repository.testrepository import insert_test, get_tests_by_user, get_test_by_id, update_test_status
 from repository.questionsrepository import insert_question, get_questions_by_test
-from repository.answersrepository import insert_answer, get_answers_by_question
+from repository.optionsrepository import insert_option, get_options_by_question
 from repository.studentsrepository import insert_student, get_students_by_test
 from testcorrector.testcorrector import TestCorrector
 from models.user import User
@@ -15,14 +15,14 @@ router = APIRouter()
 # Modelos: Request --------------------------------------------------
 
 
-class Answer(BaseModel):
+class Option(BaseModel):
     value: str
     correct: bool
 
 
 class Question(BaseModel):
     question: str
-    options: list[Answer]
+    options: list[Option]
 
 
 class Test(BaseModel):
@@ -52,7 +52,7 @@ async def add_test(test: Test, user: User = Depends(current_active_user)):
         question_id = str(uuid.uuid4())
         await insert_question({"id": question_id, "question_text": question.question, "test_id": test_id})
         for option in question.options:
-            await insert_answer({"id": str(uuid.uuid4()), "value": option.value, "is_correct": option.correct, "question_id": question_id})
+            await insert_option({"id": str(uuid.uuid4()), "value": option.value, "is_correct": option.correct, "question_id": question_id})
     return {"id": test_id}
 
 
@@ -66,17 +66,17 @@ async def find_user_tests(user: User = Depends(current_active_user)):
         for question in questions_found:
             question_found = {"id": question.id, "question_text": question.question_text,
                               "test_id": question.test_id, "options": []}
-            answers_found = await get_answers_by_question(question.id)
-            for answer in answers_found:
-                answer_found = {"id": answer.id, "value": answer.value,
-                                "is_correct": answer.is_correct, "question_id": answer.question_id}
-                question_found["options"].append(answer_found)
+            options_found = await get_options_by_question(question.id)
+            for option in options_found:
+                option_found = {"id": option.id, "value": option.value,
+                                "is_correct": option.is_correct, "question_id": option.question_id}
+                question_found["options"].append(option_found)
             test_found["questions"].append(question_found)
         res.append(test_found)
     return res
 
 
-@router.get("/{test_id}", status_code=status.HTTP_200_OK, description="Get specific test questions and posible answers")
+@router.get("/{test_id}", status_code=status.HTTP_200_OK, description="Get specific test questions and posible options")
 async def get_tests(test_id: str):
     test_found = await get_test_by_id(test_id)
     if test_found == None:
@@ -89,10 +89,10 @@ async def get_tests(test_id: str):
         for question in questions_found:
             question_found = {
                 "question_text": question.question_text, "options": []}
-            answers_found = await get_answers_by_question(question.id)
-            for answer in answers_found:
-                answer_found = {"value": answer.value}
-                question_found["options"].append(answer_found)
+            options_found = await get_options_by_question(question.id)
+            for option in options_found:
+                option_found = {"value": option.value}
+                question_found["options"].append(option_found)
             test_found["questions"].append(question_found)
         return test_found
 
@@ -111,11 +111,11 @@ async def test_ckeck(test_check: TestCheck):
         for question in questions_found:
             question_found = {
                 "question_text": question.question_text, "options": []}
-            answers_found = await get_answers_by_question(question.id)
-            for answer in answers_found:
-                answer_found = {"value": answer.value,
-                                "is_correct": answer.is_correct}
-                question_found["options"].append(answer_found)
+            options_found = await get_options_by_question(question.id)
+            for option in options_found:
+                option_found = {"value": option.value,
+                                "is_correct": option.is_correct}
+                question_found["options"].append(option_found)
             test_found["questions"].append(question_found)
         # Corrige el test pregunta por pregunta
         test_corrector = TestCorrector()

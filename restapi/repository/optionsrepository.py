@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from models.answer import Answer
+from models.option import Option
 from sqlalchemy import select
 from dotenv import load_dotenv
 import os
@@ -10,13 +10,13 @@ DATABASE = os.getenv("DATABASE")
 engine = create_async_engine(DATABASE)
 
 
-async def insert_answer(answer):
+async def insert_option(option):
     async with AsyncSession(engine) as session:
-        session.add(Answer(id=answer["id"], value=answer["value"], is_correct=answer["is_correct"], question_id=answer["question_id"]))
+        session.add(Option(id=option["id"], value=option["value"], is_correct=option["is_correct"], question_id=option["question_id"]))
         await session.commit()
 
-async def get_answers_by_question(question_id):
+async def get_options_by_question(question_id):
     async with AsyncSession(engine) as session:
-        result = await session.execute(select(Answer).filter(Answer.question_id == str(question_id)))
+        result = await session.execute(select(Option).filter(Option.question_id == str(question_id)))
         return result.scalars().all()
 

@@ -1,16 +1,17 @@
 
-from sqlalchemy import String, Column
+from sqlalchemy import String, Column, ForeignKey
 from sqlalchemy.orm import relationship
 from .base import Base
-from .student_question import student_question
+from .studentquestion import StudentQuestion
 
 
 class Question(Base):
-    __tablename__ = 'question'
+    __tablename__ = 'Question'
 
     id = Column(String(30), primary_key=True)
     question_text = Column(String(100), nullable=False)
-    students = relationship("Student", secondary=student_question, back_populates="questions")
+    test_id = Column(String(30), ForeignKey('Test.id'))
+    students = relationship("Student", secondary=StudentQuestion, back_populates="questions")
 
 
 
