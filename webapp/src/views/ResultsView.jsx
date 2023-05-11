@@ -9,16 +9,17 @@ import {
   Table,
   Badge,
   notification,
+  Button,
 } from "antd";
 import TestsConnector from "../api/testsconnector";
 import { useTranslation } from "react-i18next";
+import { CloudDownloadOutlined } from "@ant-design/icons";
 
 const { Panel } = Collapse;
 const { Paragraph, Title } = Typography;
 
 const listStyle = {
   paddingLeft: "2%",
-  paddingBottom: "2%",
   paddingRight: "2%",
   backgroundColor: "lightgray",
   overflow: "scroll",
@@ -35,6 +36,11 @@ const panelStyle = {
   fontWeight: "bold",
 };
 
+const buttonUpdateStyle = {
+  marginTop: "1.5%",
+  marginBottom: "0.5%",
+};
+
 function ResultsView(props) {
   const { t } = useTranslation();
 
@@ -46,9 +52,8 @@ function ResultsView(props) {
     });
   };
 
-  const [tests, setTests] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
+  const updateResults = () => {
+    setLoading(true);
     new TestsConnector()
       .findTestsResultsOfUser(props.accessToken)
       .then((response) => {
@@ -65,6 +70,14 @@ function ResultsView(props) {
         console.log(error);
         openNotificationWithIcon("info");
       });
+  };
+
+  const [tests, setTests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (props.accessToken !== "") {
+      updateResults();
+    }
   }, [props.accessToken]);
 
   const getDate = (date) => {
@@ -124,7 +137,27 @@ function ResultsView(props) {
     <Spin spinning={loading}>
       {contextHolder}
       <Row style={listStyle}>
-        <Title level={3}>{t("resultsTitle")}</Title>
+        <Col xs={24} sm={24} md={21} lg={22} xl={22} xxl={22}>
+          <Title level={3}>{t("resultsTitle")}</Title>
+        </Col>
+        <Col
+          style={buttonUpdateStyle}
+          xs={24}
+          sm={24}
+          md={2}
+          lg={1}
+          xl={1}
+          xxl={1}
+        >
+          <Button
+            type="primary"
+            onClick={updateResults}
+            icon={<CloudDownloadOutlined />}
+          >
+            Update
+          </Button>
+        </Col>
+
         <Collapse style={collapseStyle}>
           {tests.length !== 0 ? (
             tests.map((test, index) => {
@@ -134,7 +167,7 @@ function ResultsView(props) {
                   header={
                     <Row style={panelStyle}>
                       <Col xs={24} sm={18} md={18} lg={18} xl={18} xxl={18}>
-                        <Paragraph copyable={{ text: test.id }}>
+                        <Paragraph copyable={{ text: test.id, tooltips:t("copy") }}>
                           {"Id: " + test.id}
                         </Paragraph>
                       </Col>

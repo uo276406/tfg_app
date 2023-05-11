@@ -67,21 +67,36 @@ function JoinTestForm(props) {
         responseAdded.message !== undefined &&
         responseAdded.message === "Student already exists in test"
       ) {
-        //Load last state
+        let lastCombination = [];
+        for (let i = 0; i < test.questions.length; i++) {
+          console.log(test.questions[i].id)
+          lastCombination.push(
+            await studentQuestionConnector.getStudentCombination(
+              values.studentId,
+              test.questions[i].id
+            )
+          );
+        }
+
+        console.log(lastCombination);
+        props.handleSetStudentCombination(lastCombination)
+
       } else {
         console.log(responseAdded);
         // Inicializa en la base de datos las preguntas del estudiante
         for (let i = 0; i < test.questions.length; i++) {
-          await studentQuestionConnector.addStudentQuestion(
+          let studentQuestion = await studentQuestionConnector.addStudentQuestion(
             values.studentId,
             test.questions[i].id,
             -1
           );
+          console.log(studentQuestion)
         }
-        props.handleSetStudent(values.studentId);
-        props.handleSetTestInfo(test, values.testId);
-        props.handleStep(1);
+        props.handleSetStudentCombination(test.questions.map((question) => -1))
       }
+      props.handleSetStudent(values.studentId);
+      props.handleSetTestInfo(test, values.testId);
+      props.handleStep(1);
     }
   };
 

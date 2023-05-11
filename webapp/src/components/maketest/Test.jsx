@@ -24,15 +24,11 @@ const buttonStyle = { marginRight: "3%", marginLeft: "2%", marginBottom: "2%" };
 function Test(props) {
   const { t } = useTranslation();
 
-  const [studentCombination, setStudentCombination] = useState(
-    props.testInfo.questions.map((q) => -1)
-  );
 
   const handleUpdateOption = (option, index) => {
-    let newStudentCombination = studentCombination;
+    let newStudentCombination = props.studentCombination;
     newStudentCombination[index] = option;
-    setStudentCombination(newStudentCombination);
-    console.log(studentCombination);
+    props.handleSetStudentCombination(newStudentCombination);
 
     let studentQuestionConnector = new StudentQuestionConnector();
 
@@ -52,10 +48,10 @@ function Test(props) {
   const [testFinished, setTestFinished] = useState(false);
   const [testResults, setTestResults] = useState(); // [ {questionId: 1, optionId: 2}, ...
   const sendSelection = () => {
-    console.log(studentCombination);
+    console.log(props.studentCombination);
     let testConnector = new TestsConnector();
     testConnector
-      .checkTest(props.testId, props.student, studentCombination)
+      .checkTest(props.testId, props.student, props.studentCombination)
       .then((response) => {
         if (
           response.detail !== undefined &&
@@ -77,7 +73,7 @@ function Test(props) {
       <QuestionTest
         key={index}
         questionText={q.question_text}
-        studentCombinationIndex={studentCombination[index]}
+        studentCombinationIndex={props.studentCombination[index]}
         options={q.options}
         index={index}
         handleUpdateOption={handleUpdateOption}
@@ -193,7 +189,7 @@ function Test(props) {
         <Col xs={24} sm={24} md={5} lg={5} xl={5} xxl={5}>
           <QuestionsMap
             questions={props.testInfo.questions}
-            studentCombination={studentCombination}
+            studentCombination={props.studentCombination}
             questionIndex={index}
             updateQuestionIndex={updateQuestionIndex}
             testFinished={testFinished}

@@ -60,7 +60,7 @@ class TestsConnector {
       },
       body: JSON.stringify({
         id: id,
-        status: checked,
+        open: checked,
       }),
     }).then((response) => response.json());
   }

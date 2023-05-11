@@ -24,6 +24,14 @@ class StudentQuestionConnector {
     }).then((response) => response.json());
   }
 
+  async getStudentCombination(studentId, questionId) {
+    return await fetch(apiendpoint + "/api/v1.0/studentquestions/combination/"+studentId+"/"+questionId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    }).then((response) => response.json());
+  }
 }
 
 

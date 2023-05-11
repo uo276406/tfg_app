@@ -37,3 +37,12 @@ async def get_student_questions_by_ids(student_id, question_id):
         )
         result = await session.execute(query)
         return result.scalars().all()
+    
+async def get_student_questions_combination(student_id, question_id):
+    async with AsyncSession(engine) as session:
+        query = select(StudentQuestion.c.answer).where(
+            (StudentQuestion.c.student_id == student_id) &
+            (StudentQuestion.c.question_id == question_id)
+        )
+        result = await session.execute(query)
+        return result.scalars().all()

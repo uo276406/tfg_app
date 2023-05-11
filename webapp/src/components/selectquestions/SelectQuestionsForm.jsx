@@ -8,7 +8,7 @@ import {
   Typography,
   Modal,
   QRCode,
-  notification
+  notification,
 } from "antd";
 import {
   DownloadOutlined,
@@ -17,6 +17,7 @@ import {
   FilePdfOutlined,
   CheckOutlined,
   CheckCircleFilled,
+  ShareAltOutlined,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import QuestionCardList from "./QuestionCardList";
@@ -65,7 +66,7 @@ const buttonTxtStyle = {
   border: "black",
 };
 
-const { Title } = Typography;
+const { Title, Link, Text, Paragraph } = Typography;
 const reactAppUrl = process.env.REACT_APP_WEBAPP_URL;
 
 /**
@@ -98,15 +99,17 @@ function SelectQuestionsForm(props) {
   const generateTest = async () => {
     let connector = new TestsConnector();
     // Llama a la función de la API para guardar el test generado
-    await connector.addTest(props.accessToken, questions).then((response) => {
-      if (response.detail === "Unauthorized") {
+    await connector
+      .addTest(props.accessToken, questions)
+      .then((response) => {
+        if (response.detail === "Unauthorized") {
+          openNotificationWithIcon("info");
+        } else openModal(response.id);
+      })
+      .catch((error) => {
+        console.log(error);
         openNotificationWithIcon("info");
-      } else
-        openModal(response.id);
-    }).catch((error) => {
-      console.log(error);
-      openNotificationWithIcon("info");
-    });
+      });
   };
 
   const openNotificationWithIcon = (type) => {
@@ -134,12 +137,28 @@ function SelectQuestionsForm(props) {
       content: (
         <Col>
           <Row span={24} justify={"center"}>
-            <Title level={3} copyable={{ text: testId }}>
+            <Title level={3} copyable={{ text: testId, tooltips: t("copy") }}>
               {t("testId") + " " + testId}
             </Title>
           </Row>
           <Row span={24} justify={"center"}>
-            <QRCode iconSize={50} value={reactAppUrl + "/test?testId="+testId} />
+            <QRCode
+              iconSize={50}
+              value={reactAppUrl + "/test?testId=" + testId}
+            />
+          </Row>
+          <Row span={24} justify={"center"}>
+            <Paragraph
+              copyable={{
+                text: reactAppUrl + "/test?testId=" + testId,
+                tooltips: t("copy"),
+              }}
+            >
+              <Text>{"URL: "}</Text>
+              <Link href={reactAppUrl + "/test?testId=" + testId}>
+                {reactAppUrl + "/test?testId=" + testId}
+              </Link>
+            </Paragraph>
           </Row>
         </Col>
       ),

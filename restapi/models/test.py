@@ -10,9 +10,8 @@ class Test(Base):
 
     id = Column(String(30), primary_key=True)
     user_id = Column(String(30), ForeignKey('User.id'))
-    question_id = Column(String(30), ForeignKey('Question.id'))
     created_at = Column(DateTime, nullable=False)
-    status = Column(Boolean, nullable=False)
+    open = Column(Boolean, nullable=False)
     students = relationship("Student", secondary=TestStudent, back_populates="tests")
 
 

@@ -25,6 +25,7 @@
     "sessionExpired": "Sesión expirada",
     "sessionExpiredDescription": "La sesión ha expirado. Por favor, vuelva a iniciar sesión.",
     "createExams": "Crear examen",
+    "copy": "Copiar",
 
     "inputEmailCompulsory": "Introduzca su email",
     "inputPasswordCompulsory": "Introduzca su contraseña",
