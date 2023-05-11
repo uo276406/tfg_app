@@ -2,7 +2,6 @@ from fastapi import Depends, FastAPI
 from routers import keywordsrouter, questionsgeneratorrouter, usersrouter, authrouter, testrouter, studentsrouter
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from pathlib import Path
 from sqlalchemy.ext.asyncio import create_async_engine
 from models.base import Base
 import os
@@ -30,7 +29,8 @@ app.include_router(authrouter.router, prefix=version + "/auth",
                    tags=["auth"])
 app.include_router(testrouter.router, prefix=version + "/test",
                    tags=["test"])
-app.include_router(studentsrouter.router, prefix=version + "/students", tags=["students"])
+app.include_router(studentsrouter.router, prefix=version +
+                   "/students", tags=["students"])
 
 
 # Ajustes de CORS -----------------------------------------
@@ -47,14 +47,12 @@ app.add_middleware(
 
 # Base de datos -------------------------------------------
 
+
 @app.on_event("startup")
 async def startup():
-
     load_dotenv()
     DATABASE = os.getenv("DATABASE")
-
     engine = create_async_engine(DATABASE)
-
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 

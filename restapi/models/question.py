@@ -1,15 +1,16 @@
 
-from sqlalchemy import String, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Column
+from sqlalchemy.orm import relationship
 from .base import Base
+from .student_question import student_question
 
 
 class Question(Base):
     __tablename__ = 'question'
 
-    id: Mapped[str] = mapped_column(String(30), primary_key=True)
-    question_text: Mapped[str] = mapped_column(String(100), nullable=False)
-    test_id: Mapped[str] = mapped_column(String(30), ForeignKey('user.id'), primary_key=True)
+    id = Column(String(30), primary_key=True)
+    question_text = Column(String(100), nullable=False)
+    students = relationship("Student", secondary=student_question, back_populates="questions")
 
 
 

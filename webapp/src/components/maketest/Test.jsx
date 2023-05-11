@@ -151,7 +151,6 @@ function Test(props) {
           <Descriptions.Item
             labelStyle={labelStyles}
             label={t("markSummary")}
-            span={3}
           >
             <Badge status={getBadgeStatus()} text={getBadgeText()} />
           </Descriptions.Item>

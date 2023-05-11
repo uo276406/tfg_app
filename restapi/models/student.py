@@ -1,15 +1,16 @@
-
-from sqlalchemy import String, REAL, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Column
+from sqlalchemy.orm import relationship
 from .base import Base
+from .student_question import student_question
+from .test_student import test_student
 
 class Student(Base):
      __tablename__ = 'student'
 
-     id: Mapped[str] = mapped_column(String(30), primary_key=True)
-     score: Mapped[float] = mapped_column(REAL, nullable=False)
-     test_id: Mapped[str] = mapped_column(String(30), ForeignKey('test.id'), primary_key=True)
-     max_score: Mapped[float] = mapped_column(REAL, nullable=False)
+     id= Column(String(30), primary_key=True)
+     tests = relationship("Test", secondary=test_student, back_populates="students")
+     questions = relationship("Question", secondary=student_question, back_populates="students")
+
 
 
 
