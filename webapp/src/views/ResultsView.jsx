@@ -14,7 +14,7 @@ import {
 import TestsConnector from "../api/testsconnector";
 import { useTranslation } from "react-i18next";
 import { CloudDownloadOutlined } from "@ant-design/icons";
-import StudentQuestionConnector from "../api/studentquestionsconnector";
+import StudentQuestionsConnector from "../api/studentquestionsconnector";
 
 const { Panel } = Collapse;
 const { Paragraph, Title } = Typography;
@@ -56,15 +56,31 @@ function ResultsView(props) {
   const [tests, setTests] = useState([]);
   const updateResults = async () => {
     setLoading(true);
-    let results = await new TestsConnector().findTestsResultsOfUser(
+    let tests = await new TestsConnector().findTestsResultsOfUser(
       props.accessToken
     );
-    if (results.detail !== "Unauthorized") {
-      setTests(results);
-      console.log(results);
+    if (tests.detail !== "Unauthorized") {
+      let updatedTests = await Promise.all(
+        tests.map(async (test) => {
+          let updatedStudent = await Promise.all(
+            test.students.map(async (student) => {
+              let addedNumer = new StudentQuestionsConnector()
+                .getNumberAnsweredQuestions(student.id, test.id)
+                .then((response) => {
+                  return { ...student, answered: response["number_answered"] };
+                });
+              return addedNumer;
+            })
+          );
+          return { ...test, students: updatedStudent };
+        })
+      );
       setLoading(false);
-    } else if (results.detail === "Unauthorized") {
+      console.log(updatedTests);
+      setTests(updatedTests);
+    } else if (tests.detail === "Unauthorized") {
       openNotificationWithIcon("info");
+      return [];
     }
   };
 
@@ -94,7 +110,7 @@ function ResultsView(props) {
 
   const getStateTag = (finished, score) => {
     if (finished) {
-      if (score === 0) {
+      if (score <= 5) {
         return <Badge status="error" text={t("failed")}></Badge>;
       } else {
         return <Badge status="success" text={t("passed")}></Badge>;
@@ -170,7 +186,7 @@ function ResultsView(props) {
             tests.map((test, index) => {
               return (
                 <Panel
-                  key={index}
+                  key={test.id}
                   header={
                     <Row style={panelStyle}>
                       <Col xs={24} sm={18} md={18} lg={18} xl={18} xxl={18}>
@@ -210,6 +226,7 @@ function ResultsView(props) {
                             student.finished,
                             student.score
                           ),
+                          answered: student.answered,
                         };
                       })}
                       pagination={false}

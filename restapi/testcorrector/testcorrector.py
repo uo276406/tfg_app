@@ -17,5 +17,9 @@ class TestCorrector:
             else:
                 res["correction"].append({'is_correct': None, 'addedScore': 0, 'correctOption': index_of_correct})
             res["max_score"] += 1
-        res["base10_score"] = res["score"]*10/res["max_score"]
+        if(res["score"] <= 0):
+            res["base10_score"] = 0
+            res["score"] = 0
+        else:
+            res["base10_score"] = round(res["score"]*10/res["max_score"],2)
         return res
