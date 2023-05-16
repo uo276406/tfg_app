@@ -68,26 +68,22 @@ function JoinTestForm(props) {
         responseAdded.message === "Student already exists in test"
       ) {
         let lastCombination = [];
-        for (let i = 0; i < test.questions.length; i++) {
-          console.log(test.questions[i].id)
+        for (const element of test.questions) {
           lastCombination.push(
             await studentQuestionConnector.getStudentCombination(
               values.studentId,
-              test.questions[i].id
+              element.id
             )
           );
         }
-
-        console.log(lastCombination);
         props.handleSetStudentCombination(lastCombination)
 
       } else {
-        console.log(responseAdded);
         // Inicializa en la base de datos las preguntas del estudiante
-        for (let i = 0; i < test.questions.length; i++) {
+        for (const element of test.questions) {
           let studentQuestion = await studentQuestionConnector.addStudentQuestion(
             values.studentId,
-            test.questions[i].id,
+            element.id,
             -1
           );
           console.log(studentQuestion)

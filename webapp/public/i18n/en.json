@@ -87,6 +87,7 @@
     "deleteSelected": "Delete",
     "searchPlaceholder": "Search...",
     "numberQuestionsGenerate": " maximum questions to generate",
+    "activateJump": "Set jumps in test",
 
     "exportTxtButton": "Export to txt...",
     "addOption": "Add option...",
@@ -142,7 +143,8 @@
     "score": "Score",
     "state": "Estado",
     "copy": "Copy",
-    "update": "Update"
+    "update": "Update",
+    "answered": "Answered"
 
 
 }

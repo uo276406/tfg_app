@@ -9,6 +9,7 @@ import {
   Modal,
   QRCode,
   notification,
+  Checkbox,
 } from "antd";
 import {
   DownloadOutlined,
@@ -66,6 +67,12 @@ const buttonTxtStyle = {
   border: "black",
 };
 
+const generateButtonStyle = {
+  marginRight: "3%",
+  marginBottom: "1%",
+  fontSize: "1.2em",
+};
+
 const { Title, Link, Text, Paragraph } = Typography;
 const reactAppUrl = process.env.REACT_APP_WEBAPP_URL;
 
@@ -100,7 +107,7 @@ function SelectQuestionsForm(props) {
     let connector = new TestsConnector();
     // Llama a la función de la API para guardar el test generado
     await connector
-      .addTest(props.accessToken, questions)
+      .addTest(props.accessToken, questions, jumpSelected)
       .then((response) => {
         if (response.detail === "Unauthorized") {
           openNotificationWithIcon("info");
@@ -168,6 +175,8 @@ function SelectQuestionsForm(props) {
     });
   };
 
+  const [jumpSelected, setJumpSelected] = useState(true);
+
   return (
     <div>
       {contextHolder}
@@ -216,7 +225,7 @@ function SelectQuestionsForm(props) {
         </Col>
       </Row>
       <Row justify={justifyButtonsBottom} gutter={[8, 8]} style={buttonsStyle}>
-        <Col xs={24} sm={24} md={18} lg={21} xl={21} xxl={21}>
+        <Col xs={24} sm={24} md={19} lg={20} xl={20} xxl={20}>
           <Space>
             <Button
               type="primary"
@@ -252,7 +261,11 @@ function SelectQuestionsForm(props) {
             </Button>
           </Space>
         </Col>
-        <Col xs={24} sm={24} md={4} lg={3} xl={3} xxl={3}>
+        <Col xs={24} sm={24} md={5} lg={4} xl={4} xxl={4}>
+        <Checkbox onChange={(e) => setJumpSelected(e.target.checked)} checked={jumpSelected}>{t("activateJump")}</Checkbox>
+        </Col>
+      </Row>
+      <Row justify={"end"} gutter={[8, 8]} style={generateButtonStyle}>
           <Button
             type="primary"
             icon={<CheckOutlined />}
@@ -261,7 +274,6 @@ function SelectQuestionsForm(props) {
           >
             {t("generateTest")}
           </Button>
-        </Col>
       </Row>
     </div>
   );

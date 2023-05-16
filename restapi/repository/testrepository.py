@@ -14,7 +14,7 @@ engine = create_async_engine(DATABASE)
 
 async def insert_test(test):
     async with AsyncSession(engine) as session:
-        session.add(Test(id=test["id"], user_id=test["user_id"], created_at=datetime.now(), open=True))
+        session.add(Test(id=test["id"], user_id=test["user_id"], created_at=datetime.now(), open=True, jump=test["jump"]))
         await session.commit()
 
 async def get_tests_by_user(user_id):

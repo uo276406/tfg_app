@@ -66,9 +66,9 @@ function QuestionMap(props) {
           {props.questions.map((q, index) => {
             return (
               <Button
-                disabled={props.testFinished}
+                disabled={props.testFinished || !props.testJump}
                 onClick={() => props.updateQuestionIndex(index)}
-                key={index}
+                key={q.id}
                 icon={getButtonCorrectIcon(index)}
                 style={
                   props.testFinished

@@ -107,6 +107,7 @@
     "testGenerated": "Test creado correctamente",
     "testId": "Id del test:",
     "repeated": "Repetida",
+    "activateJump": "Saltar preguntas en el test",
 
     "docText1": "Aquí podrá encontrar enlaces a la documentación de la API REST de la aplicación." ,
     "docText2": "Disponible en dos tecnologías diferentes que son interactivas: Swagger UI y ReDoc. Ambas siguen la ",
@@ -142,7 +143,8 @@
     "id": "Id",
     "score": "Puntuación",
     "state": "Estado",
-    "update": "Actualizar"
+    "update": "Actualizar",
+    "answered": "Contestadas"
 
 
 }

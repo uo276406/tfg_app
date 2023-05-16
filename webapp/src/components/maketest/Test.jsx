@@ -192,6 +192,7 @@ function Test(props) {
             questionIndex={index}
             updateQuestionIndex={updateQuestionIndex}
             testFinished={testFinished}
+            testJump={props.testInfo.jump}
             correction={testResults ? testResults.correction : null}
             sendSelection={sendSelection}
           ></QuestionsMap>
