@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from dotenv import load_dotenv
 import os
@@ -25,3 +26,21 @@ async def update_test_student(test_id, student_id, score, finished):
                 score=score, finished=finished)
         await session.execute(update_test_student)
         await session.commit()
+
+
+async def get_student_by_id_and_test(student_id, test_id):
+    async with AsyncSession(engine) as session:
+        query = select(TestStudent.c).where(
+            (TestStudent.c.student_id == student_id) &
+            (TestStudent.c.test_id == test_id)
+        )
+        result = await session.execute(query)
+        return result.fetchall()[0]
+    
+async def get_students_by_test(test_id):
+    async with AsyncSession(engine) as session:
+        query = select(TestStudent).where(
+            (TestStudent.c.test_id == test_id)
+        )
+        result = await session.execute(query)
+        return result

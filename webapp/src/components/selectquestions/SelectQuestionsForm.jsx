@@ -17,8 +17,7 @@ import {
   FileTextOutlined,
   FilePdfOutlined,
   CheckOutlined,
-  CheckCircleFilled,
-  ShareAltOutlined,
+  CheckCircleFilled
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import QuestionCardList from "./QuestionCardList";
@@ -107,7 +106,7 @@ function SelectQuestionsForm(props) {
     let connector = new TestsConnector();
     // Llama a la función de la API para guardar el test generado
     await connector
-      .addTest(props.accessToken, questions, jumpSelected)
+      .addTest(props.accessToken, questions, jumpSelected, showFeedback)
       .then((response) => {
         if (response.detail === "Unauthorized") {
           openNotificationWithIcon("info");
@@ -176,6 +175,7 @@ function SelectQuestionsForm(props) {
   };
 
   const [jumpSelected, setJumpSelected] = useState(true);
+  const [showFeedback, setShowFeedback] = useState(true);
 
   return (
     <div>
@@ -225,7 +225,7 @@ function SelectQuestionsForm(props) {
         </Col>
       </Row>
       <Row justify={justifyButtonsBottom} gutter={[8, 8]} style={buttonsStyle}>
-        <Col xs={24} sm={24} md={19} lg={20} xl={20} xxl={20}>
+        <Col xs={24} sm={24} md={19} lg={20} xl={21} xxl={22}>
           <Space>
             <Button
               type="primary"
@@ -261,8 +261,13 @@ function SelectQuestionsForm(props) {
             </Button>
           </Space>
         </Col>
-        <Col xs={24} sm={24} md={5} lg={4} xl={4} xxl={4}>
-        <Checkbox onChange={(e) => setJumpSelected(e.target.checked)} checked={jumpSelected}>{t("activateJump")}</Checkbox>
+        <Col xs={24} sm={24} md={5} lg={4} xl={3} xxl={2}>
+          <Row>
+            <Checkbox onChange={(e) => setJumpSelected(e.target.checked)} checked={jumpSelected}>{t("activateJump")}</Checkbox>
+          </Row>
+          <Row>
+            <Checkbox onChange={(e) => setShowFeedback(e.target.checked)} checked={showFeedback}>{t("showFeedback")}</Checkbox>
+          </Row>
         </Col>
       </Row>
       <Row justify={"end"} gutter={[8, 8]} style={generateButtonStyle}>

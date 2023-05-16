@@ -1,7 +1,7 @@
 const apiendpoint = process.env.REACT_APP_API_URL;
 
 class TestsConnector {
-  async addTest(accessToken, questions, jumpSelected) {
+  async addTest(accessToken, questions, jumpSelected, feedback) {
     console.log(JSON.stringify({
       questions: questions,
       jump: jumpSelected,
@@ -15,6 +15,7 @@ class TestsConnector {
       body: JSON.stringify({
         questions: questions,
         jump: jumpSelected,
+        feedback: feedback,
       }),
     }).then((response) => response.json());
   }

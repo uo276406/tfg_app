@@ -88,6 +88,7 @@
     "searchPlaceholder": "Search...",
     "numberQuestionsGenerate": " maximum questions to generate",
     "activateJump": "Set jumps in test",
+    "showFeedback": "Show feedback",
 
     "exportTxtButton": "Export to txt...",
     "addOption": "Add option...",
@@ -117,8 +118,8 @@
     "joinTestTitle": "Join a test to answer the questions. 😀",
     "testNotFound": "Test not found",
     "testNotFoundDescription": "The test id is not valid. Please, try again.",
-    "studentInTest": "Student already in test",
-    "studentInTestDescription": "The student is already in the test. Please, try again.",
+    "studentFinished": "Student already finished the test",
+    "studentFinishedDescription": "The student has already finished the test. Try with other user.",
     "sessionExpired": "Session expired",
     "sessionExpiredDescription": "The session has expired. Please, login again.",
     "sendTest": "Send test",

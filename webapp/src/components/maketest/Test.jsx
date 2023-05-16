@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Row, Button, message, Col, Descriptions, Badge } from "antd";
+import { Row, Button, message, Col, Descriptions, Badge, Modal, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import QuestionTest from "./QuestionTest";
 import TestsConnector from "../../api/testsconnector";
 import QuestionsMap from "./QuestionsMap";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { LeftOutlined, RightOutlined, CheckCircleFilled } from "@ant-design/icons";
 import StudentQuestionConnector from "../../api/studentquestionsconnector";
+import { useNavigate } from "react-router-dom";
+
+const { Title } = Typography;
 
 const listStyle = {
   paddingLeft: "2%",
@@ -23,6 +26,7 @@ const buttonStyle = { marginRight: "3%", marginLeft: "2%", marginBottom: "2%" };
 
 function Test(props) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const handleUpdateOption = (option, index) => {
     let newStudentCombination = props.studentCombination;
@@ -52,7 +56,11 @@ function Test(props) {
     testConnector
       .checkAndSaveTest(props.testId, props.student, props.studentCombination)
       .then((response) => {
-        if (
+        if(!props.testInfo.feedback) {
+          openModal();
+        }
+        else {
+          if (
           response.detail !== undefined &&
           response.detail === "Test is closed"
         ) {
@@ -62,7 +70,28 @@ function Test(props) {
           setTestResults(response);
           setTestFinished(true);
         }
-      });
+      }});
+  };
+
+  const openModal = () => {
+    Modal.success({
+      title: (
+        <Col>
+          <Row justify={"center"}>
+            <Title>{t("testSent")}</Title>
+          </Row>
+          <Row justify={"center"}>
+            <CheckCircleFilled style={{ fontSize: "3em", color: "green" }} />
+          </Row>
+        </Col>
+      ),
+      icon: null,
+      width: "50%",
+      okText: t("navigateToHome"),
+      onOk: () => {
+        navigate("/");
+      },
+    });
   };
 
   const [index, setIndex] = useState(0);

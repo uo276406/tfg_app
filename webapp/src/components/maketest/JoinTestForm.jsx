@@ -41,6 +41,7 @@ function JoinTestForm(props) {
 
   const [testNotFound, setTestNotFound] = useState(false);
   const [studentInTest, setStudentInTest] = useState(false);
+  const [userFinishedTheTest, setUserFinishedTheTest] = useState(false);
   const [closedTest, setClosedTest] = useState(false);
 
   const stepIntoTest = async (values) => {
@@ -48,13 +49,10 @@ function JoinTestForm(props) {
     let testConnector = new TestsConnector();
     let studentQuestionConnector = new StudentQuestionConnector();
     let test = await testConnector.getTest(values.testId);
+    console.log(test);
     if (test.detail !== undefined && test.detail === "Test not found") {
       setTestNotFound(true);
-      setStudentInTest(false);
-      setClosedTest(false);
     } else if (test.detail !== undefined && test.detail === "Test is closed") {
-      setTestNotFound(false);
-      setStudentInTest(false);
       setClosedTest(true);
     }
     // Comprobar si el usuario ha terminado el test o si no lo ha completado aún
@@ -63,7 +61,14 @@ function JoinTestForm(props) {
         values.studentId,
         values.testId
       );
+      console.log(responseAdded);
       if (
+        responseAdded.message !== undefined &&
+        responseAdded.message === "Student already finished test"
+      ) {
+        setUserFinishedTheTest(true);
+        return;
+      } else if (
         responseAdded.message !== undefined &&
         responseAdded.message === "Student already exists in test"
       ) {
@@ -76,19 +81,19 @@ function JoinTestForm(props) {
             )
           );
         }
-        props.handleSetStudentCombination(lastCombination)
-
+        props.handleSetStudentCombination(lastCombination);
       } else {
         // Inicializa en la base de datos las preguntas del estudiante
         for (const element of test.questions) {
-          let studentQuestion = await studentQuestionConnector.addStudentQuestion(
-            values.studentId,
-            element.id,
-            -1
-          );
-          console.log(studentQuestion)
+          let studentQuestion =
+            await studentQuestionConnector.addStudentQuestion(
+              values.studentId,
+              element.id,
+              -1
+            );
+          console.log(studentQuestion);
         }
-        props.handleSetStudentCombination(test.questions.map((question) => -1))
+        props.handleSetStudentCombination(test.questions.map((question) => -1));
       }
       props.handleSetStudent(values.studentId);
       props.handleSetTestInfo(test, values.testId);
@@ -102,8 +107,8 @@ function JoinTestForm(props) {
         {testNotFound
           ? showAlert(t("testNotFound"), t("testNotFoundDescription"))
           : null}
-        {studentInTest
-          ? showAlert(t("studentInTest"), t("studentInTestDescription"))
+        {userFinishedTheTest
+          ? showAlert(t("studentFinished"), t("studentFinishedDescription"))
           : null}
         {closedTest
           ? showAlert(t("closedTest"), t("closedTestDescription"))

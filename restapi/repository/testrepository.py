@@ -14,18 +14,22 @@ engine = create_async_engine(DATABASE)
 
 async def insert_test(test):
     async with AsyncSession(engine) as session:
-        session.add(Test(id=test["id"], user_id=test["user_id"], created_at=datetime.now(), open=True, jump=test["jump"]))
+        session.add(Test(id=test["id"], user_id=test["user_id"], created_at=datetime.now(
+        ), open=True, jump=test["jump"], feedback=test["feedback"]))
         await session.commit()
+
 
 async def get_tests_by_user(user_id):
     async with AsyncSession(engine) as session:
         result = await session.execute(select(Test).where(Test.user_id == str(user_id)))
         return result.scalars().all()
-    
+
+
 async def get_test_by_id(test_id):
     async with AsyncSession(engine) as session:
         result = await session.execute(select(Test).where(Test.id == str(test_id)))
         return result.scalars().first()
+
 
 async def update_test_status(test_id, test_open):
     async with AsyncSession(engine) as session:

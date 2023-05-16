@@ -13,6 +13,7 @@ class Test(Base):
     created_at = Column(DateTime, nullable=False)
     open = Column(Boolean, nullable=False)
     jump = Column(Boolean, nullable=False)
+    feedback = Column(Boolean, nullable=False)
     students = relationship("Student", secondary=TestStudent, back_populates="tests")
 
 
