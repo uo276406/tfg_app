@@ -35,7 +35,7 @@ async def get_student_by_id_and_test(student_id, test_id):
             (TestStudent.c.test_id == test_id)
         )
         result = await session.execute(query)
-        return result.fetchall()[0]
+        return result.fetchone()
     
 async def get_students_by_test(test_id):
     async with AsyncSession(engine) as session:
