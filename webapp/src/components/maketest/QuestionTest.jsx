@@ -64,7 +64,7 @@ function QuestionTest(props) {
           {props.options.map((o, index) => {
             return (
               <Radio
-                key={index}
+                key={o.value}
                 value={index}
                 disabled={props.testFinished}
               >

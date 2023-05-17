@@ -40,7 +40,6 @@ function JoinTestForm(props) {
   };
 
   const [testNotFound, setTestNotFound] = useState(false);
-  const [studentInTest, setStudentInTest] = useState(false);
   const [userFinishedTheTest, setUserFinishedTheTest] = useState(false);
   const [closedTest, setClosedTest] = useState(false);
 

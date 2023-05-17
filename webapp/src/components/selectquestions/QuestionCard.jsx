@@ -214,7 +214,7 @@ function QuestionCard(props) {
                 return (
                   <Input
                     ref={editInputRef}
-                    key={index}
+                    key={option.value}
                     size="small"
                     style={optionInputStyle}
                     value={editInputValue}
