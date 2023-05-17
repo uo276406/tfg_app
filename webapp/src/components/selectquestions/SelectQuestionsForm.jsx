@@ -66,6 +66,18 @@ const buttonTxtStyle = {
   border: "black",
 };
 
+const buttonPdfStyle = {
+  background: "red",
+  color: "white",
+  border: "red",
+};
+
+const buttonDocxStyle = {
+  background: "blue",
+  color: "white",
+  border: "blue",
+};
+
 const generateButtonStyle = {
   marginRight: "3%",
   marginBottom: "1%",
@@ -237,25 +249,26 @@ function SelectQuestionsForm(props) {
               {t("backButton")}
             </Button>
             <Button
-              ghost
               style={buttonTxtStyle}
               icon={<DownloadOutlined />}
               onClick={() => exportTo(new TxtExporter())}
+              disabled={questions.length === 0}
             >
               txt
             </Button>
             <Button
-              type="primary"
-              danger
+              style={buttonPdfStyle}
               icon={<FilePdfOutlined />}
               onClick={() => exportTo(new PdfExporter())}
+              disabled={questions.length === 0}
             >
               pdf
             </Button>
             <Button
-              type="primary"
+              style={buttonDocxStyle}
               icon={<FileTextOutlined />}
               onClick={() => exportTo(new DocxExporter())}
+              disabled={questions.length === 0}
             >
               docx
             </Button>
