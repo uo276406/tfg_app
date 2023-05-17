@@ -14,7 +14,7 @@
 </p>
 
 
-### Guia de inicio rápido 🤔
+### Guia de inicio rápido para desarrollo🤔
  
 Para ejecutar el proyecto primero complila y ejecuta la restapi:
 
@@ -31,3 +31,24 @@ npm start
 ```
 
 Deberias ser capaz de acceder a la webapp en [http://localhost:3000](http://localhost:3000) y la restapi [http://localhost:8000](http://localhost:8000)
+
+### Configuración de variables de entorno ⚙️
+La aplicación además utiliza numerosas variables de entorno tanto en la restapi como en la webapp con lo cual es necesario configurarlas para su correcto funcionamiento.
+
+Añadir un fichero denominado ".env" en el directorio "/restapi" con el contenido:
+```shell
+DATABASE="sqlite+aiosqlite:///development.db"
+SECRET="SECRET_KEY"
+SECONDS=7200
+```
+Añadir otro igual al directorio "/webapp" con el contenido
+```shell
+REACT_APP_API_URL=http://localhost:8000
+REACT_APP_WEBAPP_URL=http://localhost:3000
+REACT_APP_REDOC=http://localhost:8000/redoc
+REACT_APP_SWAGGER=http://localhost:8000/docs
+```
+### Configuración de base de datos en desarrollo 📦
+En la fase de desarrollo se ha usado como SGBD SQLite para ello es necesario crear un fichero denominado "development.db" en el directorio restapi (la conexión se indica en el fichero .env anterior).
+
+Una vez se arranca la restapi, las configuración de la base de datos se carga automáticamente, estas tablas se pueden visualizar con diferentes programas de manejo de sistemas de bases de datos para sqlite como [DB Browser for sqlite](https://sqlitebrowser.org/) o extensiones de visual studio.
