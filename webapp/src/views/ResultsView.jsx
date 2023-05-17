@@ -86,20 +86,23 @@ function ResultsView(props) {
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (props.accessToken !== "") {
-      updateResults();
+    async function update() {
+      if (props.accessToken !== "") {
+        updateResults();
+      }
     }
-  }, [props.accessToken]);
+    update();
+  }, []);
 
   const getDate = (date) => {
     const d = new Date(date);
     return d.toLocaleDateString() + " " + d.toLocaleTimeString();
   };
 
-  const changeTestState = (checked, event, id) => {
+  const changeTestState = async (checked, event, id) => {
     event.stopPropagation();
     let TestConnector = new TestsConnector();
-    TestConnector.changeTestState(id, checked, props.accessToken).then(
+    await TestConnector.changeTestState(id, checked, props.accessToken).then(
       (response) => {
         if (response.detail === "Test status updated") {
           console.log("updated");

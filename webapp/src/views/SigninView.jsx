@@ -35,7 +35,7 @@ function SigninView(props) {
         values.email,
         values.password
       )
-      .then((responseSignin) => {
+      .then(async (responseSignin) => {
         if (responseSignin.detail) {
           if (
             responseSignin.detail !== undefined &&
@@ -53,7 +53,7 @@ function SigninView(props) {
         } else {
           setUserExists(false);
           //Inicia sesión y actualiza el token de acceso
-          connector
+          await connector
             .loginUser(values.email, values.password)
             .then((responseLogin) => {
               props.updateAccessToken(responseLogin.access_token);

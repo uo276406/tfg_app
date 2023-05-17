@@ -28,14 +28,14 @@ function Test(props) {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const handleUpdateOption = (option, index) => {
+  const handleUpdateOption = async (option, index) => {
     let newStudentCombination = props.studentCombination;
     newStudentCombination[index] = option;
     props.handleSetStudentCombination(newStudentCombination);
 
     let studentQuestionConnector = new StudentQuestionConnector();
 
-    studentQuestionConnector
+    await studentQuestionConnector
       .updateStudentQuestion(
         props.student,
         props.testInfo.questions[index].id,
@@ -50,10 +50,10 @@ function Test(props) {
 
   const [testFinished, setTestFinished] = useState(false);
   const [testResults, setTestResults] = useState(); // [ {questionId: 1, optionId: 2}, ...
-  const sendSelection = () => {
+  const sendSelection = async () => {
     console.log(props.studentCombination);
     let testConnector = new TestsConnector();
-    testConnector
+    await testConnector
       .checkAndSaveTest(props.testId, props.student, props.studentCombination)
       .then((response) => {
         if(!props.testInfo.feedback) {
