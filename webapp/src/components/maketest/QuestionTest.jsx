@@ -13,7 +13,7 @@ const tagNumberStyle = { fontSize: "1.3em" };
 
 function QuestionTest(props) {
   let correctionColor =
-    props.correction !== null && props.correction.is_correct
+    props?.correction && props.correction.is_correct
       ? "#B1FFCA"
       : "#ffccc7";
 
