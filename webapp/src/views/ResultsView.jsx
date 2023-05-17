@@ -85,10 +85,10 @@ function ResultsView(props) {
   };
 
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
+  useEffect(async () => {
     async function update() {
       if (props.accessToken !== "") {
-        updateResults();
+        await updateResults();
       }
     }
     update();
