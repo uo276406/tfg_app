@@ -1,14 +1,20 @@
 class TxtExporter {
   export(questions) {
     let text = "";
+    let initialOption = "A";
+    let correctOption = "";
     questions.forEach((question) => {
       if (question.question) {
         text += question.question + "\r\n";
         question.options.forEach((option) => {
-          text += option.value + (option.correct ? " T " : " F ") + "\r\n";
+          text += initialOption + ")" + option.value + "\r\n";
+          initialOption = String.fromCharCode(initialOption.charCodeAt(0) + 1);
+          correctOption = option.correct ? initialOption : correctOption;
         });
       }
+      text += "ANSWER: " + correctOption + "\r\n";
       text += "\r\n";
+      initialOption = "A";
     });
     const file = new Blob([text], { type: "text/plain" });
     const element = document.createElement("a");

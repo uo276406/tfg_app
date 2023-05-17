@@ -5,6 +5,13 @@ import {
   SnippetsOutlined,
   LoginOutlined,
   LogoutOutlined,
+  UserOutlined,
+  CommentOutlined,
+  EditOutlined,
+  WechatOutlined,
+  UsergroupAddOutlined,
+  CheckCircleOutlined,
+  ToolFilled,
 } from "@ant-design/icons";
 import UsersConnector from "../../api/usersconnector";
 
@@ -23,21 +30,27 @@ function NavBarApp(props) {
   };
 
   // Menu items
-  const items = [
+
+  const itemsLogin = [
     {
       label: <Link to="/">Keywords App</Link>,
       key: "app",
     },
     {
+      label: <Link to="/test">{t("joinTest")}</Link>,
+      key: "jointest",
+      icon: <UsergroupAddOutlined />,
+      style: { marginLeft: "auto" },
+    },
+    {
       label: <Link to="/doc">{t("doc")}</Link>,
       key: "doc",
       icon: <SnippetsOutlined />,
-      style: { marginLeft: "auto" },
     },
     {
       label: t("lang"),
       key: "lang",
-      icon: <SnippetsOutlined />,
+      icon: <CommentOutlined />,
       children: [
         {
           label: t("spanish"),
@@ -51,10 +64,6 @@ function NavBarApp(props) {
         },
       ],
     },
-  ];
-
-  const itemsLogin = [
-    ...items,
     {
       label: <Link to="/login">{t("login")}</Link>,
       key: "login",
@@ -68,12 +77,60 @@ function NavBarApp(props) {
   ];
 
   const itemsLogout = [
-    ...items,
     {
-      label: <Link to="/logout">{t("logout")}</Link>,
-      key: "logout",
-      icon: <LogoutOutlined />,
-      onClick: logout,
+      label: <Link to="/">Keywords App</Link>,
+      key: "app",
+    },
+    {
+      label: <Link to="/results">{t("results")}</Link>,
+      key: "results",
+      icon: <CheckCircleOutlined />,
+      style: { marginLeft: "auto" },
+    },
+    {
+      label: <Link to="/process">{t("createExams")}</Link>,
+      key: "process",
+      icon: <EditOutlined />,
+    },
+    {
+      label: <Link to="/doc">{t("doc")}</Link>,
+      key: "doc",
+      icon: <SnippetsOutlined />,
+    },
+    {
+      label: t("lang"),
+      key: "lang",
+      icon: <WechatOutlined />,
+      children: [
+        {
+          label: t("spanish"),
+          key: "ES",
+          onClick: () => onClickChangeLang("es"),
+        },
+        {
+          label: t("english"),
+          key: "EN",
+          onClick: () => onClickChangeLang("en"),
+        },
+      ],
+    },
+    {
+      label: t("profile") + " " + props.username,
+      key: "profile",
+      icon: <UserOutlined />,
+      children: [
+        {
+          label: <Link to="/profile">{t("seeProfile")}</Link>,
+          key: "seeProfile",
+          icon: <ToolFilled />,
+        },
+        {
+          label: <Link to="/logout">{t("logout")}</Link>,
+          key: "logout",
+          icon: <LogoutOutlined />,
+          onClick: logout,
+        },
+      ],
     },
   ];
 
@@ -87,7 +144,11 @@ function NavBarApp(props) {
       theme="dark"
       selectable={false}
       mode="horizontal"
-      items={props.accessToken === "" ? itemsLogin : itemsLogout}
+      items={
+        props.accessToken === "" || props.accessToken === null
+          ? itemsLogin
+          : itemsLogout
+      }
     ></Menu>
   );
 }

@@ -27,7 +27,7 @@ class FillInGapsGenerator():
         """
         sentences_used_in_total = []
         res = {'questions': [], 'there_are_repeated': False, 'not_enough_questions_for': []}
-        print(keywords_selected)
+        repeated = False
         for keyword in keywords_selected:
             questions_used_in_word = []
             for _ in range(keyword.numberOfQuestions):
@@ -36,14 +36,15 @@ class FillInGapsGenerator():
                     res['not_enough_questions_for'].append(keyword.value)
                     break
                 if (sentence_used in sentences_used_in_total):
+                    repeated = True
                     res['there_are_repeated'] = True
                 options = self.get_options(keyword.value)
-                print(keyword.value)
-                print(question_text)
                 res['questions'].append({
                     'question': question_text.replace("\n", " "),
                     'options': options,
+                    'repeated': repeated,
                 })
+                repeated = False
                 questions_used_in_word.append(question_text)
                 sentences_used_in_total.append(sentence_used)
         return res

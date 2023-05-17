@@ -1,12 +1,11 @@
 from fastapi import APIRouter, status, Depends
-from pydantic import BaseModel
 from keywordalgorithm.keywordextractor import KeywordExtractor
 from users.usersmanager import fastapi_users
+from pydantic import BaseModel
 
 router = APIRouter()
 
 # Modelos de datos: Request ----------------------------------------
-
 
 class Text(BaseModel):
     text_body: str
@@ -23,9 +22,7 @@ class KeywordFound(BaseModel):
 class ListKeywordsFound(BaseModel):
     keywords: list[KeywordFound]
 
-
-# ---------------------------------------------------------
-
+# This is a FastAPI dependency that checks if the user is authenticated.
 current_active_user = fastapi_users.current_user(active=True)
 
 """

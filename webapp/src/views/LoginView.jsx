@@ -46,7 +46,7 @@ function LoginView(props) {
     let connector = new UsersConnector();
     await connector
       .loginUser(values.email, values.password)
-      .then((responseLogin) => {
+      .then(async (responseLogin) => {
         console.log(responseLogin);
         if (
           responseLogin.detail !== undefined &&
@@ -62,6 +62,10 @@ function LoginView(props) {
           setBadCredentials(false);
           setUserNotVerified(false);
           props.updateAccessToken(responseLogin.access_token);
+          await connector.userInfo(responseLogin.access_token).then((response) => {
+            console.log(response)
+            props.updateUser(response);
+          });
           navigate("/");
         }
       });

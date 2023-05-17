@@ -1,6 +1,6 @@
 import QuestionCard from "./QuestionCard";
 import { useState } from "react";
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, message } from "antd";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useTranslation } from "react-i18next";
 
@@ -15,7 +15,13 @@ const buttonAddQuestionStyle = {
   width: "100%",
   height: "50px",
   fontSize: "20px",
+  marginRight: "1%",
+  marginLeft: "1%",
 };
+
+const droppableStyle = {
+  width: "100%",
+}
 
 /**
  * A functional component that renders a list of QuestionCard components.
@@ -27,7 +33,7 @@ function QuestionCardList(props) {
 
   let [questions, setQuestions] = useState([
     ...props.questions.map((q, index) => {
-      return { id: index, question: q.question, options: q.options };
+      return { id: index, question: q.question, options: q.options, repeated: q.repeated };
     }),
   ]);
 
@@ -70,7 +76,6 @@ function QuestionCardList(props) {
 
     setQuestions(questionsList);
     props.updateQuestions(questionsList);
-    console.log(questionsList);
   };
 
   // Agrega una nueva pregunta ----------------------------------------------------
@@ -82,12 +87,11 @@ function QuestionCardList(props) {
     return min + Math.floor((array[0] / max_range) * range);
   }
 
-  const addNewQuestion = () => {
+  const generateSkelettonQuestion = () => {
     let random = getRandomInt(0, 3);
     console.log(random);
-    const newQuestions = [...questions];
-    newQuestions.push({
-      id: newQuestions.length,
+    return {
+      id: questions.length,
       question: "<<Escriba el enunciado...>>",
       options: [
         { value: "a", correct: random === 0 ? true : false },
@@ -95,9 +99,16 @@ function QuestionCardList(props) {
         { value: "c", correct: random === 2 ? true : false },
         { value: "d", correct: random === 3 ? true : false },
       ],
-    });
+    };
+  };
+
+  const addNewQuestion = (question, index) => {
+    question.id = Math.max(...questions.map((q) => q.id)) + 1;
+    const newQuestions = [...questions];
+    newQuestions.splice(index, 0, question);
     setQuestions(newQuestions);
     props.updateQuestions(newQuestions);
+    message.success(t("questionAdded"));
     console.log(newQuestions);
   };
 
@@ -108,7 +119,11 @@ function QuestionCardList(props) {
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="id">
               {(provided, snapshot) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={droppableStyle}
+                >
                   {questions.map((q, index) => {
                     return (
                       <Draggable
@@ -128,8 +143,10 @@ function QuestionCardList(props) {
                               id={index}
                               questionText={q.question}
                               options={q.options}
+                              repeated={q.repeated || false}
                               updateQuestion={updateQuestion}
                               deleteQuestion={deleteQuestion}
+                              addNewQuestion={addNewQuestion}
                             />
                           </div>
                         )}
@@ -144,7 +161,9 @@ function QuestionCardList(props) {
           <Button
             type="dashed"
             style={buttonAddQuestionStyle}
-            onClick={addNewQuestion}
+            onClick={() =>
+              addNewQuestion(generateSkelettonQuestion(), questions.length)
+            }
           >
             {t("addNewQuestion")}
           </Button>

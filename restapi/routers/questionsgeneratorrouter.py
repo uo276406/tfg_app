@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status, Depends
-from pydantic import BaseModel
 from questiongenerator.fillingapsgenerator import FillInGapsGenerator
 from users.usersmanager import fastapi_users
+from pydantic import BaseModel
 
 router = APIRouter()
 
@@ -29,6 +29,7 @@ class Answer(BaseModel):
 class Question(BaseModel):
     question: str
     options: list[Answer]
+    repeated: bool
 
 
 class QuestionsInfo(BaseModel):
@@ -38,6 +39,8 @@ class QuestionsInfo(BaseModel):
 
 # ---------------------------------------------------------
 
+
+# This is a FastAPI dependency that checks if the user is authenticated.
 current_active_user = fastapi_users.current_user(active=True)
 
 """

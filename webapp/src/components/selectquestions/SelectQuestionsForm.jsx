@@ -1,9 +1,23 @@
-import { Button, Row, Col, Alert, Space, Tag } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  Alert,
+  Space,
+  Tag,
+  Typography,
+  Modal,
+  QRCode,
+  notification,
+  Checkbox,
+} from "antd";
 import {
   DownloadOutlined,
   LeftOutlined,
   FileTextOutlined,
   FilePdfOutlined,
+  CheckOutlined,
+  CheckCircleFilled
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import QuestionCardList from "./QuestionCardList";
@@ -11,6 +25,7 @@ import { useState } from "react";
 import TxtExporter from "./export/txtexporter";
 import PdfExporter from "./export/pdfexporter";
 import DocxExporter from "./export/docxexporter";
+import TestsConnector from "../../api/testsconnector";
 
 const justifyButtonsBottom = {
   xs: "center",
@@ -51,6 +66,15 @@ const buttonTxtStyle = {
   border: "black",
 };
 
+const generateButtonStyle = {
+  marginRight: "3%",
+  marginBottom: "1%",
+  fontSize: "1.2em",
+};
+
+const { Title, Link, Text, Paragraph } = Typography;
+const reactAppUrl = process.env.REACT_APP_WEBAPP_URL;
+
 /**
  * A functional component that renders a form for selecting questions.
  * @param {{Object}} props - The props object containing the questions to display and a function to change the step.
@@ -77,9 +101,85 @@ function SelectQuestionsForm(props) {
     [...props.questions.questions].length
   );
 
+  // Genera test --------------------------------------------------------------------
+  const generateTest = async () => {
+    let connector = new TestsConnector();
+    // Llama a la función de la API para guardar el test generado
+    await connector
+      .addTest(props.accessToken, questions, jumpSelected, showFeedback)
+      .then((response) => {
+        if (response.detail === "Unauthorized") {
+          openNotificationWithIcon("info");
+        } else openModal(response.id);
+      })
+      .catch((error) => {
+        console.log(error);
+        openNotificationWithIcon("info");
+      });
+  };
+
+  const openNotificationWithIcon = (type) => {
+    api[type]({
+      message: t("sessionExpired"),
+      description: t("sessionExpiredDescription"),
+    });
+  };
+
+  const [api, contextHolder] = notification.useNotification();
+
+  const openModal = (testId) => {
+    console.log(testId);
+    Modal.success({
+      title: (
+        <Col>
+          <Row justify={"center"}>
+            <Title>{t("testGenerated")}</Title>
+          </Row>
+          <Row justify={"center"}>
+            <CheckCircleFilled style={{ fontSize: "3em", color: "green" }} />
+          </Row>
+        </Col>
+      ),
+      content: (
+        <Col>
+          <Row span={24} justify={"center"}>
+            <Title level={3} copyable={{ text: testId, tooltips: t("copy") }}>
+              {t("testId") + " " + testId}
+            </Title>
+          </Row>
+          <Row span={24} justify={"center"}>
+            <QRCode
+              iconSize={50}
+              value={reactAppUrl + "/test?testId=" + testId}
+            />
+          </Row>
+          <Row span={24} justify={"center"}>
+            <Paragraph
+              copyable={{
+                text: reactAppUrl + "/test?testId=" + testId,
+                tooltips: t("copy"),
+              }}
+            >
+              <Text>{"URL: "}</Text>
+              <Link href={reactAppUrl + "/test?testId=" + testId}>
+                {reactAppUrl + "/test?testId=" + testId}
+              </Link>
+            </Paragraph>
+          </Row>
+        </Col>
+      ),
+      width: "90%",
+      okText: t("backButton"),
+      icon: null,
+    });
+  };
+
+  const [jumpSelected, setJumpSelected] = useState(true);
+  const [showFeedback, setShowFeedback] = useState(true);
 
   return (
     <div>
+      {contextHolder}
       <Row span={24}>
         {props.questions.not_enough_questions_for.length > 0 ? (
           <Alert
@@ -113,7 +213,7 @@ function SelectQuestionsForm(props) {
           <></>
         )}
         <Tag style={countQuestionsStyle} color="geekblue">
-         {countQuestions + " " + t('numberOfQuestions')}
+          {countQuestions + " " + t("numberOfQuestions")}
         </Tag>
       </Row>
       <Row gutter={[16, 16]} style={questionsListStyle}>
@@ -125,19 +225,17 @@ function SelectQuestionsForm(props) {
         </Col>
       </Row>
       <Row justify={justifyButtonsBottom} gutter={[8, 8]} style={buttonsStyle}>
-        <Col>
-          <Button
-            type="primary"
-            onClick={() => {
-              props.changeStep(1);
-            }}
-            icon={<LeftOutlined />}
-          >
-            {t("backButton")}
-          </Button>
-        </Col>
-        <Col>
+        <Col xs={24} sm={24} md={19} lg={20} xl={21} xxl={22}>
           <Space>
+            <Button
+              type="primary"
+              onClick={() => {
+                props.changeStep(1);
+              }}
+              icon={<LeftOutlined />}
+            >
+              {t("backButton")}
+            </Button>
             <Button
               ghost
               style={buttonTxtStyle}
@@ -163,6 +261,24 @@ function SelectQuestionsForm(props) {
             </Button>
           </Space>
         </Col>
+        <Col xs={24} sm={24} md={5} lg={4} xl={3} xxl={2}>
+          <Row>
+            <Checkbox onChange={(e) => setJumpSelected(e.target.checked)} checked={jumpSelected}>{t("activateJump")}</Checkbox>
+          </Row>
+          <Row>
+            <Checkbox onChange={(e) => setShowFeedback(e.target.checked)} checked={showFeedback}>{t("showFeedback")}</Checkbox>
+          </Row>
+        </Col>
+      </Row>
+      <Row justify={"end"} gutter={[8, 8]} style={generateButtonStyle}>
+          <Button
+            type="primary"
+            icon={<CheckOutlined />}
+            onClick={generateTest}
+            disabled={countQuestions === 0}
+          >
+            {t("generateTest")}
+          </Button>
       </Row>
     </div>
   );

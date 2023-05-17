@@ -3,9 +3,10 @@
 
 # db files
 *.db
+*.sql
 
 #.env files
-.env.*
+.env
 
 # .pyc
 *.pyc

@@ -1,18 +1,27 @@
 import { useState, useEffect, useRef } from "react";
-import { Card, Typography, Tag, Input, Space, message, Button } from "antd";
+import {
+  Card,
+  Typography,
+  Tag,
+  Input,
+  Space,
+  message,
+  Button,
+  Tooltip,
+} from "antd";
 import {
   PlusOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
   DeleteOutlined,
+  CopyOutlined,
+  WarningFilled,
 } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-
 
 const { Paragraph } = Typography;
 
 const questionCardStyle = {
-  width: "100%",
   paddingTop: "1%",
   margin: "1%",
   backgroundColor: "#e6f7ff",
@@ -21,7 +30,6 @@ const questionCardStyle = {
 const questionTextStyle = {
   fontSize: "15px",
   whiteSpace: "pre-line",
-  marginRight: "5%",
 };
 
 const optionInputStyle = {
@@ -39,6 +47,12 @@ const optionsAdded = {
   fontSize: "16px",
 };
 
+const tagNumberStyle = {fontSize: "1.3em"};
+
+const warningStyle = { color: "orange", fontSize: "1.5em" };
+
+const buttonsDeleteDuplicateStyle = { width: "100px", marginLeft: "10px" };
+
 /**
  * A component that displays a question card with editable question text and options for options.
  * @param {{questionText: string, options: Array<{value: string, correct: boolean}>}} props - The props object containing the question text and options.
@@ -46,14 +60,13 @@ const optionsAdded = {
  */
 function QuestionCard(props) {
   const { t } = useTranslation();
-  const [messageApi, contextHolder] = message.useMessage();
 
   // Enucnciado ------------------------------------------------------------------
   const [questionText, setQuestionText] = useState(props.questionText);
 
   const handleModifyQuestionText = (newText) => {
     if (newText.length === 0) {
-      emptyOption();
+      message.error(t("questionEmpty"));
     } else {
       setQuestionText(newText);
       props.updateQuestion(props.index, newText, options); //Actualiza la pregunta
@@ -106,62 +119,91 @@ function QuestionCard(props) {
 
   const handleEditInputChange = (e) => {
     if (e.target.value.length === 0) {
-      emptyOption();
+      message.error(t("optionEmpty"));
     } else {
       setEditInputValue(e.target.value);
     }
   };
 
-  const emptyOption = () => {
-    messageApi.open({
-      type: "error",
-      content: t("optionEmpty"),
-      duration: 5,
-    });
-  };
-
   const handleEditInputConfirm = () => {
     const newOptions = [...options];
-    newOptions[editInputIndex] = editInputValue;
+    newOptions[editInputIndex].value = editInputValue;
     setOptions(newOptions);
     setEditInputIndex(-1);
     setInputValue("");
     props.updateQuestion(props.index, questionText, newOptions); //Actualiza la pregunta
   };
 
-  // Botón de borrar pregunta ----------------------------------------------------
   const [buttonVisible, setButtonVisible] = useState(false);
 
+  // Botón de borrar pregunta ----------------------------------------------------
   const handleDelete = () => {
     props.deleteQuestion(props.index);
+    message.success(t("questionDeleted"));
+  };
+
+  // Botón de duplicar pregunta --------------------------------------------------
+  const handleDuplicate = () => {
+    let questionDuplicated = {
+      id: props.id,
+      question: questionText,
+      options: options,
+    };
+
+    props.addNewQuestion(questionDuplicated, props.index);
   };
 
   return (
     <>
-      {contextHolder}
       <Card
         size="small"
         extra={
-          buttonVisible ? (
-            <Button
-              type="primary"
-              danger
-              icon={<DeleteOutlined></DeleteOutlined>}
-              onClick={handleDelete}
-            />
-          ) : null
+          <div style={buttonsDeleteDuplicateStyle}>
+            <Space direction="horizontal">
+              {props.repeated ? (
+                <Tooltip title={t("repeated")}>
+                  <WarningFilled style={warningStyle}></WarningFilled>
+                </Tooltip>
+              ) : (
+                <></>
+              )}
+              {buttonVisible ? (
+                <>
+                  <Tooltip title={t("duplicateQuestion")}>
+                    <Button
+                      type="text"
+                      icon={<CopyOutlined></CopyOutlined>}
+                      onClick={handleDuplicate}
+                    />
+                  </Tooltip>
+                  <Tooltip title={t("deleteSelected")}>
+                    <Button
+                      type="text"
+                      icon={<DeleteOutlined></DeleteOutlined>}
+                      onClick={handleDelete}
+                    />
+                  </Tooltip>
+                </>
+              ) : (
+                <></>
+              )}
+            </Space>
+          </div>
         }
         onMouseEnter={() => setButtonVisible(true)}
         onMouseLeave={() => setButtonVisible(false)}
         title={
-          <Paragraph
-            editable={{
-              onChange: handleModifyQuestionText,
-            }}
-            style={questionTextStyle}
-          >
-            {questionText}
-          </Paragraph>
+          <Space direction={"horizontal"} align={"start"}>
+            <Tag style={tagNumberStyle}>{props.index + 1}</Tag>
+            <Paragraph
+              editable={{
+                onChange: handleModifyQuestionText,
+              }}
+              style={questionTextStyle}
+            >
+              {questionText}
+            </Paragraph>
+          </Space>
         }
         style={questionCardStyle}
       >
@@ -199,11 +241,9 @@ function QuestionCard(props) {
                 >
                   <span
                     onDoubleClick={(e) => {
-                      if (index !== 0) {
-                        setEditInputIndex(index);
-                        setEditInputValue(option);
-                        e.preventDefault();
-                      }
+                      setEditInputIndex(index);
+                      setEditInputValue(option.value);
+                      e.preventDefault();
                     }}
                   >
                     {option.value}
