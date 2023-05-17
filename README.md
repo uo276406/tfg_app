@@ -14,7 +14,7 @@
 </p>
 
 
-### Guia de inicio rápido para desarrollo🤔
+### Guia de inicio rápido para desarrolladores 🤔
  
 Para ejecutar el proyecto primero complila y ejecuta la restapi:
 
@@ -33,7 +33,7 @@ npm start
 Deberias ser capaz de acceder a la webapp en [http://localhost:3000](http://localhost:3000) y la restapi [http://localhost:8000](http://localhost:8000)
 
 ### Configuración de variables de entorno ⚙️
-La aplicación además utiliza numerosas variables de entorno tanto en la restapi como en la webapp con lo cual es necesario configurarlas para su correcto funcionamiento.
+La aplicación además utiliza numerosas variables de entorno que hay configurar.
 
 Añadir un fichero denominado ".env" en el directorio "/restapi" con el contenido:
 ```shell
@@ -41,7 +41,7 @@ DATABASE="sqlite+aiosqlite:///development.db"
 SECRET="SECRET_KEY"
 SECONDS=7200
 ```
-Añadir otro igual al directorio "/webapp" con el contenido
+Añadir otro igual denominado ".env" al directorio "/webapp" con el contenido:
 ```shell
 REACT_APP_API_URL=http://localhost:8000
 REACT_APP_WEBAPP_URL=http://localhost:3000
