@@ -91,7 +91,7 @@ function ResultsView(props) {
         await updateResults();
       }
     }
-    update();
+    update().catch((error) => { console.log(error); });
   }, []);
 
   const getDate = (date) => {
