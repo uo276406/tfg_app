@@ -254,7 +254,7 @@ function SelectQuestionsForm(props) {
               onClick={() => exportTo(new TxtExporter())}
               disabled={questions.length === 0}
             >
-              txt
+              txt (AIKEN)
             </Button>
             <Button
               style={buttonPdfStyle}

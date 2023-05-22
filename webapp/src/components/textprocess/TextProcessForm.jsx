@@ -66,7 +66,7 @@ function TextProcessForm(props) {
   const uploadProps = {
     name: "file",
     maxCount: 1,
-    accept: [".txt", ".docx", ".pptx"],
+    accept: [".txt"],
     beforeUpload: loadFile,
     onRemove: () => {
       setText("");

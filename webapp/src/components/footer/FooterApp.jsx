@@ -20,24 +20,24 @@ function FooterApp() {
   return (
     <Footer theme="dark">
       <Row gutter={[8, 8]}>
-        <Col span={6} xs={24} sm={24} md={12} lg={8} xl={8} xxl={6}>
+        <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={6}>
           <Row justify={"center"}>
             <Link href="https://www.uniovi.es/">
               <img src="footerimg/uniovilogo.png" alt={t("uniovi")} />
             </Link>
           </Row>
         </Col>
-        <Col span={6} xs={24} sm={24} md={12} lg={8} xl={8} xxl={6}>
+        <Col xs={24} sm={24} md={12} lg={8} xl={8} xxl={6}>
           <Row justify={"center"}>
             <Link href="https://ingenieriainformatica.uniovi.es/">
               <img src="footerimg/eiilogo.png" alt={t("eii")} />
             </Link>
           </Row>
         </Col>
-        <Col span={6} xs={24} sm={24} md={24} lg={8} xl={8} xxl={6}>
+        <Col xs={24} sm={24} md={24} lg={8} xl={8} xxl={6}>
           <Row justify={"center"}>
             <Space direction="vertical">
-              <Space>
+              <Space wrap={true}>
                 <Link href="https://www.linkedin.com/in/diego-gonz%C3%A1lez-su%C3%A1rez-64b2371b1/">
                   <Tag icon={<LinkedinFilled />} color="#55acee">
                     {" "}

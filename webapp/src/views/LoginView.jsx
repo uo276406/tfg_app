@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Input, Card, Col, Row, Alert } from "antd";
+import { Button, Form, Input, Card, Col, Row, Alert, Typography } from "antd";
 import { Link, useNavigate} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import UsersConnector from "../api/usersconnector";
@@ -17,6 +17,8 @@ const alertStyle = {
   marginRight: "1.5%",
   marginBottom: "1.5%",
 }
+
+const { Text } = Typography;
 
 /**
  * A functional component that renders a login form.
@@ -86,8 +88,7 @@ function LoginView(props) {
         )}
         <Card
           style={formStyle}
-          title={t("loginTitle")}
-          headStyle={{ textAlign: "center" }}
+          title={<Text >{t("loginTitle")}</Text>}
         >
           <Form
             name="basic"
