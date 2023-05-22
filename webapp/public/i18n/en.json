@@ -123,7 +123,7 @@
     "studentFinished": "Student already finished the test",
     "studentFinishedDescription": "The student has already finished the test. Try with other user.",
     "sessionExpired": "Session expired",
-    "sessionExpiredDescription": "The session has expired. Please, login again.",
+    "sessionExpiredDescription": "The session has expired. Please logout and login again.",
     "sendTest": "Send test",
     "inTestAs": "You have entered in the test as",
     "noStudentsInTest": "There are no students in the test",

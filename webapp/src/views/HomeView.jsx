@@ -80,7 +80,7 @@ function HomeView(props) {
           {getCarouselItem("homeimg/eiilogobig.jpg", t("eii"), t("eiiDesc"))}
           {getCarouselItem("homeimg/processTextExample.jpg", t("processHome"), t("processHomeDesc"))}
           {getCarouselItem("homeimg/selectKeywordsExample.jpg", t("keywordsHome"), t("keywordsHomeDesc"))}
-          {getCarouselItem("homeimg/answerQuestionsExample.jpg", t("questionsHome"), t("questionsHomeDesc"))}
+          {getCarouselItem("homeimg/questionsExample.jpg", t("questionsHome"), t("questionsHomeDesc"))}
           {getCarouselItem("homeimg/manageTests.jpg", t("manageTests"), t("manageTestsDesc"))}
         </Carousel>
       </Col>

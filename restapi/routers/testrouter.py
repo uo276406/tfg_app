@@ -4,7 +4,7 @@ from repository.testrepository import insert_test, get_tests_by_user, get_test_b
 from repository.questionsrepository import insert_question, get_questions_by_test
 from repository.optionsrepository import insert_option, get_options_by_question
 from repository.teststudentrepository import update_test_student, get_students_by_test
-from testcorrector.testcorrector import TestCorrector
+from corrector.testcorrector import TestCorrector
 from models.user import User
 from pydantic import BaseModel
 import uuid

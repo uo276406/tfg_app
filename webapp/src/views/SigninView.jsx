@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, Input, Card, Col, Row, Alert } from "antd";
+import { Button, Form, Input, Card, Col, Row, Alert, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import UsersConnector from "../api/usersconnector";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,8 @@ const alertStyle = {
   marginRight: "1.5%",
   marginBottom: "1.5%",
 };
+
+const { Text } = Typography;
 
 /**
  * A functional component that renders a sign-in form using Ant Design components.
@@ -89,7 +91,7 @@ function SigninView(props) {
         ) : (
           <></>
         )}
-        <Card title={t("signinTitle")} headStyle={{ textAlign: "center" }}>
+        <Card title={<Text>{t("signinTitle")}</Text>} style={{ textAlign: "center" }}>
           <Form
             name="basic"
             labelCol={{ span: 24 / 3 }}
