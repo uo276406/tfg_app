@@ -21,14 +21,14 @@ class TextKeywords(BaseModel):
 # Modelos de datos: Response ----------------------------------------
 
 
-class Answer(BaseModel):
+class Option(BaseModel):
     value: str
     correct: bool
 
 
 class Question(BaseModel):
     question: str
-    options: list[Answer]
+    options: list[Option]
     repeated: bool
 
 

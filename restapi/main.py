@@ -61,4 +61,4 @@ async def startup():
 
 @app.get("/api/v1.0/")
 async def root():
-    return {"message": "This is an API REST to found keywords in a text"}
+    return {"detail": "This is an API REST to found keywords in a text"}

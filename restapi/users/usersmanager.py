@@ -40,11 +40,11 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
             raise InvalidPasswordException(
                 reason="Password should contain at least one digit"
             )
-        if not any(char.lower().isalpha() for char in password):
+        if not any(char.islower() and not char.isdigit() for char in password):
             raise InvalidPasswordException(
                 reason="Password should contain at least one downcase letter"
             )
-        if not any(char.isupper() for char in password):
+        if not any(char.isupper() and not char.isdigit() for char in password):
             raise InvalidPasswordException(
                 reason="Password should contain at least one uppercase letter"
             )

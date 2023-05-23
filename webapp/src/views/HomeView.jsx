@@ -76,8 +76,8 @@ function HomeView(props) {
     <Row gutter={[32, 32]}>
       <Col span={16} xs={24} sm={24} md={24} lg={16} xl={16} xxl={16}>
         <Carousel dotPosition="left" effect="fade" autoplay>
-          {getCarouselItem("homeimg/uniovilogobig.jpg", t("uniovi"), t("unioviDesc"))}
-          {getCarouselItem("homeimg/eiilogobig.jpg", t("eii"), t("eiiDesc"))}
+          {getCarouselItem("homeimg/uniovilogobig.jpg", t("uniovi"), "")}
+          {getCarouselItem("homeimg/eiilogobig.jpg", t("eii"), "")}
           {getCarouselItem("homeimg/processTextExample.jpg", t("processHome"), t("processHomeDesc"))}
           {getCarouselItem("homeimg/selectKeywordsExample.jpg", t("keywordsHome"), t("keywordsHomeDesc"))}
           {getCarouselItem("homeimg/questionsExample.jpg", t("questionsHome"), t("questionsHomeDesc"))}
