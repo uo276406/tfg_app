@@ -31,4 +31,4 @@ class KeywordExtractor:
         for k in keywords_found:
             res.append({'index': i, 'value': k})
             i += 1
-        return {'keywords': res}
+        return res

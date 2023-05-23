@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from routers import keywordsrouter, questionsgeneratorrouter, usersrouter, authrouter, testrouter, studentsrouter, studentquestionsrouter
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
@@ -61,4 +61,4 @@ async def startup():
 
 @app.get("/api/v1.0/")
 async def root():
-    return {"message": "This is an API REST to found keywords in a text"}
+    return {"detail": "This is an API REST to found keywords in a text"}

@@ -33,7 +33,7 @@ function SigninView(props) {
       .signinUser(
         values.name,
         values.surname1,
-        values.surname2,
+        values.surname2 || "",
         values.email,
         values.password
       )

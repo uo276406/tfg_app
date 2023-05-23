@@ -2,10 +2,6 @@ const apiendpoint = process.env.REACT_APP_API_URL;
 
 class TestsConnector {
   async addTest(accessToken, questions, jumpSelected, feedback) {
-    console.log(JSON.stringify({
-      questions: questions,
-      jump: jumpSelected,
-    }))
     return await fetch(apiendpoint + "/api/v1.0/test/add", {
       method: "POST",
       headers: {

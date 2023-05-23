@@ -11,17 +11,6 @@ class Text(BaseModel):
     text_body: str
 
 
-# Modelos de datos: Response ----------------------------------------
-
-
-class KeywordFound(BaseModel):
-    index: int
-    value: str
-
-
-class ListKeywordsFound(BaseModel):
-    keywords: list[KeywordFound]
-
 # This is a FastAPI dependency that checks if the user is authenticated.
 current_active_user = fastapi_users.current_user(active=True)
 
@@ -34,6 +23,7 @@ current_active_user = fastapi_users.current_user(active=True)
 
 
 @router.post("/find", status_code=status.HTTP_200_OK, description="Find keywords in text", response_description="Keywords found in text"  ,dependencies=[Depends(current_active_user)])
-async def find_keywords(text: Text) -> ListKeywordsFound:
+async def find_keywords(text: Text):
     extractor = KeywordExtractor(text.text_body)
-    return extractor.extract_keywords()
+    keywords_found = extractor.extract_keywords()
+    return {'keywords': keywords_found}

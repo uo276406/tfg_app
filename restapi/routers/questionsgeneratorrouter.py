@@ -18,28 +18,6 @@ class TextKeywords(BaseModel):
     keywords_selected: list[Keyword]
 
 
-# Modelos de datos: Response ----------------------------------------
-
-
-class Answer(BaseModel):
-    value: str
-    correct: bool
-
-
-class Question(BaseModel):
-    question: str
-    options: list[Answer]
-    repeated: bool
-
-
-class QuestionsInfo(BaseModel):
-    questions: list[Question]
-    not_enough_questions_for: list[str]
-    there_are_repeated: bool
-
-# ---------------------------------------------------------
-
-
 # This is a FastAPI dependency that checks if the user is authenticated.
 current_active_user = fastapi_users.current_user(active=True)
 
@@ -51,6 +29,6 @@ current_active_user = fastapi_users.current_user(active=True)
 
 
 @router.post("/generate", status_code=status.HTTP_200_OK, description="Generate questions", response_description="Generated questions form the text using the selected keywords", dependencies=[Depends(current_active_user)])
-async def generate_questions(text_keywords: TextKeywords) -> QuestionsInfo:
+async def generate_questions(text_keywords: TextKeywords):
     generator = FillInGapsGenerator()
     return generator.generate_questions(text_keywords.text_body, text_keywords.keywords_selected)
