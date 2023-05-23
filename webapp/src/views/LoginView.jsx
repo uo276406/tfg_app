@@ -68,6 +68,7 @@ function LoginView(props) {
             console.log(response)
             props.updateUser(response);
           });
+          console.log("pasa por aqui")
           navigate("/");
         }
       });
