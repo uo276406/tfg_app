@@ -28,15 +28,18 @@ def setup_and_teardown():
     tests = db.query(Test).filter(Test.id != "must-leave-cold-student").all()
     for test in tests:
         db.delete(test)
-    questions = db.query(Question).filter(Question.test_id != "must-leave-cold-student").all()
+    questions = db.query(Question).filter(
+        Question.test_id != "must-leave-cold-student").all()
     for question in questions:
         db.delete(question)
-    options = db.query(Option).filter(Option.question_id != "f45584bf-ae8e-4133-a4a4-7d55177c8ed7").all()
+    options = db.query(Option).filter(Option.question_id !=
+                                      "f45584bf-ae8e-4133-a4a4-7d55177c8ed7").all()
     for option in options:
         db.delete(option)
     test = db.query(Test).filter(Test.id == "must-leave-cold-student").first()
     test.open = True
-
+    db.execute(TestStudent.update().where((TestStudent.c.test_id == "must-leave-cold-student")
+                              & (TestStudent.c.student_id == "estudiante1")).values(score=0, finished=False))
     db.commit()
     db.close()
 
@@ -107,9 +110,9 @@ def test_find_test_results():
                                content=encoded_data).json()["access_token"]
 
     response = client.get("/api/v1.0/test/find/results",
-                           headers={
-                               "Content-Type": "application/json",
-                               "Authorization": "Bearer " + access_token})
+                          headers={
+                              "Content-Type": "application/json",
+                              "Authorization": "Bearer " + access_token})
     assert response.status_code == 200
     assert len(response.json()) > 0
 
@@ -126,11 +129,12 @@ def test_find_existing_test_by_id():
                                content=encoded_data).json()["access_token"]
 
     response = client.get("/api/v1.0/test/must-leave-cold-student",
-                           headers={
-                               "Content-Type": "application/json",
-                               "Authorization": "Bearer " + access_token})
+                          headers={
+                              "Content-Type": "application/json",
+                              "Authorization": "Bearer " + access_token})
     assert response.status_code == 200
     assert len(response.json()) > 0
+
 
 def test_find_not_existing_test_by_id():
     """ This test checks if the endpoint /api/v1.0/test/{test_id} works correctly for non existing test.
@@ -144,11 +148,12 @@ def test_find_not_existing_test_by_id():
                                content=encoded_data).json()["access_token"]
 
     response = client.get("/api/v1.0/test/must-leave-cold",
-                           headers={
-                               "Content-Type": "application/json",
-                               "Authorization": "Bearer " + access_token})
+                          headers={
+                              "Content-Type": "application/json",
+                              "Authorization": "Bearer " + access_token})
     assert response.status_code == 200
     assert response.json() == {"detail": "Test not found"}
+
 
 def test_find_closed_test_by_id():
     """ This test checks if the endpoint /api/v1.0/test/{test_id} works correctly for closed tests.
@@ -161,15 +166,15 @@ def test_find_closed_test_by_id():
                                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
                                content=encoded_data).json()["access_token"]
     client.post("/api/v1.0/test/changestatus",
-                           headers={
-                               "Content-Type": "application/json",
-                               "Authorization": "Bearer " + access_token},
-                           json={"id": "must-leave-cold-student", "open": False})
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + access_token},
+                json={"id": "must-leave-cold-student", "open": False})
 
     response = client.get("/api/v1.0/test/must-leave-cold-student",
-                           headers={
-                               "Content-Type": "application/json",
-                               "Authorization": "Bearer " + access_token})
+                          headers={
+                              "Content-Type": "application/json",
+                              "Authorization": "Bearer " + access_token})
     assert response.status_code == 200
     assert response.json() == {"detail": "Test is closed"}
 
@@ -185,16 +190,16 @@ def test_check_closed_test():
                                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"},
                                content=encoded_data).json()["access_token"]
     client.post("/api/v1.0/test/changestatus",
-                           headers={
-                               "Content-Type": "application/json",
-                               "Authorization": "Bearer " + access_token},
-                           json={"id": "must-leave-cold-student", "open": False})
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + access_token},
+                json={"id": "must-leave-cold-student", "open": False})
 
     response = client.post("/api/v1.0/test/check",
                            headers={
                                "Content-Type": "application/json",
                                "Authorization": "Bearer " + access_token},
-                               json={"testId": "must-leave-cold-student", "studentId": "estudiante1", "selection": [-1]})
+                           json={"testId": "must-leave-cold-student", "studentId": "estudiante1", "selection": [-1]})
     assert response.status_code == 200
     assert response.json() == {"detail": "Test is closed"}
 
@@ -214,7 +219,7 @@ def test_check_non_existing_test():
                            headers={
                                "Content-Type": "application/json",
                                "Authorization": "Bearer " + access_token},
-                               json={"testId": "must-leave-cold-stud", "studentId": "estudiante1", "selection": [-1]})
+                           json={"testId": "must-leave-cold-stud", "studentId": "estudiante1", "selection": [-1]})
     assert response.status_code == 200
     assert response.json() == {"detail": "Test not found"}
 
@@ -234,7 +239,7 @@ def test_check_test_failed():
                            headers={
                                "Content-Type": "application/json",
                                "Authorization": "Bearer " + access_token},
-                               json={"testId": "must-leave-cold-student", "studentId": "estudiante1", "selection": [-1]})
+                           json={"testId": "must-leave-cold-student", "studentId": "estudiante1", "selection": [-1]})
     assert response.status_code == 201
     assert response.json()['score'] == 0
 
@@ -254,6 +259,6 @@ def test_check_test_passed():
                            headers={
                                "Content-Type": "application/json",
                                "Authorization": "Bearer " + access_token},
-                               json={"testId": "must-leave-cold-student", "studentId": "estudiante1", "selection": [0]})
+                           json={"testId": "must-leave-cold-student", "studentId": "estudiante1", "selection": [0]})
     assert response.status_code == 201
     assert response.json()['score'] == 1
