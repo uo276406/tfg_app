@@ -58,6 +58,9 @@ async def startup():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
+@app.get("/")
+async def root():
+    return {"detail": "This is an API REST to found keywords in a text"}
 
 @app.get("/api/v1.0/")
 async def root():

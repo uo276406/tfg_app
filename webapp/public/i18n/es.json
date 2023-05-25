@@ -91,6 +91,9 @@
     "deleteSelected": "Eliminar",
     "searchPlaceholder": "Buscar...",
     "numberQuestionsGenerate": " preguntas se generarán como máximo",
+    "questionsByWord": "Preguntas por la palabra ",
+    "increaseQuestionToGenerate": "Aumentar preguntas a generar",
+    "decreaseQuestionToGenerate": "Disminuir preguntas a generar",
     
 
     "exportTxtButton": "Exportar a txt...",
@@ -147,7 +150,8 @@
     "score": "Puntuación",
     "state": "Estado",
     "update": "Actualizar",
-    "answered": "Contestadas"
+    "answered": "Contestadas",
+    "cleanSelection": "Limpiar selección"
 
 
 }

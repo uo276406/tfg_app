@@ -91,6 +91,9 @@
     "numberQuestionsGenerate": " maximum questions to generate",
     "activateJump": "Set jumps in test",
     "showFeedback": "Show feedback",
+    "questionsByWord": "Questions by the word ",
+    "increaseQuestionToGenerate": "Increase questions to generate",
+    "decreaseQuestionToGenerate": "Decrease questions to generate",
 
     "exportTxtButton": "Export to txt...",
     "addOption": "Add option...",
@@ -147,7 +150,8 @@
     "state": "Estado",
     "copy": "Copy",
     "update": "Update",
-    "answered": "Answered"
+    "answered": "Answered",
+    "cleanSelection": "Clean selection"
 
 
 }

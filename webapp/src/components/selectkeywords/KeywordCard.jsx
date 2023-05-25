@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Card, Input, Badge, InputNumber, Button, Space } from "antd";
+import { Card, Input, Badge, InputNumber, Button, Space, Tooltip } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 const cardStyleNotSelected = {
   textAlign: "center",
@@ -36,6 +37,8 @@ const inputNumberStyle = {
  * @returns A card component displaying the keyword and options to edit and select it.
  */
 function KeywordCard(props) {
+  const { t } = useTranslation();
+
   // Selección ------------------------------------------------------
   const handleSelect = () => {
     const keywordSelected = {
@@ -125,7 +128,7 @@ function KeywordCard(props) {
   };
 
   return (
-    <Badge.Ribbon text={props.numberOfQuestions}>
+    <Badge.Ribbon text={<Tooltip title={t("questionsByWord")+keyword}>{props.numberOfQuestions}</Tooltip>}>
       <Card
         style={props.selected ? cardStyleSelected : cardStyleNotSelected}
         onClick={() => {
@@ -190,16 +193,21 @@ function KeywordCard(props) {
                 }}
               />
               <Button.Group>
+                <Tooltip title={t("decreaseQuestionToGenerate")}>
                 <Button
                   disabled = {numberOfQuestions === 0}
                   onClick={(event) => decrease(event)}
                   icon={<MinusOutlined />}
                 />
+                </Tooltip>
+                <Tooltip title={t("increaseQuestionToGenerate")}>
                 <Button
                   onClick={(event) => increase(event)}
                   icon={<PlusOutlined />}
                 />
+                </Tooltip>
               </Button.Group>
+
             </Space>
           ) : (
             <></>

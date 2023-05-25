@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Card, Typography, Radio, Space, Button, Tag } from "antd";
+import { Card, Typography, Radio, Space, Button, Tag, Tooltip } from "antd";
 import { ClearOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 const { Paragraph } = Typography;
 
@@ -12,6 +13,8 @@ const questionTextStyle = {
 const tagNumberStyle = { fontSize: "1.3em" };
 
 function QuestionTest(props) {
+  const { t } = useTranslation();
+
   let correctionColor =
     props?.correction && props.correction.is_correct
       ? "#B1FFCA"
@@ -49,9 +52,11 @@ function QuestionTest(props) {
       }
       extra={
         <div>
+          <Tooltip title={t("cleanSelection")}>
           <Button onClick={removeOption} disabled={props.testFinished}>
             <ClearOutlined />
           </Button>
+          </Tooltip>
           <div>
             {props.correction !== null ? props.correction.addedScore : <></>}
           </div>
