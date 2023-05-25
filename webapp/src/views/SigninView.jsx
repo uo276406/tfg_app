@@ -138,7 +138,7 @@ function SigninView(props) {
               rules={[
                 { required: true, message: t("inputPasswordCompulsory") },
                 { min: 6, message: t("minPassword") },
-                { whitespace: true, message: t("whitespacePassword") },
+                { pattern: /^\S+$/ , message: t("whitespacePassword") },
                 {
                   pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]/,
                   message: t("minMayusMinNumber"),

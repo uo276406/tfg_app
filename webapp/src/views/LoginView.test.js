@@ -32,7 +32,7 @@ describe("Test /login page", () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    expect(page.url()).toBe("http://localhost:3000/");
+    await expect(page.url()).toBe("http://localhost:3000/");
   });
 });
 
@@ -67,9 +67,9 @@ describe("Test /login page", () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    expect(page.url()).toBe("http://localhost:3000/login");
+    await expect(page.url()).toBe("http://localhost:3000/login");
     const content = await page.content();
-    expect(content.includes("Credenciales incorrectas")).toBe(true);
+    await expect(content.includes("Credenciales incorrectas")).toBe(true);
   });
 });
 
@@ -104,8 +104,8 @@ describe("Test /login page", () => {
   
       await new Promise((r) => setTimeout(r, 2000));
   
-      expect(page.url()).toBe("http://localhost:3000/login");
+      await expect(page.url()).toBe("http://localhost:3000/login");
       const content = await page.content();
-      expect(content.includes("Credenciales incorrectas")).toBe(true);
+      await expect(content.includes("Credenciales incorrectas")).toBe(true);
     });
   });
