@@ -118,6 +118,7 @@ function TextProcessForm(props) {
               style={textAreaStyle}
               placeholder={t("textAreaPlaceHolder")}
               name="TextToProcess"
+              id="TextToProcess"
               value={text}
               onChange={(event) => {
                 setText(event.target.value);
@@ -133,6 +134,7 @@ function TextProcessForm(props) {
                 type="primary"
                 style={buttons2Style}
                 onClick={() => setText(exampleText)}
+                id="sampleTextButton"
               >
                 {t("testText")}
               </Button>
@@ -142,6 +144,7 @@ function TextProcessForm(props) {
                 disabled={text.length === 0}
                 icon={<DeleteOutlined />}
                 onClick={() => setText("")}
+                id="deleteTextButton"
                 danger
               >
                 {t("deleteSelected")}
@@ -156,6 +159,7 @@ function TextProcessForm(props) {
                   icon={<RightOutlined />}
                   disabled={!text}
                   onClick={sendApiMessage}
+                  id="processTextButton"
                 >
                   {t("processTextButton")}
                 </Button>

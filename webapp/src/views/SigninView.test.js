@@ -2,6 +2,8 @@ const puppeteer = require("puppeteer");
 
 jest.setTimeout(80000);
 
+const viewport = {  width: 1600, height: 800 };
+
 describe("Test /signin page", () => {
   let browser;
   let page;
@@ -14,7 +16,7 @@ describe("Test /signin page", () => {
 
     page = await browser.newPage();
 
-    await page.setViewport({ width: 1920, height: 1080 });
+    await page.setViewport(viewport);
 
     await page.goto("http://localhost:3000/signin");
   });
@@ -55,7 +57,7 @@ describe("Test /signin page", () => {
 
     page = await browser.newPage();
 
-    await page.setViewport({ width: 1920, height: 1080 });
+    await page.setViewport(viewport);
 
     await page.goto("http://localhost:3000/signin");
   });
@@ -97,7 +99,7 @@ describe("Test /signin page", () => {
 
     page = await browser.newPage();
 
-    await page.setViewport({ width: 1920, height: 1080 });
+    await page.setViewport(viewport);
 
     await page.goto("http://localhost:3000/signin");
   });
@@ -138,7 +140,7 @@ describe("Test /signin page", () => {
 
     page = await browser.newPage();
 
-    await page.setViewport({ width: 1920, height: 1080 });
+    await page.setViewport(viewport);
 
     await page.goto("http://localhost:3000/signin");
   });
@@ -179,7 +181,7 @@ describe("Test /signin page", () => {
 
     page = await browser.newPage();
 
-    await page.setViewport({ width: 1920, height: 1080 });
+    await page.setViewport(viewport);
 
     await page.goto("http://localhost:3000/signin");
   });
