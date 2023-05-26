@@ -124,6 +124,7 @@ function SelectKeywordsForm(props) {
               icon={<RightOutlined />}
               disabled={!enabledGenerateButton}
               onClick={sendApiMessage}
+              id="generateQuestionsButton"
             >
               {t("generateQuestionsButton")}
             </Button>

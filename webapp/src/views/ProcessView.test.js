@@ -193,3 +193,113 @@ describe("Test /process page", () => {
 
   });
 });
+
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  test("Second step: Selecting keywords (add new keyword)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    
+    await page.waitForSelector("#addNewWordField");
+    await page.type("#addNewWordField", "Europeans"); //Añade palabra válida
+    await page.click("#addNewWordButton");
+    let content = await page.content();
+    await expect(content.includes("Europeans")).toBe(true);
+    await expect(content.includes("Palabra añadida correctamente")).toBe(true);
+
+    await page.waitForSelector("#addNewWordField");
+    await page.type("#addNewWordField", "silk"); //Añade palabra repetida
+    await page.click("#addNewWordButton");
+    content = await page.content();
+    await expect(content.includes("silk")).toBe(true);
+    await expect(content.includes("Palabra repetida")).toBe(true);
+
+
+    await page.waitForSelector("#addNewWordField");
+    await page.type("#addNewWordField", "xfgh"); //Añade palabra no existente en texto
+    await page.click("#addNewWordButton");
+    content = await page.content();
+    await expect(content.includes("xfgh")).toBe(false);
+    await expect(content.includes("Palabra no encontrada en el texto")).toBe(true);
+
+  });
+});
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  test("Second step: Selecting keywords (to pass to select questions)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#checkAllButton");
+    await page.click("#checkAllButton"); //selecciona todas
+    await page.click("#checkAllButton"); //deselecciona todas
+    let isDisabledGenerateButton = await isDisabled(await page.$("#generateQuestionsButton"));
+    await expect(isDisabledGenerateButton).toBe(true);
+
+    await page.click("#checkAllButton"); //selecciona todas
+    isDisabledGenerateButton = await isDisabled(await page.$("#generateQuestionsButton"));
+    await expect(isDisabledGenerateButton).toBe(false);
+  
+  });
+});
