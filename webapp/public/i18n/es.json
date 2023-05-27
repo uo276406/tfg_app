@@ -108,6 +108,7 @@
     "duplicateQuestion": "Duplicar",
     "questionDeleted": "Pregunta eliminada correctamente",
     "questionAdded": "Pregunta añadida correctamente",
+    "questionEmpty": "No puede ser vacío",
     "generateTest": "Generar test",
     "testGenerated": "Test creado correctamente",
     "testId": "Id del test:",

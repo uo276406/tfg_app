@@ -36,6 +36,22 @@ const typeSampleText = async (page) => {
 };
 
 
+const checkQuestionText = async (page, text, element) => {
+  await element.click();
+  const textareas = await page.$$("textarea");
+  for (const textarea of textareas) {
+    await textarea.type(text);
+    await page.click("#numberOfQuestions");
+    let content = await page.content();
+    if (text === "") {
+      await expect(content.includes("No puede ser vacío")).toBe(true);
+    } else {
+      await expect(content.includes(text)).toBe(true);
+    }
+  }
+};
+
+
 // Comienzo tests --------------------------------------------------------------------------------------------
 
 describe("Test /process page", () => {
@@ -301,5 +317,169 @@ describe("Test /process page", () => {
     isDisabledGenerateButton = await isDisabled(await page.$("#generateQuestionsButton"));
     await expect(isDisabledGenerateButton).toBe(false);
   
+  });
+});
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  test("Third step: Selecting questions (questions repeated and add new question)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#generateQuestionsButton");
+    await page.click("#generateQuestionsButton"); //Genera preguntas
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#generateTestButton");
+
+    let content = await page.content();
+    await expect(content.includes("Preguntas repetidas")).toBe(true);
+
+    await page.waitForSelector("#addQuestionButton");
+    await page.click("#addQuestionButton"); //Añade pregunta
+
+    content = await page.content();
+    await expect(content.includes("13 preguntas propuestas")).toBe(true);
+  });
+});
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  test("Third step: Selecting questions (edit question text)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#generateQuestionsButton");
+    await page.click("#generateQuestionsButton"); //Genera preguntas
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#generateTestButton");
+
+    const xpathExpression = "//div[@role='button' and @tabindex='0']";
+    const elementHandles = await page.$x(xpathExpression);
+
+    if (elementHandles.length > 0) {
+      const element = elementHandles[0];
+      await checkQuestionText(page, "", element);
+
+      await checkQuestionText(page, "But when the Silk Road, the long  _________  from China to the Mediterranean", element);
+
+      await checkQuestionText(page, "But when the Silk Road, the long  _________  from China to the Mediterranean, became costlier and more dangerous to travel, Europeans searched for a more efficient and inexpensive trade route over water, initiating the development of what we now call the Atlantic World Añadidas cosas", element);
+    }
+  });
+});
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  test("Third step: Selecting questions (add new option)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#generateQuestionsButton");
+    await page.click("#generateQuestionsButton"); //Genera preguntas
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#generateTestButton");
+
+    let content = await page.content();
+    await expect(content.includes("12 preguntas propuestas")).toBe(true);
+
+    await page.waitForSelector("#addOption0");
+    await page.click("#addOption0"); //Añade opción a la primera pregunta
+    await page.type("#addOptionInput0", "OpcionTest"); //Escribe en la nueva opción
+    await page.click("#numberOfQuestions");
+
+    content = await page.content();
+    await expect(content.includes("OpcionTest")).toBe(true);
   });
 });

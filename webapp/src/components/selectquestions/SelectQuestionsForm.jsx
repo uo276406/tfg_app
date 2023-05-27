@@ -224,7 +224,7 @@ function SelectQuestionsForm(props) {
         ) : (
           <></>
         )}
-        <Tag style={countQuestionsStyle} color="geekblue">
+        <Tag style={countQuestionsStyle} color="geekblue" id="numberOfQuestions">
           {countQuestions + " " + t("numberOfQuestions")}
         </Tag>
       </Row>
@@ -289,6 +289,7 @@ function SelectQuestionsForm(props) {
             icon={<CheckOutlined />}
             onClick={generateTest}
             disabled={countQuestions === 0}
+            id="generateTestButton"
           >
             {t("generateTest")}
           </Button>

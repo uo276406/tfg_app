@@ -195,7 +195,7 @@ function QuestionCard(props) {
         title={
           <Space direction={"horizontal"} align={"start"}>
             <Tag style={tagNumberStyle}>{props.index + 1}</Tag>
-            <Paragraph
+            <Paragraph id={"question" + props.index}
               editable={{
                 onChange: handleModifyQuestionText,
               }}
@@ -263,9 +263,10 @@ function QuestionCard(props) {
               onChange={handleInputChange}
               onBlur={handleInputConfirm}
               onPressEnter={handleInputConfirm}
+              id={"addOptionInput"+props.index}
             />
           ) : (
-            <Tag style={optionPlusStyle} onClick={showInput}>
+            <Tag style={optionPlusStyle} onClick={showInput} id={"addOption"+props.index}>
               <PlusOutlined /> {t("addOption")}
             </Tag>
           )}

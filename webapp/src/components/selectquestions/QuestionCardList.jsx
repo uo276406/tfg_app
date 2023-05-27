@@ -161,6 +161,7 @@ function QuestionCardList(props) {
           <Button
             type="dashed"
             style={buttonAddQuestionStyle}
+            id="addQuestionButton"
             onClick={() =>
               addNewQuestion(generateSkelettonQuestion(), questions.length)
             }

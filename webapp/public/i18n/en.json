@@ -107,6 +107,7 @@
     "duplicateQuestion": "Dplicate",
     "questionDeleted": "Question deleted correctly",
     "questionAdded": "Question added correctly",
+    "questionEmpty": "It can't be empty",
     "generateTest": "Generate test",
     "testGenerated": "Test generated correctly",
     "testId": "Test id:",
