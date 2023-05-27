@@ -395,6 +395,57 @@ describe("Test /process page", () => {
     await browser.close();
   });
 
+  test("Third step: Selecting questions (duplicate question)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 10000));
+
+    await page.waitForSelector("#generateQuestionsButton");
+    await page.click("#generateQuestionsButton"); //Genera preguntas
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#questionCard0");
+    const card = await page.$("#questionCard0");
+    await card.hover(); // Se pone encima y espera al botón
+    await page.waitForSelector("#duplicateButton0");
+    await page.click("#duplicateButton0");
+
+    let content = await page.content();
+    await expect(content.includes("13 preguntas propuestas")).toBe(true);
+  });
+});
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
   test("Third step: Selecting questions (edit question text)", async () => {
     await new Promise((r) => setTimeout(r, 4000));
 
@@ -483,3 +534,113 @@ describe("Test /process page", () => {
     await expect(content.includes("OpcionTest")).toBe(true);
   });
 });
+
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  test("Third step: Selecting questions (delete one question)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 10000));
+
+    await page.waitForSelector("#generateQuestionsButton");
+    await page.click("#generateQuestionsButton"); //Genera preguntas
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#questionCard0");
+    const card = await page.$("#questionCard0");
+    await card.hover(); // Se pone encima y espera al botón
+    await page.waitForSelector("#deleteButton0");
+    await page.click("#deleteButton0");
+    let content = await page.content();
+    await expect(content.includes("11 preguntas propuestas")).toBe(true);
+
+  });
+});
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  test("Third step: Selecting questions (delete all questions)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 10000));
+
+    await page.waitForSelector("#generateQuestionsButton");
+    await page.click("#generateQuestionsButton"); //Genera preguntas
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    let content = await page.content();
+
+    for (let i = 0; i < 12; i++) {
+      await new Promise((r) => setTimeout(r, 500));
+      await page.waitForSelector("#questionCard0");
+      const card = await page.$("#questionCard0");
+      await card.hover(); // Se pone encima y espera al botón
+      await page.waitForSelector("#deleteButton0");
+      await page.click("#deleteButton0");
+      content = await page.content();
+      await expect(content.includes("Pregunta eliminada correctamente")).toBe(true);
+    }
+    content = await page.content();
+    await expect(content.includes("0 preguntas propuestas")).toBe(true);
+  });
+});
+
