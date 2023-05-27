@@ -374,6 +374,7 @@ function KeywordCardList(props) {
           xxl={5}
         >
           <InputNumber
+            id="totalQuestionsToGenerate"
             min={0}
             defaultValue={countQuestionsToGenerate}
             value={countQuestionsToGenerate}

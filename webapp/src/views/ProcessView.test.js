@@ -294,6 +294,64 @@ describe("Test /process page", () => {
     await browser.close();
   });
 
+  test("Second step: Selecting keywords (modify number of questions by word)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#keyword0");
+    const card = await page.$("#keyword0");
+
+    await card.hover();
+    await page.waitForSelector("#inputNumber0");
+    await page.type("#inputNumber0", "texto"); //Intenta escribir texto
+    let content = await page.content();
+    await expect(content.includes("12 palabras seleccionadas")).toBe(true); // No se deselecciona nada
+
+    await card.hover();
+    await page.waitForSelector("#inputNumber0");
+    await page.$eval("#inputNumber0", (element) => (element.value = "2"));
+    content = await page.content();
+    await expect(content.includes("13")).toBe(true); // Se añade una pregunta
+
+    await card.hover();
+    await page.waitForSelector("#inputNumber0");
+    await page.$eval("#inputNumber0", (element) => (element.value = "0"));
+    content = await page.content();
+    await expect(content.includes("11")).toBe(true);
+  });
+});
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
   test("Second step: Selecting keywords (to pass to select questions)", async () => {
     await new Promise((r) => setTimeout(r, 4000));
 
@@ -317,6 +375,187 @@ describe("Test /process page", () => {
     isDisabledGenerateButton = await isDisabled(await page.$("#generateQuestionsButton"));
     await expect(isDisabledGenerateButton).toBe(false);
   
+  });
+});
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  test("Second step: Selecting keywords (to pass to select questions with no repeated question)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#checkAllButton");
+    await page.click("#checkAllButton");
+    await page.click("#checkAllButton");
+
+    const card = await page.$("#keyword0");
+    card.hover()
+
+    await page.waitForSelector("#keyword0");
+    await page.click("#keyword0");
+
+    await page.click("#generateQuestionsButton");
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.waitForSelector("#question0");
+    let content = await page.content();
+    await expect(content.includes("Preguntas repetidas")).toBe(false);
+    
+  });
+});
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  test("Second step: Selecting keywords (to pass to select questions with not enough question)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#checkAllButton");
+    await page.click("#checkAllButton");
+    await page.click("#checkAllButton");
+
+    const card = await page.$("#keyword0");
+    card.hover()
+
+    await page.waitForSelector("#keyword0");
+    await page.click("#keyword0");
+    card.hover()
+    await page.waitForSelector("#increaseButton0");
+    for (let i = 0; i < 6; i++) {
+      await new Promise((r) => setTimeout(r, 1000));
+      await page.click("#increaseButton0");
+    }
+    
+    await page.click("#generateQuestionsButton");
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.waitForSelector("#numberOfQuestions");
+    let content = await page.content();
+    await expect(content.includes("No hay preguntas suficientes")).toBe(true);
+    
+  });
+});
+
+
+
+
+describe("Test /process page", () => {
+  let browser;
+  let page;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
+      headless: false,
+      args: ["--start-maximized"],
+    });
+
+    page = await browser.newPage();
+
+    await page.setViewport(viewport);
+
+    await page.goto("http://localhost:3000/login");
+  });
+
+  afterAll(async () => {
+    await browser.close();
+  });
+
+  test("Second step: Selecting keywords (to pass to select questions with not enough question and repeated)", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await loginTestUser(page);
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.goto("http://localhost:3000/process");
+
+    await typeSampleText(page);
+
+    await new Promise((r) => setTimeout(r, 6000));
+
+    await page.waitForSelector("#checkAllButton");
+
+    const card = await page.$("#keyword0");
+    card.hover()
+
+    await page.waitForSelector("#keyword0");
+    await page.click("#keyword0");
+    card.hover()
+    await page.waitForSelector("#increaseButton0");
+    for (let i = 0; i < 6; i++) {
+      await new Promise((r) => setTimeout(r, 1000));
+      await page.click("#increaseButton0");
+    }
+    
+    await page.click("#generateQuestionsButton");
+
+    await new Promise((r) => setTimeout(r, 4000));
+
+    await page.waitForSelector("#numberOfQuestions");
+    let content = await page.content();
+    await expect(content.includes("No hay preguntas suficientes")).toBe(true);
+    await expect(content.includes("Preguntas repetidas")).toBe(true);
+    
   });
 });
 

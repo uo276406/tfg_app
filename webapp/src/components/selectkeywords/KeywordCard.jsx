@@ -91,14 +91,19 @@ function KeywordCard(props) {
   const [editableNumQuestions, setEditableNumQuestions] = useState(false);
 
   const updateNumberOfQuestions = (value) => {
+    if (value < 0 || typeof value === "string" || value === "") {
+      setNumberOfQuestions(0);
+    } else {
+      setNumberOfQuestions(value);
+      
+    }
     const keywordSelected = {
       index: props.index,
       value: keyword,
-      selected: true,
+      selected: value === 0 ? false : true,
       numberOfQuestions: value,
     };
     props.updateSelectedKeywords(keywordSelected);
-    setNumberOfQuestions(value);
   };
 
   const increase = (event) => {
@@ -116,7 +121,8 @@ function KeywordCard(props) {
 
   const decrease = (event) => {
     event.stopPropagation();
-    let newValue = props.numberOfQuestions !== 0 ? props.numberOfQuestions - 1 : 0;
+    let newValue =
+      props.numberOfQuestions !== 0 ? props.numberOfQuestions - 1 : 0;
     const keywordSelected = {
       index: props.index,
       value: keyword,
@@ -128,8 +134,15 @@ function KeywordCard(props) {
   };
 
   return (
-    <Badge.Ribbon text={<Tooltip title={t("questionsByWord")+keyword}>{props.numberOfQuestions}</Tooltip>}>
+    <Badge.Ribbon
+      text={
+        <Tooltip title={t("questionsByWord") + keyword}>
+          {props.numberOfQuestions}
+        </Tooltip>
+      }
+    >
       <Card
+        id={"keyword" + props.index}
         style={props.selected ? cardStyleSelected : cardStyleNotSelected}
         onClick={() => {
           handleSelect();
@@ -139,6 +152,7 @@ function KeywordCard(props) {
         }}
         onMouseLeave={() => {
           setEditableNumQuestions(false);
+          updateNumberOfQuestions(numberOfQuestions);
         }}
       >
         <>
@@ -176,6 +190,7 @@ function KeywordCard(props) {
           {editableNumQuestions ? (
             <Space>
               <InputNumber
+                id={"inputNumber" + props.index}
                 style={inputNumberStyle}
                 min={0}
                 value={props.numberOfQuestions}
@@ -185,29 +200,44 @@ function KeywordCard(props) {
                   event.stopPropagation();
                 }}
                 onKeyDown={(event) => {
-                  if (event.keyCode === 39) {
-                    increase(event);
-                  } else if (event.keyCode === 40) {
-                    decrease(event);
+                  if (
+                    (event.keyCode >= 48 && event.keyCode <= 57) || // Números del teclado numérico
+                    (event.keyCode >= 96 && event.keyCode <= 105) || // Números del teclado normal
+                    event.keyCode === 8 // Backspace
+                  ) {
+                    if (event.keyCode === 39) {
+                      increase(event);
+                    } else if (event.keyCode === 40) {
+                      decrease(event);
+                    } else if (event.keyCode === 37) {
+                      decrease(event);
+                    } else if (event.keyCode === 38) {
+                      increase(event);
+                    } else if (props.numberOfQuestions === 0) {
+                      updateNumberOfQuestions(0);
+                    }
+                  } else {
+                    event.preventDefault();
                   }
                 }}
               />
               <Button.Group>
                 <Tooltip title={t("decreaseQuestionToGenerate")}>
-                <Button
-                  disabled = {numberOfQuestions === 0}
-                  onClick={(event) => decrease(event)}
-                  icon={<MinusOutlined />}
-                />
+                  <Button
+                    id={"decreaseButton" + props.index}
+                    disabled={numberOfQuestions === 0}
+                    onClick={(event) => decrease(event)}
+                    icon={<MinusOutlined />}
+                  />
                 </Tooltip>
                 <Tooltip title={t("increaseQuestionToGenerate")}>
-                <Button
-                  onClick={(event) => increase(event)}
-                  icon={<PlusOutlined />}
-                />
+                  <Button
+                    id={"increaseButton" + props.index}
+                    onClick={(event) => increase(event)}
+                    icon={<PlusOutlined />}
+                  />
                 </Tooltip>
               </Button.Group>
-
             </Space>
           ) : (
             <></>
