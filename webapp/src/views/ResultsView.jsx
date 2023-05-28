@@ -194,6 +194,7 @@ function ResultsView(props) {
                     <Row style={panelStyle}>
                       <Col xs={24} sm={18} md={18} lg={18} xl={18} xxl={18}>
                         <Paragraph
+                          id={test.id}
                           copyable={{ text: test.id, tooltips: t("copy") }}
                         >
                           {"Id: " + test.id}
