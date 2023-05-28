@@ -251,15 +251,7 @@ function ResultsView(props) {
                         {getDate(test.created_at)}
                       </Col>
                       <Col xs={24} sm={10} md={10} lg={6} xl={4} xxl={4}>
-                        <Space>
-                          <Switch
-                            checkedChildren={t("closeTest")}
-                            unCheckedChildren={t("openTest")}
-                            defaultChecked={test.open}
-                            onChange={(checked, event) =>
-                              changeTestState(checked, event, test.id)
-                            }
-                          ></Switch>
+                        <Space size={40}>
                           <Button
                             type="primary"
                             onClick={(e) => {
@@ -270,6 +262,14 @@ function ResultsView(props) {
                           >
                             {t("viewQR")}
                           </Button>
+                          <Switch
+                            checkedChildren={t("closeTest")}
+                            unCheckedChildren={t("openTest")}
+                            defaultChecked={test.open}
+                            onChange={(checked, event) =>
+                              changeTestState(checked, event, test.id)
+                            }
+                          ></Switch>
                         </Space>
                       </Col>
                     </Row>
