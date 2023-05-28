@@ -239,7 +239,7 @@ function ResultsView(props) {
                   key={test.id}
                   header={
                     <Row style={panelStyle}>
-                      <Col xs={24} sm={18} md={16} lg={16} xl={16} xxl={16}>
+                      <Col xs={24} sm={18} md={18} lg={14} xl={14} xxl={14}>
                         <Paragraph
                           id={test.id}
                           copyable={{ text: test.id, tooltips: t("copy") }}
@@ -247,10 +247,10 @@ function ResultsView(props) {
                           {"Id: " + test.id}
                         </Paragraph>
                       </Col>
-                      <Col xs={24} sm={4} md={5} lg={3} xl={3} xxl={3}>
+                      <Col xs={24} sm={6} md={6} lg={4} xl={4} xxl={4}>
                         {getDate(test.created_at)}
                       </Col>
-                      <Col xs={24} sm={10} md={10} lg={6} xl={4} xxl={4}>
+                      <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
                         <Space size={40}>
                           <Button
                             type="primary"
