@@ -12,12 +12,6 @@ const isDisabled = async (element) => {
   return isDisabled;
 };
 
-const getElementById = async (page, id) => {
-  await page.waitForSelector("#" + id);
-  const element = await page.$("#" + id);
-  return element;
-};
-
 const loginTestUser = async (page) => {
   await page.type("#basic_email", "profesor1@uniovi.es");
   await page.type("#basic_password", "Profesor1");

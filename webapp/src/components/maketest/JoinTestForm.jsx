@@ -154,7 +154,7 @@ function JoinTestForm(props) {
                 sm: { offset: 8, span: 24 / 3 },
               }}
             >
-              <Button type="primary" htmlType="submit" block>
+              <Button type="primary" htmlType="submit" id="joinTest" block>
                 {t("joinTest")}
               </Button>
             </Form.Item>
