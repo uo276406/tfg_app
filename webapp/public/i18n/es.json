@@ -138,6 +138,7 @@
     "testSent": "Test enviado",
     "navigateToHome": "Volver a la página principal",
     "closeTest": "Cerrar test",
+    "viewQR": "Ver QR",
     "openTest": "Abrir test",
     "closedTest": "Test cerrado",
     "closedTestDescription": "El test está cerrado. Los alumnos ya no pueden unirse.",

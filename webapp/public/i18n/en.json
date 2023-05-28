@@ -137,6 +137,7 @@
     "testSent": "Test sent",
     "navigateToHome": "Go to home",
     "closeTest": "Close test",
+    "viewQR": "View QR",
     "openTest": "Open test",
     "closedTest": "Closed test",
     "closedTestDescription": "The test is closed. You can't answer the questions.",
