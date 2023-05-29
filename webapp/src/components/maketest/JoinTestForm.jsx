@@ -64,7 +64,6 @@ function JoinTestForm(props) {
           element.id,
           -1
         );
-      console.log(studentQuestion);
     }
     props.handleSetStudentCombination(test.questions.map((question) => -1));
   }
@@ -74,7 +73,6 @@ function JoinTestForm(props) {
     let testConnector = new TestsConnector();
     let studentQuestionConnector = new StudentQuestionConnector();
     let test = await testConnector.getTest(values.testId);
-    console.log(test);
     if (test.detail !== undefined && test.detail === "Test not found") {
       setTestNotFound(true);
     } else if (test.detail !== undefined && test.detail === "Test is closed") {

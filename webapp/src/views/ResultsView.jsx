@@ -79,7 +79,6 @@ function ResultsView(props) {
         })
       );
       setLoading(false);
-      console.log(updatedTests);
       setTests(updatedTests);
     } else if (tests.detail === "Unauthorized") {
       openNotificationWithIcon("info");
@@ -107,13 +106,7 @@ function ResultsView(props) {
   const changeTestState = async (checked, event, id) => {
     event.stopPropagation();
     let TestConnector = new TestsConnector();
-    await TestConnector.changeTestState(id, checked, props.accessToken).then(
-      (response) => {
-        if (response.detail === "Test status updated") {
-          console.log("updated");
-        }
-      }
-    );
+    await TestConnector.changeTestState(id, checked, props.accessToken)
   };
 
   const getStateTag = (finished, score) => {

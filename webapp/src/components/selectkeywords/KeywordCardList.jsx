@@ -93,7 +93,6 @@ function KeywordCardList(props) {
   );
 
   const updateSelectedKeywords = (keyword) => {
-    console.log(keyword)
     for (let elem of keywordsList) {
       if (sameKeywordIndex(elem.index, keyword.index)) {
         elem.selected = keyword.selected;
@@ -161,7 +160,6 @@ function KeywordCardList(props) {
       : handleActivateButtons(0);
     props.handleKeywordsSelected(keywordsList);
     setCountQuestionsToGenerate(countQuestions());
-    console.log(keywordsList);
   };
 
   const updateCheckAllButton = (count) => {
