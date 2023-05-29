@@ -49,7 +49,6 @@ function LoginView(props) {
     await connector
       .loginUser(values.email, values.password)
       .then(async (responseLogin) => {
-        console.log(responseLogin);
         if (
           responseLogin.detail !== undefined &&
           responseLogin.detail === "LOGIN_BAD_CREDENTIALS"
@@ -65,10 +64,8 @@ function LoginView(props) {
           setUserNotVerified(false);
           props.updateAccessToken(responseLogin.access_token);
           await connector.userInfo(responseLogin.access_token).then((response) => {
-            console.log(response)
             props.updateUser(response);
           });
-          console.log("pasa por aqui")
           navigate("/");
         }
       });

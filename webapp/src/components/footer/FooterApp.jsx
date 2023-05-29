@@ -67,7 +67,7 @@ function FooterApp() {
                 </Link>
               </Space>
               <Space>
-                <Text> 2023. Diego González Suárez - uo276406 </Text>
+                <Text>2023. Diego González Suárez - uo276406</Text>
               </Space>
             </Space>
           </Row>

@@ -93,7 +93,6 @@ function KeywordCardList(props) {
   );
 
   const updateSelectedKeywords = (keyword) => {
-    console.log(keyword)
     for (let elem of keywordsList) {
       if (sameKeywordIndex(elem.index, keyword.index)) {
         elem.selected = keyword.selected;
@@ -161,7 +160,6 @@ function KeywordCardList(props) {
       : handleActivateButtons(0);
     props.handleKeywordsSelected(keywordsList);
     setCountQuestionsToGenerate(countQuestions());
-    console.log(keywordsList);
   };
 
   const updateCheckAllButton = (count) => {
@@ -283,6 +281,7 @@ function KeywordCardList(props) {
           <Input
             value={searchTerm}
             onChange={(event) => editSearchField(event)}
+            id="searchField"
             placeholder={t("searchPlaceholder")}
           />
         </Col>
@@ -293,6 +292,7 @@ function KeywordCardList(props) {
               icon={<DeleteOutlined />}
               disabled={!enabledDeleteButton}
               onClick={deleteKeywordsSelected}
+              id="deleteSelectedButton"
               danger
             >
               {t("deleteSelected")}
@@ -305,6 +305,7 @@ function KeywordCardList(props) {
             checked={checkAll}
             indeterminate={indeterminate}
             onChange={(event) => activateAll(event.target.checked)}
+            id="checkAllButton"
             style={checkAllStyle}
           >
             {countSelected === 0
@@ -345,6 +346,7 @@ function KeywordCardList(props) {
             onChange={(event) => activateButtonAdd(event)}
             value={keywordToAdd}
             onPressEnter={addNewKeyword}
+            id="addNewWordField"
             placeholder={t("newWordPlaceHolder")}
           ></Input>
         </Col>
@@ -355,6 +357,7 @@ function KeywordCardList(props) {
               type="primary"
               disabled={!enabledAddButton}
               onClick={addNewKeyword}
+              id="addNewWordButton"
               icon={<PlusOutlined />}
             ></Button>
           </Tooltip>
@@ -369,6 +372,7 @@ function KeywordCardList(props) {
           xxl={5}
         >
           <InputNumber
+            id="totalQuestionsToGenerate"
             min={0}
             defaultValue={countQuestionsToGenerate}
             value={countQuestionsToGenerate}

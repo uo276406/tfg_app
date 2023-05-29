@@ -53,7 +53,6 @@ function SelectKeywordsForm(props) {
         }
         else {
           props.handleQuestions(questionsFetched);
-          console.log(questionsFetched)
           setIsLoading(false);
           props.changeStep(2);
         }
@@ -124,6 +123,7 @@ function SelectKeywordsForm(props) {
               icon={<RightOutlined />}
               disabled={!enabledGenerateButton}
               onClick={sendApiMessage}
+              id="generateQuestionsButton"
             >
               {t("generateQuestionsButton")}
             </Button>

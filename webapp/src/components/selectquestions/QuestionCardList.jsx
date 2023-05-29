@@ -89,7 +89,6 @@ function QuestionCardList(props) {
 
   const generateSkelettonQuestion = () => {
     let random = getRandomInt(0, 3);
-    console.log(random);
     return {
       id: questions.length,
       question: "<<Escriba el enunciado...>>",
@@ -109,7 +108,6 @@ function QuestionCardList(props) {
     setQuestions(newQuestions);
     props.updateQuestions(newQuestions);
     message.success(t("questionAdded"));
-    console.log(newQuestions);
   };
 
   return (
@@ -161,6 +159,7 @@ function QuestionCardList(props) {
           <Button
             type="dashed"
             style={buttonAddQuestionStyle}
+            id="addQuestionButton"
             onClick={() =>
               addNewQuestion(generateSkelettonQuestion(), questions.length)
             }

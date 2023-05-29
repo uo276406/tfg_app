@@ -125,7 +125,6 @@ function SelectQuestionsForm(props) {
         } else openModal(response.id);
       })
       .catch((error) => {
-        console.log(error);
         openNotificationWithIcon("info");
       });
   };
@@ -140,7 +139,6 @@ function SelectQuestionsForm(props) {
   const [api, contextHolder] = notification.useNotification();
 
   const openModal = (testId) => {
-    console.log(testId);
     Modal.success({
       title: (
         <Col>
@@ -224,7 +222,7 @@ function SelectQuestionsForm(props) {
         ) : (
           <></>
         )}
-        <Tag style={countQuestionsStyle} color="geekblue">
+        <Tag style={countQuestionsStyle} color="geekblue" id="numberOfQuestions">
           {countQuestions + " " + t("numberOfQuestions")}
         </Tag>
       </Row>
@@ -289,6 +287,7 @@ function SelectQuestionsForm(props) {
             icon={<CheckOutlined />}
             onClick={generateTest}
             disabled={countQuestions === 0}
+            id="generateTestButton"
           >
             {t("generateTest")}
           </Button>

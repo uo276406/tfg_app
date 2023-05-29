@@ -156,6 +156,7 @@ function QuestionCard(props) {
   return (
     <>
       <Card
+        id={"questionCard" + props.index}
         size="small"
         extra={
           <div style={buttonsDeleteDuplicateStyle}>
@@ -171,6 +172,7 @@ function QuestionCard(props) {
                 <>
                   <Tooltip title={t("duplicateQuestion")}>
                     <Button
+                      id={"duplicateButton"+props.index}
                       type="text"
                       icon={<CopyOutlined></CopyOutlined>}
                       onClick={handleDuplicate}
@@ -178,6 +180,7 @@ function QuestionCard(props) {
                   </Tooltip>
                   <Tooltip title={t("deleteSelected")}>
                     <Button
+                      id={"deleteButton"+props.index}
                       type="text"
                       icon={<DeleteOutlined></DeleteOutlined>}
                       onClick={handleDelete}
@@ -195,7 +198,7 @@ function QuestionCard(props) {
         title={
           <Space direction={"horizontal"} align={"start"}>
             <Tag style={tagNumberStyle}>{props.index + 1}</Tag>
-            <Paragraph
+            <Paragraph id={"question" + props.index}
               editable={{
                 onChange: handleModifyQuestionText,
               }}
@@ -263,9 +266,10 @@ function QuestionCard(props) {
               onChange={handleInputChange}
               onBlur={handleInputConfirm}
               onPressEnter={handleInputConfirm}
+              id={"addOptionInput"+props.index}
             />
           ) : (
-            <Tag style={optionPlusStyle} onClick={showInput}>
+            <Tag style={optionPlusStyle} onClick={showInput} id={"addOption"+props.index}>
               <PlusOutlined /> {t("addOption")}
             </Tag>
           )}

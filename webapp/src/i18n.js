@@ -12,7 +12,7 @@ i18n
       escapeValue: false,
     },
     backend: {
-      loadPath: "http://localhost:3000/i18n/{{lng}}.json",
+      loadPath: process.env.REACT_APP_WEBAPP_URL + "/i18n/{{lng}}.json",
     },
   });
 

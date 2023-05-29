@@ -43,38 +43,43 @@ function JoinTestForm(props) {
   const [userFinishedTheTest, setUserFinishedTheTest] = useState(false);
   const [closedTest, setClosedTest] = useState(false);
 
-  const loadLastCombination = async (studentQuestionConnector, studentId, test) => {
+  const loadLastCombination = async (
+    studentQuestionConnector,
+    studentId,
+    test
+  ) => {
     let lastCombination = [];
-        for (const element of test.questions) {
-          lastCombination.push(
-            await studentQuestionConnector.getStudentCombination(
-              studentId,
-              element.id
-            )
-          );
-        }
-        props.handleSetStudentCombination(lastCombination);
-  }
-
-  const loadInitialCombination = async (studentQuestionConnector, studentId, test) => {
     for (const element of test.questions) {
-      let studentQuestion =
-        await studentQuestionConnector.addStudentQuestion(
+      lastCombination.push(
+        await studentQuestionConnector.getStudentCombination(
           studentId,
-          element.id,
-          -1
-        );
-      console.log(studentQuestion);
+          element.id
+        )
+      );
+    }
+    props.handleSetStudentCombination(lastCombination);
+  };
+
+  const loadInitialCombination = async (
+    studentQuestionConnector,
+    studentId,
+    test
+  ) => {
+    for (const element of test.questions) {
+      await studentQuestionConnector.addStudentQuestion(
+        studentId,
+        element.id,
+        -1
+      );
     }
     props.handleSetStudentCombination(test.questions.map((question) => -1));
-  }
+  };
 
   const stepIntoTest = async (values) => {
     let studentConnector = new StudentsConnector();
     let testConnector = new TestsConnector();
     let studentQuestionConnector = new StudentQuestionConnector();
     let test = await testConnector.getTest(values.testId);
-    console.log(test);
     if (test.detail !== undefined && test.detail === "Test not found") {
       setTestNotFound(true);
     } else if (test.detail !== undefined && test.detail === "Test is closed") {
@@ -96,10 +101,18 @@ function JoinTestForm(props) {
         responseAdded.message !== undefined &&
         responseAdded.message === "Student already exists in test"
       ) {
-        await loadLastCombination(studentQuestionConnector, values.studentId, test);
+        await loadLastCombination(
+          studentQuestionConnector,
+          values.studentId,
+          test
+        );
       } else {
         // Inicializa en la base de datos las preguntas del estudiante
-        await loadInitialCombination(studentQuestionConnector, values.studentId, test);
+        await loadInitialCombination(
+          studentQuestionConnector,
+          values.studentId,
+          test
+        );
       }
       props.handleSetStudent(values.studentId);
       props.handleSetTestInfo(test, values.testId);
@@ -154,7 +167,7 @@ function JoinTestForm(props) {
                 sm: { offset: 8, span: 24 / 3 },
               }}
             >
-              <Button type="primary" htmlType="submit" block>
+              <Button type="primary" htmlType="submit" id="joinTest" block>
                 {t("joinTest")}
               </Button>
             </Form.Item>

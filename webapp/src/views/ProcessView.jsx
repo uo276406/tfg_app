@@ -71,13 +71,11 @@ function ProcessView(props) {
       }),
     ]);
     setTotalKeywords([]);
-    console.log(keywordsFound);
   };
 
   // Recoge las preguntas devueltas -------------------------------------------------------------
   const [questions, setQuestions] = useState();
   const handleQuestions = (questionsGenerated) => {
-    console.log(questionsGenerated)
     setQuestions(questionsGenerated);
   };
 

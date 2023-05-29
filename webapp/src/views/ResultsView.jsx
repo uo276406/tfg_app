@@ -10,14 +10,17 @@ import {
   Badge,
   notification,
   Button,
+  Space,
+  Modal,
+  QRCode,
 } from "antd";
 import TestsConnector from "../api/testsconnector";
 import { useTranslation } from "react-i18next";
-import { CloudDownloadOutlined } from "@ant-design/icons";
+import { CloudDownloadOutlined, EyeOutlined } from "@ant-design/icons";
 import StudentQuestionsConnector from "../api/studentquestionsconnector";
 
 const { Panel } = Collapse;
-const { Paragraph, Title } = Typography;
+const { Paragraph, Title, Text, Link } = Typography;
 
 const listStyle = {
   paddingLeft: "2%",
@@ -76,7 +79,6 @@ function ResultsView(props) {
         })
       );
       setLoading(false);
-      console.log(updatedTests);
       setTests(updatedTests);
     } else if (tests.detail === "Unauthorized") {
       openNotificationWithIcon("info");
@@ -91,7 +93,9 @@ function ResultsView(props) {
         await updateResults();
       }
     }
-    update().catch((error) => { console.log(error); });
+    update().catch((error) => {
+      console.log(error);
+    });
   }, []);
 
   const getDate = (date) => {
@@ -102,13 +106,7 @@ function ResultsView(props) {
   const changeTestState = async (checked, event, id) => {
     event.stopPropagation();
     let TestConnector = new TestsConnector();
-    await TestConnector.changeTestState(id, checked, props.accessToken).then(
-      (response) => {
-        if (response.detail === "Test status updated") {
-          console.log("updated");
-        }
-      }
-    );
+    await TestConnector.changeTestState(id, checked, props.accessToken)
   };
 
   const getStateTag = (finished, score) => {
@@ -121,6 +119,48 @@ function ResultsView(props) {
     } else {
       return <Badge status="processing" text={t("inProgress")}></Badge>;
     }
+  };
+
+  const reactAppUrl = process.env.REACT_APP_WEBAPP_URL;
+
+  const openModal = (testId) => {
+    Modal.success({
+      title: (
+        <Col>
+          <Row span={24} justify={"center"}>
+            <Title level={3} copyable={{ text: testId, tooltips: t("copy") }}>
+              {t("testId") + " " + testId}
+            </Title>
+          </Row>
+        </Col>
+      ),
+      content: (
+        <Col>
+          <Row span={24} justify={"center"}>
+            <QRCode
+              iconSize={50}
+              value={reactAppUrl + "/test?testId=" + testId}
+            />
+          </Row>
+          <Row span={24} justify={"center"}>
+            <Paragraph
+              copyable={{
+                text: reactAppUrl + "/test?testId=" + testId,
+                tooltips: t("copy"),
+              }}
+            >
+              <Text>{"URL: "}</Text>
+              <Link href={reactAppUrl + "/test?testId=" + testId}>
+                {reactAppUrl + "/test?testId=" + testId}
+              </Link>
+            </Paragraph>
+          </Row>
+        </Col>
+      ),
+      width: "90%",
+      okText: t("backButton"),
+      icon: null,
+    });
   };
 
   //Table settings
@@ -192,25 +232,38 @@ function ResultsView(props) {
                   key={test.id}
                   header={
                     <Row style={panelStyle}>
-                      <Col xs={24} sm={18} md={18} lg={18} xl={18} xxl={18}>
+                      <Col xs={24} sm={18} md={18} lg={14} xl={14} xxl={14}>
                         <Paragraph
+                          id={test.id}
                           copyable={{ text: test.id, tooltips: t("copy") }}
                         >
                           {"Id: " + test.id}
                         </Paragraph>
                       </Col>
-                      <Col xs={24} sm={6} md={6} lg={3} xl={3} xxl={3}>
+                      <Col xs={24} sm={6} md={6} lg={4} xl={4} xxl={4}>
                         {getDate(test.created_at)}
                       </Col>
-                      <Col xs={24} sm={6} md={6} lg={3} xl={3} xxl={3}>
-                        <Switch
-                          checkedChildren={t("closeTest")}
-                          unCheckedChildren={t("openTest")}
-                          defaultChecked={test.open}
-                          onChange={(checked, event) =>
-                            changeTestState(checked, event, test.id)
-                          }
-                        ></Switch>
+                      <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
+                        <Space size={40}>
+                          <Button
+                            type="primary"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openModal(test.id);
+                            }}
+                            icon={<EyeOutlined />}
+                          >
+                            {t("viewQR")}
+                          </Button>
+                          <Switch
+                            checkedChildren={t("closeTest")}
+                            unCheckedChildren={t("openTest")}
+                            defaultChecked={test.open}
+                            onChange={(checked, event) =>
+                              changeTestState(checked, event, test.id)
+                            }
+                          ></Switch>
+                        </Space>
                       </Col>
                     </Row>
                   }

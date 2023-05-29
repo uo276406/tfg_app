@@ -91,6 +91,9 @@
     "deleteSelected": "Eliminar",
     "searchPlaceholder": "Buscar...",
     "numberQuestionsGenerate": " preguntas se generarán como máximo",
+    "questionsByWord": "Preguntas por la palabra ",
+    "increaseQuestionToGenerate": "Aumentar preguntas a generar",
+    "decreaseQuestionToGenerate": "Disminuir preguntas a generar",
     
 
     "exportTxtButton": "Exportar a txt...",
@@ -105,6 +108,7 @@
     "duplicateQuestion": "Duplicar",
     "questionDeleted": "Pregunta eliminada correctamente",
     "questionAdded": "Pregunta añadida correctamente",
+    "questionEmpty": "No puede ser vacío",
     "generateTest": "Generar test",
     "testGenerated": "Test creado correctamente",
     "testId": "Id del test:",
@@ -134,6 +138,7 @@
     "testSent": "Test enviado",
     "navigateToHome": "Volver a la página principal",
     "closeTest": "Cerrar test",
+    "viewQR": "Ver QR",
     "openTest": "Abrir test",
     "closedTest": "Test cerrado",
     "closedTestDescription": "El test está cerrado. Los alumnos ya no pueden unirse.",
@@ -147,7 +152,8 @@
     "score": "Puntuación",
     "state": "Estado",
     "update": "Actualizar",
-    "answered": "Contestadas"
+    "answered": "Contestadas",
+    "cleanSelection": "Limpiar selección"
 
 
 }
