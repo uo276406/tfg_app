@@ -46,7 +46,6 @@ function App() {
       surname2: user.surname2,
       email: user.email,
     };
-    console.log(newUser);
     localStorage.setItem("user", JSON.stringify(newUser));
     setUsername(user.name);
   };
