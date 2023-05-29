@@ -125,7 +125,6 @@ function SelectQuestionsForm(props) {
         } else openModal(response.id);
       })
       .catch((error) => {
-        console.log(error);
         openNotificationWithIcon("info");
       });
   };
@@ -140,7 +139,6 @@ function SelectQuestionsForm(props) {
   const [api, contextHolder] = notification.useNotification();
 
   const openModal = (testId) => {
-    console.log(testId);
     Modal.success({
       title: (
         <Col>

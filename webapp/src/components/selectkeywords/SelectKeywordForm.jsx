@@ -53,7 +53,6 @@ function SelectKeywordsForm(props) {
         }
         else {
           props.handleQuestions(questionsFetched);
-          console.log(questionsFetched)
           setIsLoading(false);
           props.changeStep(2);
         }

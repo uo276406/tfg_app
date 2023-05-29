@@ -92,7 +92,6 @@ function KeywordCard(props) {
 
   const updateNumberOfQuestions = (value) => {
     let isSelected = true;
-    console.log("value: " + value);
     if (value < 0 || typeof value === "string" || value === "" || value === null) {
       setNumberOfQuestions(0);
       value = 0;
