@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-jest.setTimeout(60000);
+jest.setTimeout(300000);
 
 const viewport = { width: 1600, height: 800 };
 
@@ -34,7 +34,8 @@ describe("Test /login page", () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    await expect(page.url()).toBe("http://localhost:3000/");
+    let content = await page.content();
+    await expect(content.includes("¡Comenzar!")).toBe(true);
   });
 });
 

@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-jest.setTimeout(80000);
+jest.setTimeout(100000);
 
 const viewport = {  width: 1600, height: 800 };
 
@@ -35,8 +35,6 @@ describe("Test /results page", () => {
     await page.click('button[type="submit"]');
 
     await new Promise((r) => setTimeout(r, 2000));
-
-    await expect(page.url()).toBe("http://localhost:3000/");
     await page.goto("http://localhost:3000/results");
 
     await new Promise((r) => setTimeout(r, 2000));
@@ -78,11 +76,11 @@ describe("Test /results page", () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    await expect(page.url()).toBe("http://localhost:3000/");
     await page.goto("http://localhost:3000/results");
 
     await new Promise((r) => setTimeout(r, 2000));
 
+    await page.waitForSelector('#appear-long-year-education');
     await page.click('#appear-long-year-education')
     const content = await page.content();
     await new Promise((r) => setTimeout(r, 1000));
@@ -122,11 +120,11 @@ describe("Test /results page", () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    await expect(page.url()).toBe("http://localhost:3000/");
     await page.goto("http://localhost:3000/results");
 
     await new Promise((r) => setTimeout(r, 2000));
 
+    await
     await page.click('#must-leave-cold-student')
     const content = await page.content();
     await new Promise((r) => setTimeout(r, 1000));

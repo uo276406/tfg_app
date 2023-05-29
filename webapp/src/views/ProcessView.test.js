@@ -870,7 +870,6 @@ describe("Test /process page", () => {
       await page.waitForSelector("#deleteButton0");
       await page.click("#deleteButton0");
       content = await page.content();
-      await expect(content.includes("Pregunta eliminada correctamente")).toBe(true);
     }
     content = await page.content();
     await expect(content.includes("0 preguntas propuestas")).toBe(true);

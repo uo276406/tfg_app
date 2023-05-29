@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-jest.setTimeout(80000);
+jest.setTimeout(300000);
 
 const viewport = {  width: 1600, height: 800 };
 

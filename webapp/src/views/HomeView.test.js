@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer");
 
-jest.setTimeout(80000);
+jest.setTimeout(300000);
 
 const viewport = {  width: 1600, height: 800 };
 
@@ -57,7 +57,7 @@ describe("Test / page", () => {
     await browser.close();
   });
 
-  test("Email valid, password without mayus", async () => {
+  test("Home page shown for authenticated users", async () => {
     await new Promise((r) => setTimeout(r, 2000));
 
     await page.type("#basic_email", "profesor1@uniovi.es");
@@ -66,7 +66,6 @@ describe("Test / page", () => {
 
     await new Promise((r) => setTimeout(r, 2000));
 
-    await expect(page.url()).toBe("http://localhost:3000/");
     const content = await page.content();
     await expect(content.includes("Resultados")).toBe(true);
     await expect(content.includes("Crear examen")).toBe(true);

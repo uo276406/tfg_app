@@ -91,8 +91,12 @@ function KeywordCard(props) {
   const [editableNumQuestions, setEditableNumQuestions] = useState(false);
 
   const updateNumberOfQuestions = (value) => {
-    if (value < 0 || typeof value === "string" || value === "") {
+    let isSelected = true;
+    console.log("value: " + value);
+    if (value < 0 || typeof value === "string" || value === "" || value === null) {
       setNumberOfQuestions(0);
+      value = 0;
+      isSelected = false;
     } else {
       setNumberOfQuestions(value);
       
@@ -100,7 +104,7 @@ function KeywordCard(props) {
     const keywordSelected = {
       index: props.index,
       value: keyword,
-      selected: value === 0 ? false : true,
+      selected: isSelected,
       numberOfQuestions: value,
     };
     props.updateSelectedKeywords(keywordSelected);
@@ -152,7 +156,6 @@ function KeywordCard(props) {
         }}
         onMouseLeave={() => {
           setEditableNumQuestions(false);
-          updateNumberOfQuestions(numberOfQuestions);
         }}
       >
         <>
