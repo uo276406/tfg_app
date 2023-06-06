@@ -10,6 +10,10 @@ const questionTextStyle = {
   fontSize: "18px",
 };
 
+const radioStyle = {
+  fontSize: "18px",
+}
+
 const tagNumberStyle = { fontSize: "1.3em" };
 
 function QuestionTest(props) {
@@ -72,6 +76,7 @@ function QuestionTest(props) {
                 key={o.value}
                 value={index}
                 disabled={props.testFinished}
+                style={radioStyle}
               >
                 {props.correction !== null &&
                 props.correction.correctOption === index ? (

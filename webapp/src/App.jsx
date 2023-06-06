@@ -2,16 +2,16 @@ import { useState } from "react";
 import { Layout } from "antd";
 import FooterApp from "./components/footer/FooterApp";
 import NavBarApp from "./components/navbar/NavBarApp";
-import HomeView from "./views/HomeView";
-import LoginView from "./views/LoginView";
-import SigninView from "./views/SigninView";
-import ProcessView from "./views/ProcessView";
-import DocView from "./views/DocView";
-import ProfileView from "./views/ProfileView";
+import HomeView from "./components/HomeView";
+import LoginView from "./components/LoginView";
+import SigninView from "./components/SigninView";
+import ProcessView from "./components/ProcessView";
+import DocView from "./components/DocView";
+import ProfileView from "./components/ProfileView";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./i18n";
-import ResultsView from "./views/ResultsView";
-import TestView from "./views/TestView";
+import ResultsView from "./components/ResultsView";
+import TestView from "./components/TestView";
 
 /**
  * The main component of the application. Renders the layout of the app and the different views based on the current route.
