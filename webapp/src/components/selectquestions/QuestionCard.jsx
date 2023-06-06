@@ -51,7 +51,7 @@ const tagNumberStyle = {fontSize: "1.3em"};
 
 const warningStyle = { color: "orange", fontSize: "1.5em" };
 
-const buttonsDeleteDuplicateStyle = { width: "100px", marginLeft: "10px" };
+const buttonsDeleteDuplicateStyle = { width: "100px", marginLeft: "1px" };
 
 /**
  * A component that displays a question card with editable question text and options for options.
@@ -196,7 +196,7 @@ function QuestionCard(props) {
         onMouseEnter={() => setButtonVisible(true)}
         onMouseLeave={() => setButtonVisible(false)}
         title={
-          <Space direction={"horizontal"} align={"start"}>
+          <div>
             <Tag style={tagNumberStyle}>{props.index + 1}</Tag>
             <Paragraph id={"question" + props.index}
               editable={{
@@ -206,7 +206,7 @@ function QuestionCard(props) {
             >
               {questionText}
             </Paragraph>
-          </Space>
+          </div>
         }
         style={questionCardStyle}
       >
