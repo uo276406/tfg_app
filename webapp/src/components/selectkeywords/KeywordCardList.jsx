@@ -224,8 +224,6 @@ function KeywordCardList(props) {
     setKeywordToAdd("");
     setEnabledAddButton(false);
     selectedKeywords = keywordsList.filter((k) => k.selected);
-    console.log(selectedKeywords);
-    console.log(keywordsList);
     updateScreenButtons(selectedKeywords.length);
     setCountQuestionsToGenerate(countQuestions());
   };
