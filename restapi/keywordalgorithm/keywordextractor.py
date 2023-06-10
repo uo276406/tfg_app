@@ -8,7 +8,9 @@ class KeywordExtractor:
     def __init__(self, text):
         self.text = text
 
-    """Extract keywords from text"""
+    """Extract keywords from text 
+    This algorithm includes modifications from the original TextRank algorithm which are described in the paper: https://aclanthology.org/W04-3252.pdf
+    """
 
     def extract_keywords(self):
         # Process the text

@@ -208,13 +208,14 @@ function KeywordCardList(props) {
     setKeywordsList((prevKeywordsList) => {
       let toAdd = {
         index: Math.max(...prevKeywordsList.map((k) => k.index)) + 1,
-        value: keywordToAdd,
+        value: keywordToAdd.toLowerCase(),
         selected: true,
         numberOfQuestions: 1,
       };
 
       if (validateKeyword(toAdd.value)) {
         prevKeywordsList.push(toAdd);
+        updateSelectedKeywords(toAdd);
         setCountSelected(countSelected + 1);
         showMessages("addMessage", "success");
       }
@@ -223,6 +224,8 @@ function KeywordCardList(props) {
     setKeywordToAdd("");
     setEnabledAddButton(false);
     selectedKeywords = keywordsList.filter((k) => k.selected);
+    console.log(selectedKeywords);
+    console.log(keywordsList);
     updateScreenButtons(selectedKeywords.length);
     setCountQuestionsToGenerate(countQuestions());
   };

@@ -93,7 +93,7 @@ class FillInGapsGenerator():
         """
         res = []
         while (len(res) < 3):
-            random_word = self.get_related_word(word)
+            random_word = self.get_related_word(word.lower())
             if (random_word not in res):
                 res.append(random_word)
         index = self.system_random.randint(0, 3)
