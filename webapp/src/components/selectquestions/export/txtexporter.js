@@ -8,8 +8,8 @@ class TxtExporter {
         text += question.question + "\r\n";
         question.options.forEach((option) => {
           text += initialOption + ")" + option.value + "\r\n";
-          initialOption = String.fromCharCode(initialOption.charCodeAt(0) + 1);
           correctOption = option.correct ? initialOption : correctOption;
+          initialOption = String.fromCharCode(initialOption.charCodeAt(0) + 1);
         });
       }
       text += "ANSWER: " + correctOption + "\r\n";
