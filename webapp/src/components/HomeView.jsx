@@ -15,15 +15,14 @@ const carouselContentStyle = {
   marginRight: "10%",
   width: "90%",
   height: "auto",
-
 };
 
 const cardStyle = {
-  marginTop: "5%",
+  marginTop: "1%",
   background: "lightgrey",
   border: "lightgrey",
   textAlign: "center",
-  fontSize: "40px",
+  fontSize: "36px",
 };
 
 const bodyStyle = {
@@ -34,12 +33,17 @@ const bodyStyle = {
 const buttonStyle = {
   background: "#001529",
   color: "#fff",
+  width: "65%",
+  height: "auto",
+  fontSize: "20px",
 };
 
 const imgStyle = {
   width: "100%",
   height: "auto",
 };
+
+const logoStyle = { width: "15%", height: "12%", marginLeft: "40%" };
 
 const { Meta } = Card;
 
@@ -53,7 +57,7 @@ function HomeView(props) {
   const navigate = useNavigate();
   const navigateToStartProcess = () => {
     props.accessToken !== "" ? navigate("/process") : navigate("/login");
-  }
+  };
 
   const getCarouselItem = (imgSrc, title, description) => {
     return (
@@ -63,29 +67,59 @@ function HomeView(props) {
             <Card
               style={carouselContentStyle}
               cover={<img style={imgStyle} alt={title} src={imgSrc} />}
-            > 
-              <Meta style={carouselContentStyle} title={title} description={description} />
+            >
+              <Meta
+                style={carouselContentStyle}
+                title={title}
+                description={description}
+              />
             </Card>
-          </Col>  
+          </Col>
         </Row>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <Row gutter={[32, 32]}>
       <Col span={16} xs={24} sm={24} md={24} lg={16} xl={16} xxl={16}>
         <Carousel dotPosition="left" effect="fade" autoplay>
-          {getCarouselItem("homeimg/uniovilogobig.jpg", t("uniovi"), "")}
-          {getCarouselItem("homeimg/eiilogobig.jpg", t("eii"), "")}
-          {getCarouselItem("homeimg/processTextExample.jpg", t("processHome"), t("processHomeDesc"))}
-          {getCarouselItem("homeimg/selectKeywordsExample.jpg", t("keywordsHome"), t("keywordsHomeDesc"))}
-          {getCarouselItem("homeimg/questionsExample.jpg", t("questionsHome"), t("questionsHomeDesc"))}
-          {getCarouselItem("homeimg/manageTests.jpg", t("manageTests"), t("manageTestsDesc"))}
+          {getCarouselItem(
+            "homeimg/processTextExample.jpg",
+            t("processHome"),
+            t("processHomeDesc")
+          )}
+          {getCarouselItem(
+            "homeimg/selectKeywordsExample.jpg",
+            t("keywordsHome"),
+            t("keywordsHomeDesc")
+          )}
+          {getCarouselItem(
+            "homeimg/questionsExample.jpg",
+            t("questionsHome"),
+            t("questionsHomeDesc")
+          )}
+          {getCarouselItem(
+            "homeimg/manageTests.jpg",
+            t("manageTests"),
+            t("manageTestsDesc")
+          )}
         </Carousel>
       </Col>
       <Col span={8} xs={24} sm={24} md={24} lg={8} xl={8} xxl={8}>
-        <Card title="Keywords App" style={cardStyle} headStyle={cardStyle}>
+        <Card
+          cover={
+            <img
+              style={logoStyle}
+              alt="logo"
+              src="homeimg/logo.png"
+              href= "https://www.flaticon.es/iconos-gratis/palabras-clave"
+            />
+          }
+          title={"Keywords App"}
+          style={cardStyle}
+          headStyle={cardStyle}
+        >
           <p style={bodyStyle}>{t("textHome1")}</p>
           <p style={bodyStyle}>{t("textHome2")}</p>
           <Button onClick={navigateToStartProcess} style={buttonStyle}>

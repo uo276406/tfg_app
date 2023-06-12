@@ -289,12 +289,10 @@ function KeywordCardList(props) {
         <Col span={14}>
           <Row justify={"end"}>
             <Button
-              type="primary"
               icon={<DeleteOutlined />}
               disabled={!enabledDeleteButton}
               onClick={deleteKeywordsSelected}
               id="deleteSelectedButton"
-              danger
             >
               {t("deleteSelected")}
             </Button>
@@ -355,7 +353,6 @@ function KeywordCardList(props) {
         <Col xs={1} sm={1} md={1} lg={1} xl={1} xxl={1}>
           <Tooltip title={t("newWordTooltip")}>
             <Button
-              type="primary"
               disabled={!enabledAddButton}
               onClick={addNewKeyword}
               id="addNewWordButton"

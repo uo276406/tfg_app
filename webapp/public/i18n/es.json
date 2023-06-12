@@ -15,8 +15,8 @@
     "about": "Sobre mí",
     "doc": "Documentación API",
     "lang": "Idioma",
-    "spanish": "Español 🇪🇸",
-    "english": "Inglés 🇬🇧",
+    "spanish": "🇪🇸 Español",
+    "english": "🇬🇧 Inglés",
     "signin": "Registrarse",
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
@@ -72,7 +72,7 @@
     "uploadButton": "Subir archivo...",
     "tooBig": " demasiado grande",
     "sucessfulUpload": " cargado correctamente",
-    "testText": "¡Pruebe con un texto!",
+    "testText": "Introducir texto de prueba",
 
     "deleteMessage" : "Palabras eliminadas correctamente",
     "addMessage" : "Palabra añadida correctamente",
@@ -94,6 +94,7 @@
     "questionsByWord": "Preguntas por la palabra ",
     "increaseQuestionToGenerate": "Aumentar preguntas a generar",
     "decreaseQuestionToGenerate": "Disminuir preguntas a generar",
+    "spinGenerateQuestions": "Generando preguntas, puede tardar unos minutos...",
     
 
     "exportTxtButton": "Exportar a txt...",

@@ -1,4 +1,5 @@
 import { Menu } from "antd";
+import React, { useState} from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import {
@@ -6,9 +7,7 @@ import {
   LoginOutlined,
   LogoutOutlined,
   UserOutlined,
-  CommentOutlined,
   EditOutlined,
-  WechatOutlined,
   UsergroupAddOutlined,
   CheckCircleOutlined,
   ToolFilled,
@@ -21,6 +20,8 @@ import UsersConnector from "../../api/usersconnector";
  */
 function NavBarApp(props) {
   const { i18n, t } = useTranslation();
+
+  const [currentLang, setCurrentLang] = useState(t("spanish"));
 
   const logout = async () => {
     let connector = new UsersConnector();
@@ -48,9 +49,8 @@ function NavBarApp(props) {
       icon: <SnippetsOutlined />,
     },
     {
-      label: t("lang"),
+      label: currentLang,
       key: "lang",
-      icon: <CommentOutlined />,
       children: [
         {
           label: t("spanish"),
@@ -98,9 +98,8 @@ function NavBarApp(props) {
       icon: <SnippetsOutlined />,
     },
     {
-      label: t("lang"),
+      label: currentLang,
       key: "lang",
-      icon: <WechatOutlined />,
       children: [
         {
           label: t("spanish"),
@@ -137,6 +136,11 @@ function NavBarApp(props) {
   // Cambia idioma ----------------------------------------------------
   const onClickChangeLang = (code) => {
     i18n.changeLanguage(code);
+    if (code === "es") {
+      setCurrentLang(t("spanish"));
+    } else {
+      setCurrentLang(t("english"));
+    }
   };
 
   return (

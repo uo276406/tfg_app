@@ -15,8 +15,8 @@
     "about": "About",
     "doc": "API Documentation",
     "lang": "Language",
-    "spanish": "Spanish 🇪🇸",
-    "english": "English 🇬🇧",
+    "spanish": "🇪🇸 Spanish",
+    "english": "🇬🇧 English",
     "signin": "Sign in",
     "login": "Log in",
     "logout": "Log out",
@@ -70,7 +70,7 @@
     "uploadButton": "Upload...",
     "tooBig": " file to big",
     "sucessfulUpload": " uploaded sucessful",
-    "testText": "Try it now!",
+    "testText": "Insert test text",
 
     "deleteMessage" : "Words deleted",
     "addMessage" : "New word added",
@@ -94,6 +94,8 @@
     "questionsByWord": "Questions by the word ",
     "increaseQuestionToGenerate": "Increase questions to generate",
     "decreaseQuestionToGenerate": "Decrease questions to generate",
+    "spinGenerateQuestions": "Generating questions, it can take some minutes...",
+
 
     "exportTxtButton": "Export to txt...",
     "addOption": "Add option...",

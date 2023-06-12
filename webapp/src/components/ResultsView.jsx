@@ -246,7 +246,6 @@ function ResultsView(props) {
                       <Col xs={24} sm={24} md={24} lg={6} xl={6} xxl={6}>
                         <Space size={40}>
                           <Button
-                            type="primary"
                             onClick={(e) => {
                               e.stopPropagation();
                               openModal(test.id);

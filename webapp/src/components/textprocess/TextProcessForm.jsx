@@ -131,7 +131,6 @@ function TextProcessForm(props) {
                 <Button icon={<UploadOutlined />}>{t("uploadButton")}</Button>
               </Upload>
               <Button
-                type="primary"
                 style={buttons2Style}
                 onClick={() => setText(exampleText)}
                 id="sampleTextButton"
@@ -140,12 +139,10 @@ function TextProcessForm(props) {
               </Button>
               <Button
                 style={buttons2Style}
-                type="primary"
                 disabled={text.length === 0}
                 icon={<DeleteOutlined />}
                 onClick={() => setText("")}
                 id="deleteTextButton"
-                danger
               >
                 {t("deleteSelected")}
               </Button>
