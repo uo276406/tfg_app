@@ -9,8 +9,8 @@
     "processHomeDesc": "Introduzca y edite el texto con el que desee generar preguntas, puede escribirlo o subirlo con un fichero.",
     "keywordsHomeDesc": "Seleccione, añada, edite y elimine aquellas palabras más importantes de entre las encontradas.",
     "questionsHomeDesc": "Edite, exporte y gestione aquellas preguntas más interesantes y crea que puedan ser más útiles.",
-    "manageTests": "Gestione tests",
-    "manageTestsDesc": "Cree, edite, elimine y exporte tests con preguntas de entre las generadas.",
+    "manageTests": "Gestione sus cuestionarios",
+    "manageTestsDesc": "Maneje y controle los cuestionarios que hayan sido creados.",
 
     "about": "Sobre mí",
     "doc": "Documentación API",

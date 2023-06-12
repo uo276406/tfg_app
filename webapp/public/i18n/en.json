@@ -9,8 +9,8 @@
     "processHomeDesc": "Write, upload and edit your text throught out an interactive user interface.",
     "keywordsHomeDesc": "Select, add, delete and edit the most interesting keywords.",
     "questionsHomeDesc": "Edit, export and manage the questions extracted from the text.",
-    "manageTests": "Manage tests",
-    "manageTestsDesc": "Create, edit and manage the tests generated from the questions.",
+    "manageTests": "Manage your tests",
+    "manageTestsDesc": "Manage the details os the tests generated from the questions.",
 
     "about": "About",
     "doc": "API Documentation",
