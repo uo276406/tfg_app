@@ -9,14 +9,14 @@
     "processHomeDesc": "Write, upload and edit your text throught out an interactive user interface.",
     "keywordsHomeDesc": "Select, add, delete and edit the most interesting keywords.",
     "questionsHomeDesc": "Edit, export and manage the questions extracted from the text.",
-    "manageTests": "Manage tests",
-    "manageTestsDesc": "Create, edit and manage the tests generated from the questions.",
+    "manageTests": "Manage your tests",
+    "manageTestsDesc": "Manage the details os the tests generated from the questions.",
 
     "about": "About",
     "doc": "API Documentation",
     "lang": "Language",
-    "spanish": "Spanish 🇪🇸",
-    "english": "English 🇬🇧",
+    "spanish": "🇪🇸 Spanish",
+    "english": "🇬🇧 English",
     "signin": "Sign in",
     "login": "Log in",
     "logout": "Log out",
@@ -70,7 +70,7 @@
     "uploadButton": "Upload...",
     "tooBig": " file to big",
     "sucessfulUpload": " uploaded sucessful",
-    "testText": "Try it now!",
+    "testText": "Insert test text",
 
     "deleteMessage" : "Words deleted",
     "addMessage" : "New word added",
@@ -94,6 +94,8 @@
     "questionsByWord": "Questions by the word ",
     "increaseQuestionToGenerate": "Increase questions to generate",
     "decreaseQuestionToGenerate": "Decrease questions to generate",
+    "spinGenerateQuestions": "Generating questions, it can take some minutes...",
+
 
     "exportTxtButton": "Export to txt...",
     "addOption": "Add option...",

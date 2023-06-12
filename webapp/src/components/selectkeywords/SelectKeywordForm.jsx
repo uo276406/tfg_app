@@ -90,7 +90,7 @@ function SelectKeywordsForm(props) {
   return (
     <div>
       {contextHolder}
-      <Spin spinning={isLoading ? true : false}>
+      <Spin tip={t("spinGenerateQuestions")} spinning={isLoading ? true : false}>
         <Row gutter={[16, 16]} style={keywordsListStyle}>
           <Col span={24}>
             <KeywordCardList
@@ -108,7 +108,6 @@ function SelectKeywordsForm(props) {
         >
           <Col>
             <Button
-              type="primary"
               onClick={() => {
                 props.changeStep(0);
               }}

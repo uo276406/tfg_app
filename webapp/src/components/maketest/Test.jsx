@@ -147,7 +147,6 @@ function Test(props) {
   const getpreviousButton = () => {
     return (
       <Button
-        type={"primary"}
         onClick={() => {
           setIndex(index - 1);
         }}
@@ -162,7 +161,6 @@ function Test(props) {
   const getNextQuestionButton = () => {
     return (
       <Button
-        type={"primary"}
         onClick={() => setIndex(index + 1)}
         icon={<RightOutlined />}
         disabled={index === props.testInfo.questions.length - 1}

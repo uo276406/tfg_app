@@ -238,7 +238,6 @@ function SelectQuestionsForm(props) {
         <Col xs={24} sm={24} md={19} lg={20} xl={21} xxl={22}>
           <Space>
             <Button
-              type="primary"
               onClick={() => {
                 props.changeStep(1);
               }}
